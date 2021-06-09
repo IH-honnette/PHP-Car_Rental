@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Document</title>
   <meta charset="utf-8">
@@ -8,12 +9,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 
-
-<div class="container">
- <h1>Home page</h1>
-</div>
+  <div class="container">
+    <h1>Home page</h1>
+  </div>
 
 </body>
+
 </html>
