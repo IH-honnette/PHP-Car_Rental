@@ -112,7 +112,11 @@ class MyApp extends CI_Controller {
 				$this->load->view('template/view_users',$data);
 				$this->load->view('template/footer');
 			}
+			// public function roles(){
+			// 	$this->load->model('Users');
+			// 	$data['users']= $this->Users->get_roles(); 
 
+			// }
 			public function delete_user(){
 			$id =$this->uri->segment(3);
 			$this->load->model('Users');

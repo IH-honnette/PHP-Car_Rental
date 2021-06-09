@@ -444,6 +444,14 @@ textarea.input {
                 <?= form_error('username')?>
                 </div>
                 <div class="social-input-containers"> 
+                 <select name="roles">
+                    <option>--Select Role--</option>
+                    <option value=""></option>
+                    <option value=""></option>
+                 </select>
+                <?= form_error('role')?>
+                </div>
+                <div class="social-input-containers"> 
                 <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd')?>" />
                 <?= form_error('pswd')?>
                 </div>

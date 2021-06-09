@@ -20,6 +20,9 @@ class Users extends CI_Model{
         $this->db->where('userId',$id);
         return $this->db->update('users',$data);
     }
+
+    public function get_roles(){
+       return $this->db->get('roles')->result();
 }
 
 
