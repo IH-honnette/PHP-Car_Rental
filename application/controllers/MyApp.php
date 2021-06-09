@@ -49,7 +49,6 @@ class MyApp extends CI_Controller {
 
 		$this->load->view('template/header');
 		$this->load->view('template/view_users',$data);
-	    $this->load->view('template/footer');
 	}
 
 	public function delete_user(){
