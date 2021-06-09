@@ -93,5 +93,41 @@ class MyApp extends CI_Controller {
 				echo "<script>alert('User Updated');window.location.href=
 		'".base_url('MyApp/users')."';</script>";
 			}
-	}   
+	}  
+public function login(){
+	$this->load->view('template/header');
+	$this->load->view('template/login');
+}
+public function getLoginInfo(){
+	$this->form_validation->set_rules('email','Email','required');
+	$this->form_validation->set_rules('pswd','Password','required');
+	$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+	if($this->form_validation->run())
+		{
+			$email = $this->input->post('email');
+			$pswd = $this->input->post('pswd');
+			$hashedPassword=hash("SHA512",$pswd);
+			$this->load->model("Users");
+		    $user=$data['users']=$this->Users->gettingUser($email);
+			if(!$user){
+				echo "invalid email or password";
+			}
+			else{
+				foreach ($user->result() as $row) {
+				$userPass = $row->password;
+				if($hashedPassword!==$userPass){
+					echo "invalid email or password";
+				}
+				else{
+					echo "logged in successfully";
+				}
+	}
+			}
+
+}
+else{
+$this->load->view('template/header');
+$this->load->view('template/login');
+}
+}
 }
