@@ -412,7 +412,7 @@ textarea.input {
                     <p>RCA,Nyabihu District</p>
                 </div>
                 <div class="social-information"> <i class="fa fa-envelope-o"></i>
-                    <p>ihozohonnette12@gmail.com</p>
+                    <p>carrental@gmail.com</p>
                 </div>
                 <div class="social-information"> <i class="fa fa-mobile-phone"></i>
                     <p>+250 7745990 </p>

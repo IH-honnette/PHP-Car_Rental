@@ -2,31 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MyApp extends CI_Controller {
-//class name and file name must be the same
 	
 	public function index()
 	{
 
-	 //now let's test the model 		
-
-	// 	$this->load->model('My_model');
-	// //now work with the methods in our model
-	// 	$this->My_model->testModel();
-	// 	echo "contoller working"."<br>";
 		$this->load->view('template/header');
 		$this->load->view('template/index');//your web page goes here going to use index.php as homepage
-	    $this->load->view('template/footer');
-	}
-	public function contact(){
-		$this->load->view('template/header');
-		$this->load->view('template/contact');//your web page goes here going to use index.php as homepage
-	    $this->load->view('template/footer');
 	}
 
 	public function signup(){
 		$this->load->view('template/header');
-		$this->load->view('template/signup');//your web page goes here going to use index.php as homepage
-	    // $this->load->view('template/footer');
+		$this->load->view('template/signup');
 	}
 
 	public function checkValildation(){
