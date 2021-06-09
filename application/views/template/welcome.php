@@ -11,48 +11,55 @@
     <title>  
       welcome 
   </title> 
-  <style>
-        .header{
-    background-color: aliceblue;
-    text-align: center;
-    font-size: 22px;
-    text-transform: capitalize;
-    font-weight: 600;
-    color: blue;
-    padding: 1em;
-    z-index: 5;
-    }
-  .container{
-    background: #fff;
-    width: 50%;
-    height: 350px;
-    padding: 20px 30px 5px 30px;
-    margin: auto;
-    margin-top: 5%;
-    box-shadow: 0px 0px 20px rgba(48, 47,47, 0.637);
-  }
-    h4{
-     margin:15px 17%;
-      font-size:28px;
-      color:rgb(38, 150, 187);
-    }
-    h3{
-      margin:5% 30%;
-      font-size: 25px;
-      font-weight: 100;
-      height:20%;color:lightblue;
-      padding:2% 3%;
-      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    }
-    a{color:green}a:hover{text-decoration:none;}
-  </style> 
-</head>  
+  <style type="text/css">
+body {
+    background-color: #fff;
+    margin: 40px;
+    font: 13px/20px normal Helvetica, Arial, sans-serif;
+    color: #4F5155;
+}
 
-<body>  
+a {
+    color: #003399;
+    background-color: transparent;
+    font-weight: normal;
+}
+
+h1 {
+    color: #444;
+    background-color: transparent;
+    border-bottom: 1px solid #D0D0D0;
+    font-size: 19px;
+    font-weight: normal;
+    margin: 0 0 14px 0;
+    padding: 14px 15px 10px 15px;
+}
+
+#body {
+    margin: 0 15px 0 15px;
+}
+.header{
+    background-color: #000;
+    text-align: center;color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 1em;
+}
+#container {
+    margin: 10px;
+    border: 1px solid #D0D0D0;
+    box-shadow: 0 0 8px #D0D0D0;
+}
+</style>
+</head>
+<body>
 <div class="bg-dark header">Car Rental System</div>
-<div class="container">
-    <h4>Your Application is well received</h4>
-  <h3><a href="#">login here</a> to continue</h3> 
+<div id="container">
+<h1>Your Application is well received!</h1>
+<div id="body">
+
+    <p><a href="#">login here</a> to continue</p>
+</div>
 </div> 
 </body>  
 </html>

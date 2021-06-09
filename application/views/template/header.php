@@ -1,7 +1,7 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand text-white " href="<?= base_url('index.php/MyApp/index');?>">IHT</a>
+      <a class="navbar-brand text-white " href="<?= base_url('index.php/MyApp/index');?>">Car Rental System</a>
     </div>
     <ul class="nav navbar-nav ml-auto">
       <li class="active"><a href="<?= base_url('MyApp/index');?>">Home</a></li>
