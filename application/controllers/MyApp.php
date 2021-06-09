@@ -150,8 +150,5 @@ class MyApp extends CI_Controller {
 						echo "<script>alert('User Updated');window.location.href=
 				'".base_url('MyApp/users')."';</script>";
 					}
-			} 
-			public function welcome(){
-				$this->load->view('template/welcome');
 			}  
 		}
