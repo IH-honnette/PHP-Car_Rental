@@ -428,7 +428,7 @@ textarea.input {
             <form action="<?=base_url('MyApp/checkValildation');?>"  autocomplete="off" method="post">
                 <h3 class="title">Join Us</h3>
                 <div class="social-input-containers"> 
-                <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>" /> 
+                <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>"  /> 
                 <!-- <p class="error"></p> --><?= form_error('name')?>
                 </div>
                 <div class="social-input-containers"> 

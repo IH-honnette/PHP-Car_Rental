@@ -6,13 +6,6 @@ class MyApp extends CI_Controller {
 	
 	public function index()
 	{
-
-	 //now let's test the model 		
-
-	// 	$this->load->model('My_model');
-	// //now work with the methods in our model
-	// 	$this->My_model->testModel();
-	// 	echo "contoller working"."<br>";
 		$this->load->view('template/header');
 		$this->load->view('template/index');//your web page goes here going to use index.php as homepage
 	    $this->load->view('template/footer');
@@ -73,7 +66,6 @@ class MyApp extends CI_Controller {
 				return true;
 			}	
 		}
-
 			public function checkEmail($email){
 			if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})*$/",$email)){
 				$this->form_validation->set_message('checkEmail','Invalid Email*');
@@ -85,11 +77,11 @@ class MyApp extends CI_Controller {
 
 			public function checkValildation(){
 				//validation goes here
-				$this->form_validation->set_rules('name','Name','required|min_length[5]|callback_checkName');
-				$this->form_validation->set_rules('email','Email','required|valid_email|is_unique[users.email]|callback_checkEmail');
-				$this->form_validation->set_rules('pswd','Password','required|min_length[6]|callback_checkPassword');
-				$this->form_validation->set_rules('phone','Phone','required|min_length[10]|callback_checkPhone');
-				$this->form_validation->set_rules('username','Username','required|min_length[5]|is_unique[users.username]');
+				$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
+				$this->form_validation->set_rules('email','Email','required|valid_email||max_length[20]|is_unique[users.email]|callback_checkEmail');
+				$this->form_validation->set_rules('pswd','Password','required|min_length[6]||max_length[15]|callback_checkPassword');
+				$this->form_validation->set_rules('phone','Phone','required|min_length[10]||max_length[14]|callback_checkPhone');
+				$this->form_validation->set_rules('username','Username','required|min_length[5]||max_length[15]|is_unique[users.username]|alpha_numeric');
 				// $this->form_validation->set_rules('username','Username','required|matches[password]');
 				$this->form_validation->set_error_delimiters('<div class="error">','</div>');
 				if($this->form_validation->run())
