@@ -22,9 +22,7 @@ class Users extends CI_Model{
     }
 
     public function get_roles(){
-       return $this->db->get('roles')->result();
+        return  $this->db->get('roles')->result();
 }
-
-
-
+}
 ?>

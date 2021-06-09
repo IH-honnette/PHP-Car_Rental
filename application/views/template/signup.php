@@ -25,6 +25,7 @@ textarea {
     color: #B7B7B4;
     opacity: 1;
 }
+option{color: #000;}
 .container {
     position: relative;
     min-height: 80vh;
@@ -440,16 +441,17 @@ textarea.input {
                 <?= form_error('phone')?>
                 </div>
                 <div class="social-input-containers"> 
-                <input type="text" name="username" class="input" placeholder="username" value="<?= set_value('username')?>" />
+                <input type="text" name="username" class="input select" placeholder="username" value="<?= set_value('username')?>" />
                 <?= form_error('username')?>
                 </div>
                 <div class="social-input-containers"> 
-                 <select name="roles">
-                    <option>--Select Role--</option>
-                    <option value=""></option>
-                    <option value=""></option>
+                 <select name="roles" class="input">
+                 <option value="">--Select Role--</option>
+                   <?php foreach ($roles as $role):?>
+                    <option value="<?=$role->roleId?>"><?=$role->roleName?></option>
+                    <?php endforeach;?>
                  </select>
-                <?= form_error('role')?>
+                <?= form_error('roles')?>
                 </div>
                 <div class="social-input-containers"> 
                 <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd')?>" />
