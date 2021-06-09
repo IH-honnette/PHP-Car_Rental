@@ -17,7 +17,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="<?= base_url('MyApp/signup');?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a href="<?= base_url('MyApp/login');?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
   </div>
 </nav>

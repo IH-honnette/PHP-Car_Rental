@@ -20,6 +20,9 @@ class Users extends CI_Model{
         $this->db->where('userId',$id);
         return $this->db->update('users',$data);
     }
+public function gettingUser($email){
+return $this->db->get_where('users',array('email' => $email));
+}
 }
 
 
