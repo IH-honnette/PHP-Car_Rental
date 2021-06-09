@@ -15,6 +15,16 @@ class MyApp extends CI_Controller {
 		$this->load->view('template/signup');
 	}
 
+	public function regcar(){
+		$this->load->view('template/header');
+		$this->load->view('template/regcar');
+	}
+
+	public function viewcar(){
+		$this->load->view('template/header');
+		$this->load->view('template/regcar');
+	}
+
 	public function checkValildation(){
 		//validation goes here
 		$this->form_validation->set_rules('name','Name','required|min_length[5]');

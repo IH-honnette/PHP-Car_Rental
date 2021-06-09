@@ -5,12 +5,13 @@
     </div>
     <ul class="nav navbar-nav ml-auto">
       <li><a href="<?= base_url('MyApp/index');?>">Home</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Users<span class="caret"></span></a>
+      <li><a href="<?= base_url('MyApp/users');?>">Users</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="<?= base_url('MyApp/users');?>">view Users</a></li>
+          <li><a href="<?= base_url('MyApp/viewcar');?>">view Cars</a></li>
+          <li><a href="<?= base_url('MyApp/regcar');?>">Register new Cars</a></li>
         </ul>
       </li>
-      <li><a href="#">Cars</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="<?= base_url('MyApp/signup');?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>

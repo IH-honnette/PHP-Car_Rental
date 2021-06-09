@@ -17,8 +17,7 @@
 }
 
 body,
-input,
-textarea {
+input{
     font-family: "Poppins", sans-serif;
 }
 ::placeholder {
@@ -118,32 +117,6 @@ form {
     border-radius: 4px;
     transition: 0.6s
 }
-
-textarea.input {
-    padding: 0.8rem 1.2rem;
-    min-height: 110px;
-    border-radius: 4px;
-    resize: none;
-    overflow-y: auto
-}
-/* .social-input-containers label {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
-    padding: 0 0.4rem;
-    color: #fafafa;
-    font-size: 0.9rem;
-    font-weight: 400;
-    pointer-events: none;
-    z-index: 1000;
-    transition: 0.5s
-} */
-
-/* .social-input-containers.textarea label {
-    top: 1rem;
-    transform: translateY(0)
-} */
 
 .btn {
     padding: 1rem 1.8rem;
@@ -425,11 +398,11 @@ textarea.input {
         </div>
         <div class="contact-info-form">
         <span class="circle one"></span> <span class="circle two"></span>
-            <form action="<?=base_url('MyApp/checkValildation');?>"  autocomplete="off" method="post">
+            <form action="<?=base_url('MyApp/checkValildation');?>" autocomplete="off" method="post">
                 <h3 class="title">Join Us</h3>
                 <div class="social-input-containers"> 
                 <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>" /> 
-                <!-- <p class="error"></p> --><?= form_error('name')?>
+                <?= form_error('name')?>
                 </div>
                 <div class="social-input-containers"> 
                 <input type="email" name="email" class="input" placeholder="Email" value="<?= set_value('email')?>"  />
@@ -447,9 +420,6 @@ textarea.input {
                 <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd')?>" />
                 <?= form_error('pswd')?>
                 </div>
-                <!-- <div class="social-input-containers textarea"> 
-                <textarea name="message" class="input" placeholder="Message"></textarea> 
-                </div>  -->
                 <input type="submit" value="Send" class="btn" />
             </form>
         </div>
