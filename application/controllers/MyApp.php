@@ -63,12 +63,18 @@ class MyApp extends CI_Controller
 	public function ValidateEmail()
 	{
 		$this->load->library('form_validation');
+		$this->load->library('encryption');
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 		$this->form_validation->set_error_delimiters('<div class="p-2 alert-danger mt-2 rounded">', '</div>');
 		if ($this->form_validation->run() == TRUE) {
 			$email = $this->input->post('email');
-			$data = $email;
-			echo $data;
+			$emailhash = $this->encryption->encrypt($email);
+			$token = bin2hex(random_bytes(10));
+			$expires = Date('U') + 600;
+			$this->load->model('PasswordResets');
+			$this->PasswordResets->insert_PasswordReset(array('email' => $email, 'token' => $token, 'expires' => $expires));
+			$url = base_url("/MyApp/signup?auth=" . $emailhash . "&token=" . $token);
+			header("Location:$url");
 		} else {
 			$this->load->view('template/passwordreset');
 		}
