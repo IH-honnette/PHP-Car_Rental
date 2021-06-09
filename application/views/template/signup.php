@@ -436,7 +436,7 @@ textarea.input {
                 <?= form_error('email')?>
                  </div>
                 <div class="social-input-containers"> 
-                <input type="tel" name="phone" class="input" placeholder="Phone" value="<?= set_value('phone')?>"  />
+                <input type="text" name="phone" class="input" placeholder="Phone" value="<?= set_value('phone')?>"  />
                 <?= form_error('phone')?>
                 </div>
                 <div class="social-input-containers"> 
