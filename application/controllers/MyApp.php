@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="http://localhost/PHP-Car_Rental/index.php/../css/bootstrap.min.css">
-
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -46,7 +45,7 @@ class MyApp extends CI_Controller
 
 		if($this->form_validation->run()){
 			if($this->upload->do_upload('carimage')){
-			$image_name = $this->upload->data()
+			$image_name = $this->upload->data();
 			$name = $this->input->post('name');
 			$model = $this->input->post('model');
 			$seats = $this->input->post('seats');
@@ -92,7 +91,7 @@ class MyApp extends CI_Controller
 			$count = 1;
 			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
 		}
-
+	}
 
 		public function checkName($name){
 			if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
@@ -104,7 +103,7 @@ class MyApp extends CI_Controller
 			}
 
 		}
-	}
+	
 	public function validateEmail()
 	{
 		$this->load->library('encryption');
@@ -206,17 +205,17 @@ class MyApp extends CI_Controller
 			$this->load->model('Users');
 			if ($this->Users->insert_data($data)) {
 				$this->load->view('template/welcome');
-			}
+			
 			// $this->load->view('template/header');
 			// $this->load->view('template/view_users',$data);
-		} else {
+		}else{
 			$this->load->model('Users');
 			$data['roles'] = $this->Users->get_roles();
 			$this->load->view('template/header');
 			$this->load->view('template/view_users',$data);
 		}
 	}
-
+			}
 	public function newpassword()
 	{
 		$this->load->library('encryption');
@@ -257,7 +256,6 @@ class MyApp extends CI_Controller
 
 		$this->load->view('template/header');
 		$this->load->view('template/view_users', $data);
-		$this->load->view('template/footer');
 	}
 	public function delete_user()
 	{
@@ -332,5 +330,11 @@ $this->load->view('template/login');
 				'".base_url('MyApp/users')."';</script>";
 					}
 			}
+
+
+
+
+
+
 
 }

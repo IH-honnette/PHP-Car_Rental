@@ -409,8 +409,8 @@ textarea.input {
 
 
             <?php foreach ($users as $user):
-             $id_encrypt = $this->encryption->encrypt($user->userId);?>
-            <form action="<?=base_url("MyApp/edit_record?id=$id_encrypt");?>"  autocomplete="off" method="post">
+            //  $id_encrypt = $this->encryption->encrypt($user->userId);?>
+            <form action="<?=base_url("MyApp/edit_record/").$user->userId;?>"  autocomplete="off" method="post">
                 <h3 class="title">Update</h3>
                 <div class="social-input-containers"> 
                 <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name',$user->name)?>" /> 
