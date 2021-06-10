@@ -27,13 +27,16 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($users as $user):?>
+        <?php foreach ($users as $user):
+            //encrypt the id and
+            // $id_encrypt = $this->encryption->encrypt($user->userId);
+            ?>
         <tr>
             <td><?= $user->name ?></td>
             <td><?= $user->email ?></td>
             <td><?= $user->phone ?></td>
-            <td><a href="<?= base_url('MyApp/edit_user/'.$user->userId);?>">Edit</a></td>
-            <td><a onclick="return confirm('Are you sure you want to delete this user?')" href="<?= base_url('MyApp/delete_user/'.$user->userId);?>">Remove</a></td>
+            <td><a href="<?= base_url("MyApp/edit_user/").$user->userId;?>">Edit</a></td>
+            <td><a onclick="return confirm('Are you sure you want to delete this user?')" href="<?= base_url("MyApp/delete_user/").$user->userId;?>">Remove</a></td>
         </tr>
         <?php endforeach;?>
     </tbody>
