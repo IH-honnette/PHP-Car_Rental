@@ -77,9 +77,8 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-
-	'password' => 'h1t5mineza',
-	'database' => 'codeIgniter',
+	'password' => 'mysql',
+	'database' => 'carrental',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
