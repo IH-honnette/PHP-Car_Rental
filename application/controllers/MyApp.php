@@ -56,12 +56,12 @@ class MyApp extends CI_Controller
 			//send the data to the model and
 			 $this->load->model('Cars');
 			 $this->Cars->insert_data($data);
-			 $this->set_flashdata('success_msg', 'New car successfully registered');
+			//  $this->set_flashdata('success_msg', 'New car successfully registered');
 			redirect(base_url('MyApp/index'));
 
 		}
 			else{
-			$this->set_flashdata('error_msg', 'Failed to upload image');
+			// $this->set_flashdata('error_msg', 'Failed to upload image');
 			$this->load->view('template/header');
 			$this->load->view('template/regcar');
 		}
@@ -297,7 +297,7 @@ class MyApp extends CI_Controller
 					echo "invalid email or password";
 				}
 				else{
-						$this->load->view('template/viewcars');
+						redirect(base_url('MyApp/'));
 				}
 			}
 			}
