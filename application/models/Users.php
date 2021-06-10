@@ -23,12 +23,12 @@ class Users extends CI_Model{
 public function gettingUser($email){
 return $this->db->get_where('users',array('email' => $email));
 }
+public function get_roles(){
+    return  $this->db->get('roles')->result();
+}
 }
 
 
 
-    public function get_roles(){
-        return  $this->db->get('roles')->result();
-}
-}
+
 ?>

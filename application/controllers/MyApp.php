@@ -106,6 +106,7 @@ class MyApp extends CI_Controller {
 		$this->load->view('template/header');
 		$this->load->view('template/view_users',$data);
 	}
+}
 
 			public function users(){
 				$this->load->model('Users');
@@ -125,8 +126,7 @@ class MyApp extends CI_Controller {
 				echo "<script>alert(' Unable to delete');window.location.href=
 				'".base_url()."';</script>";
 			}
-			}
-	}  
+			} 
 public function login(){
 	$this->load->view('template/header');
 	$this->load->view('template/login');
