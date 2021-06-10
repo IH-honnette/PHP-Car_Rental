@@ -29,29 +29,46 @@ class MyApp extends CI_Controller
 		$this->load->view('template/regcar');
 	}
 	public function carValidation(){
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['encrypt_name'] = true;
+		
+        $this->load->library('upload',$config);
+
 		//validation goes here
 		$this->form_validation->set_rules('name','Name','required');
 		$this->form_validation->set_rules('model','Model','required');
 		$this->form_validation->set_rules('seats','Seats','required');
 		$this->form_validation->set_rules('price','Hireprice','required');
 		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
-		if($this->form_validation->run())
-		{
+
+		if($this->form_validation->run()){
+			if($this->upload->do_upload('carimage')){
+			$image_name = $this->upload->data()
 			$name = $this->input->post('name');
 			$model = $this->input->post('model');
 			$seats =$this->input->post('seats');
 			$price = $this->input->post('price');
+			$carimage = $image_name['file_name'];
 
-			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price);
+			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
 			//send the data to the model and
 			 $this->load->model('Cars');
 			 $this->Cars->insert_data($data);
+			 $this->set_flashdata('success_msg', 'New car successfully registered');
 			redirect(base_url('MyApp/index'));
 
-		}else{
+		}
+			else{
+			$this->set_flashdata('error_msg', 'Failed to upload image');
 			$this->load->view('template/header');
 			$this->load->view('template/regcar');
 		}
+	}
+	else{
+		$this->load->view('template/header');
+		$this->load->view('template/regcar');
+	}
 	}
 
 	public function viewcars(){
@@ -81,7 +98,8 @@ class MyApp extends CI_Controller
 			if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
 				$this->form_validation->set_message('checkName','Only letters and white space are allowed for names*.');
 				return false;
-			}else{
+			}
+			else{
 				return true;
 			}
 		}
@@ -156,7 +174,6 @@ class MyApp extends CI_Controller
 
 			$this->load->view('template/header');
 			$this->load->view('template/view_users',$data);
-			// $this->load->view('template/footer');
 		}
 			public function delete_user(){
 			$id =$this->uri->segment(3);
@@ -197,7 +214,7 @@ public function getLoginInfo(){
 				else{
 						$this->load->view('template/viewcars');
 				}
-	}
+			}
 			}
 
 }
