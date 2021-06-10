@@ -197,7 +197,7 @@ public function getLoginInfo(){
 				else{
 					echo "logged in successfully";
 				}
-	}
+			}
 			}
 
 			}
