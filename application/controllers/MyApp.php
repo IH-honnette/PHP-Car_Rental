@@ -11,7 +11,6 @@ class MyApp extends CI_Controller
 		$this->load->view('template/header');
 		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
-
 	public function passwordreset()
 	{
 		$this->load->view('template/passwordreset');
