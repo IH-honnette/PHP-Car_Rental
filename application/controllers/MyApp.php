@@ -88,7 +88,8 @@ class MyApp extends CI_Controller {
 			if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
 				$this->form_validation->set_message('checkName','Only letters and white space are allowed for names*.');
 				return false;
-			}else{
+			}
+			else{
 				return true;
 			}
 		}
@@ -125,7 +126,7 @@ class MyApp extends CI_Controller {
 			public function checkValildation(){
 				//validation goes here
 				$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
-				$this->form_validation->set_rules('email','Email','required|valid_email|max_length[20]|is_unique[users.email]|callback_checkEmail');
+				$this->form_validation->set_rules('email','Email','required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
 				$this->form_validation->set_rules('pswd','Password','required|min_length[6]|max_length[15]|callback_checkPassword');
 				$this->form_validation->set_rules('phone','Phone','required|min_length[10]|max_length[14]|callback_checkPhone');
 				$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
@@ -147,10 +148,15 @@ class MyApp extends CI_Controller {
 					if($this->Users->insert_data($data)){
 						$this->load->view('template/welcome');
 					}
-
-		$this->load->view('template/header');
-		$this->load->view('template/view_users',$data);
-	}
+				// $this->load->view('template/header');
+				// $this->load->view('template/view_users',$data);
+			}else{
+			$this->load->model('Users');
+			$data['roles']= $this->Users->get_roles(); 
+			$this->load->view('template/header');
+			$this->load->view('template/signup',$data);
+			}
+		} 
 
 			public function users(){
 				$this->load->model('Users');
@@ -199,7 +205,7 @@ public function getLoginInfo(){
 				else{
 					echo "logged in successfully";
 				}
-	}
+			}
 			}
 
 }
@@ -208,4 +214,28 @@ $this->load->view('template/header');
 $this->load->view('template/login');
 }
 }
+
+public function edit_user(){
+	$id =$this->uri->segment(3);
+   $this->load->model('Users');
+   $data['users']=$this->Users->get_user($id);
+	 //return the form
+   $this->load->view('template/header');
+   $this->load->view('template/edit_data',$data); 
+   }
+   public function edit_record(){
+	$id =$this->uri->segment(3);
+	$name = $this->input->post('name');
+		$email = $this->input->post('email');
+		$phone =$this->input->post('phone');
+		$username = $this->input->post('username');
+		$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
+		//send the data to the model and
+		 $this->load->model('Users');
+		if( $this->Users->update_data($id,$data)){
+			echo "<script>alert('User Updated');window.location.href=
+	'".base_url('MyApp/users')."';</script>";
+		}
+}
+
 }
