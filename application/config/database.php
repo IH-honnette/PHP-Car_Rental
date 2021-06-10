@@ -77,8 +77,9 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'mysql',
-	'database' => 'car-rental',
+
+	'password' => 'password@2001',
+	'database' => 'carrental',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
