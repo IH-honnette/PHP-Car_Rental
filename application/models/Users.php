@@ -27,4 +27,8 @@ return $this->db->get_where('users',array('email' => $email));
 
 
 
+    public function get_roles(){
+        return  $this->db->get('roles')->result();
+}
+}
 ?>
