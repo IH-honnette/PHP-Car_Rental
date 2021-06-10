@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?= base_url() ?>css/bootstrap.min.css">
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -112,13 +113,32 @@ class MyApp extends CI_Controller
 			$token = bin2hex(random_bytes(20));
 			$this->load->model('PasswordResets');
 			$url = base_url('MyApp/newpassword?auth=' . $emailhash . '&token=' . $token);
-			$this->email->from('uwenayoallain@gmail.com', 'Not_Yarison');
-			$this->email->to('uwenayoallain@gmail.com');
-			$this->email->subject("Password Reset");
-			$this->email->message("<div>Inorder to continue your password reset click the link below:</div>
-			<a href=''.$url.''>" . $url . "<a/>");
 
-			$this->email->send();
+			//SMTP & mail configuration
+			$config = array(
+				'protocol' => 'smtp',
+				'smtp_host' => 'ssl://smtp.gmail.com',
+				'smtp_port' => 465,
+				'smtp_user' => 'uwenayoallain@gmail.com',
+				'smtp_pass' => 'Yarrisongmail.com',
+				'mailtype' => 'html',
+				'charset' => 'iso-8859-1'
+			);
+			$this->email->initialize($config);
+			$this->email->set_newline("\r\n");
+			//Email content
+			$htmlContent = '<h1>Password Reset</h1>';
+			$htmlContent .= '<p>Click on the button below to change your password</p>';
+			$htmlContent .= "<a href=$url>$url</a>";
+			$htmlContent .= "<p>if you don't know us,simply ignore this.</p>";
+			$this->email->to('uwenayoallain@gmail.com');
+			$this->email->from('carrentalapponline@gmail.com', 'Car-Rental');
+			$this->email->subject('Password Reset');
+			$this->email->message($htmlContent);
+			//Send email
+			if ($this->email->send()) {
+				echo "<div class='m-2 alert-success p-2'>Email sent,check your email</div>";
+			}
 
 			echo $this->email->print_debugger();
 		} else {
