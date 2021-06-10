@@ -3,7 +3,6 @@ class PasswordResets extends CI_Model
 {
     public function insert_PasswordReset($data)
     {
-
         return  $this->db->insert('passwordresets', $data);
     }
 
