@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="http://localhost/PHP-Car_Rental/index.php/../css/bootstrap.min.css">
+
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -110,7 +112,6 @@ class MyApp extends CI_Controller
 			$expires = Date('U') + 600;
 			$emailhash = $this->encryption->encrypt($email);
 			$token = bin2hex(random_bytes(20));
-			$this->load->model('PasswordResets');
 			$url = base_url('MyApp/newpassword?auth=' . $emailhash . '&token=' . $token);
 
 			//SMTP & mail configuration
@@ -135,12 +136,9 @@ class MyApp extends CI_Controller
 			$this->email->subject('Password Reset');
 			$this->email->message($htmlContent);
 			//Send email
-			// $this->
 			if ($this->email->send()) {
-				echo "<div class='m-2 alert-success p-2'>Email sent,check your email</div>";
+				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-5 m-auto col-lg-6'>Email sent,check your email</div><div>";
 			}
-
-			echo $this->email->print_debugger();
 		} else {
 			$this->load->view('template/passwordreset');
 		}
