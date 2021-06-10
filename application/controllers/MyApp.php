@@ -19,9 +19,39 @@ class MyApp extends CI_Controller {
 		$this->load->view('template/regcar');
 	}
 
-	public function viewcar(){
+	public function carValidation(){
+		//validation goes here
+		$this->form_validation->set_rules('name','Name','required');
+		$this->form_validation->set_rules('model','Model','required');
+		$this->form_validation->set_rules('seats','Seats','required');
+		$this->form_validation->set_rules('price','Hireprice','required');
+		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+		if($this->form_validation->run())
+		{
+			$name = $this->input->post('name');
+			$model = $this->input->post('model');
+			$seats =$this->input->post('seats');
+			$price = $this->input->post('price');
+
+			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price);
+			//send the data to the model and
+			 $this->load->model('Cars');
+			 $this->Cars->insert_data($data);
+			 $this->load->view('template/index');
+
+		}else{
+			$this->load->view('template/header');
+			$this->load->view('template/regcar');
+		}
+	
+	}
+
+	public function viewcars(){
+		$this->load->model('Cars');
+		 $data['cars']= $this->Cars->getAll_cars(); 
+
 		$this->load->view('template/header');
-		$this->load->view('template/regcar');
+		$this->load->view('template/viewcars');
 	}
 
 		public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool {
