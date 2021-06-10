@@ -265,9 +265,9 @@ form {
                 <input type="text" name="price" class="input" placeholder="Hireprice" value="<?= set_value('price')?>" />
                 <?= form_error('price')?>
                 </div>
-                <!-- <div class="social-input-containers"> 
+                <div class="social-input-containers"> 
                 <input type="file" name="carimage" class="input"/>
-                </div> -->
+                </div>
                 <input type="submit" value="Register" class="btn" />
             </form>
         </div>
