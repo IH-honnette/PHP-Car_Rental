@@ -4,7 +4,6 @@ class Cars extends CI_Model{
 //sql query to insert_data
       return  $this->db->insert('cars',$data);//table name
     }
-
     public function getAll_cars(){
         //$this->db->order_by('carId','ASC');
       return  $this->db->get('cars')->result();
@@ -21,7 +20,5 @@ class Cars extends CI_Model{
         return $this->db->update('cars',$data);
     }
 }
-
-
 
 ?>

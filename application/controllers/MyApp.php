@@ -30,29 +30,48 @@ class MyApp extends CI_Controller
 		$this->load->view('template/header');
 		$this->load->view('template/regcar');
 	}
-	public function carValidation()
-	{
+  
+	public function carValidation(){
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['encrypt_name'] = true;
+		
+        $this->load->library('upload',$config);
+
 		//validation goes here
-		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('model', 'Model', 'required');
-		$this->form_validation->set_rules('seats', 'Seats', 'required');
-		$this->form_validation->set_rules('price', 'Hireprice', 'required');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		if ($this->form_validation->run()) {
+		$this->form_validation->set_rules('name','Name','required');
+		$this->form_validation->set_rules('model','Model','required');
+		$this->form_validation->set_rules('seats','Seats','required');
+		$this->form_validation->set_rules('price','Hireprice','required');
+		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+
+		if($this->form_validation->run()){
+			if($this->upload->do_upload('carimage')){
+			$image_name = $this->upload->data()
 			$name = $this->input->post('name');
 			$model = $this->input->post('model');
 			$seats = $this->input->post('seats');
 			$price = $this->input->post('price');
+			$carimage = $image_name['file_name'];
 
-			$data = array('name' => $name, 'model' => $model, 'seats' => $seats, 'price' => $price);
+			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
 			//send the data to the model and
-			$this->load->model('Cars');
-			$this->Cars->insert_data($data);
-			$this->load->view('template/index');
-		} else {
+			 $this->load->model('Cars');
+			 $this->Cars->insert_data($data);
+			 $this->set_flashdata('success_msg', 'New car successfully registered');
+			redirect(base_url('MyApp/index'));
+
+		}
+			else{
+			$this->set_flashdata('error_msg', 'Failed to upload image');
 			$this->load->view('template/header');
 			$this->load->view('template/regcar');
 		}
+	}
+	else{
+		$this->load->view('template/header');
+		$this->load->view('template/regcar');
+	}
 	}
 
 	public function viewcars()
@@ -61,7 +80,7 @@ class MyApp extends CI_Controller
 		$data['cars'] = $this->Cars->getAll_cars();
 
 		$this->load->view('template/header');
-		$this->load->view('template/viewcars');
+		$this->load->view('template/viewcars',$data);
 	}
 
 	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool
@@ -74,30 +93,17 @@ class MyApp extends CI_Controller
 			$count = 1;
 			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
 		}
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
-		return $this->isDigits($telephone, $minDigits, $maxDigits);
-	}
-	public	function normalizeTelephoneNumber(string $telephone): string
-	{
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
-		return $telephone;
-	}
-	public function checkName($name)
-	{
-		if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-			$this->form_validation->set_message('checkName', 'Only letters and white space are allowed for names*.');
-			return false;
-		} else {
-			return true;
-		}
-	}
-	public function checkPhone($phone)
-	{
-		if (!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))) {
-			$this->form_validation->set_message('checkPhone', 'Invalid Phone Number*.');
-			return false;
-		} else {
-			return true;
+
+
+		public function checkName($name){
+			if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
+				$this->form_validation->set_message('checkName','Only letters and white space are allowed for names*.');
+				return false;
+			}
+			else{
+				return true;
+			}
+
 		}
 	}
 	public function validateEmail()
@@ -169,27 +175,35 @@ class MyApp extends CI_Controller
 		}
 	}
 
-	public function checkValildation()
-	{
-		//validation goes here
-		$this->form_validation->set_rules('name', 'Name', 'required|min_length[5]|max_length[200]|callback_checkName');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[20]|is_unique[users.email]|callback_checkEmail');
-		$this->form_validation->set_rules('pswd', 'Password', 'required|min_length[6]|max_length[15]|callback_checkPassword');
-		$this->form_validation->set_rules('phone', 'Phone', 'required|min_length[10]|max_length[14]|callback_checkPhone');
-		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
-		$this->form_validation->set_rules('roles', 'Role', 'required');
-		// $this->form_validation->set_rules('username','Username','required|matches[password]');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		if ($this->form_validation->run()) {
-			$name = $this->input->post('name');
-			$email = $this->input->post('email');
-			$phone = $this->input->post('phone');
-			$pswd = $this->input->post('pswd');
-			$username = $this->input->post('username');
-			$role = $this->input->post('roles');
-			$final_pswd = hash('SHA512', $pswd);
-			$data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'password' => $final_pswd, 'username' => $username, 'roleId' => $role);
-			//send the data to the model and
+			public function checkValildation(){
+				//validation goes here
+				$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
+				$this->form_validation->set_rules('email','Email','required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
+				$this->form_validation->set_rules('pswd','Password','required|min_length[6]|max_length[15]|callback_checkPassword');
+				$this->form_validation->set_rules('phone','Phone','required|min_length[10]|max_length[14]|callback_checkPhone');
+				$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
+				$this->form_validation->set_rules('roles','Role','required');
+				// $this->form_validation->set_rules('username','Username','required|matches[password]');
+				$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+				if($this->form_validation->run())
+				{
+					$name = $this->input->post('name');
+					$email = $this->input->post('email');
+					$phone =$this->input->post('phone');
+					$pswd = $this->input->post('pswd');
+					$username = $this->input->post('username');
+					$role = $this->input->post('roles');
+					$final_pswd =hash('SHA512',$pswd);
+					$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'password'=>$final_pswd,'username' =>$username,'roleId' =>$role);
+					//send the data to the model and
+					$this->load->model('Users');
+					if($this->Users->insert_data($data)){
+						$this->load->view('template/welcome');
+					}
+				// $this->load->view('template/header');
+				// $this->load->view('template/view_users',$data);
+			}else{
+
 			$this->load->model('Users');
 			if ($this->Users->insert_data($data)) {
 				$this->load->view('template/welcome');
@@ -200,7 +214,7 @@ class MyApp extends CI_Controller
 			$this->load->model('Users');
 			$data['roles'] = $this->Users->get_roles();
 			$this->load->view('template/header');
-			$this->load->view('template/signup', $data);
+			$this->load->view('template/view_users',$data);
 		}
 	}
 
@@ -275,22 +289,49 @@ class MyApp extends CI_Controller
 			$pswd = $this->input->post('pswd');
 			$hashedPassword = hash("SHA512", $pswd);
 			$this->load->model("Users");
-			$user = $data['users'] = $this->Users->gettingUser($email);
-			if (!$user) {
-				echo "invalid email or password";
-			} else {
+		    $user=$this->Users->gettingUser($email);
+			if(!$user){
+				echo "no user found";
+			}
+			else{
 				foreach ($user->result() as $row) {
-					$userPass = $row->password;
-					if ($hashedPassword !== $userPass) {
-						echo "invalid email or password";
-					} else {
-						echo "logged in successfully";
-					}
+				$userPass = $row->password;
+				if($hashedPassword!==$userPass){
+					echo "invalid email or password";
+				}
+				else{
+						$this->load->view('template/viewcars');
 				}
 			}
-		} else {
-			$this->load->view('template/header');
-			$this->load->view('template/login');
-		}
-	}
+			}
+
+}
+else{
+$this->load->view('template/header');
+$this->load->view('template/login');
+}
+}
+			public function edit_user(){
+			$id =$this->uri->segment(3);
+			   $this->load->model('Users');
+			   $data['users']=$this->Users->get_user($id);
+				 //return the form
+			   $this->load->view('template/header');
+			   $this->load->view('template/edit_data',$data); 
+			   }
+			   public function edit_record(){
+				$id =$this->uri->segment(3);
+				$name = $this->input->post('name');
+					$email = $this->input->post('email');
+					$phone =$this->input->post('phone');
+					$username = $this->input->post('username');
+					$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
+					//send the data to the model and
+					 $this->load->model('Users');
+					if( $this->Users->update_data($id,$data)){
+						echo "<script>alert('User Updated');window.location.href=
+				'".base_url('MyApp/users')."';</script>";
+					}
+			}
+
 }
