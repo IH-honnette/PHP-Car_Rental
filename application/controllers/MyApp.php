@@ -1,24 +1,33 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class MyApp extends CI_Controller {
-	
+class MyApp extends CI_Controller
+{
+
 	public function index()
 	{
 		$this->load->view('template/header');
-		$this->load->view('template/index');//your web page goes here going to use index.php as homepage
+		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
 
-	public function signup(){
+	public function passwordreset()
+	{
+		$this->load->view('template/passwordreset');
+	}
+
+	public function signup()
+	{
+		$this->load->model('Users');
+		$data['roles']= $this->Users->get_roles(); 
 		$this->load->view('template/header');
-		$this->load->view('template/signup');
+		$this->load->view('template/signup',$data);
 	}
 
-	public function regcar(){
+	public function regcar()
+	{
 		$this->load->view('template/header');
 		$this->load->view('template/regcar');
 	}
-
 	public function carValidation(){
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
@@ -32,33 +41,34 @@ class MyApp extends CI_Controller {
 		$this->form_validation->set_rules('seats','Seats','required');
 		$this->form_validation->set_rules('price','Hireprice','required');
 		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+
 		if($this->form_validation->run()){
 			if($this->upload->do_upload('carimage')){
-				$image_name = $this->upload->data()
-				$name = $this->input->post('name');
-				$model = $this->input->post('model');
-				$seats =$this->input->post('seats');
-				$price = $this->input->post('price');
-				$carimage = $image_name['file_name'];
-	
-				$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price, 'carimage'=>$carimage);
-				//send the data to the model and
-				 $this->load->model('Cars');
-				 $this->Cars->insert_data($data);
-				 $this->set_flashdata('success_msg', 'New car successfully registered');
-				 redirect(base_url('MyApp/index'));
-			}
-			else{
-				$this->set_flashdata('error_msg', 'Failed to upload image');
-				$this->load->view('template/header');
-				$this->load->view('template/regcar');
-			}
+			$image_name = $this->upload->data()
+			$name = $this->input->post('name');
+			$model = $this->input->post('model');
+			$seats =$this->input->post('seats');
+			$price = $this->input->post('price');
+			$carimage = $image_name['file_name'];
 
-		}else{
+			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
+			//send the data to the model and
+			 $this->load->model('Cars');
+			 $this->Cars->insert_data($data);
+			 $this->set_flashdata('success_msg', 'New car successfully registered');
+			redirect(base_url('MyApp/index'));
+
+		}
+			else{
+			$this->set_flashdata('error_msg', 'Failed to upload image');
 			$this->load->view('template/header');
 			$this->load->view('template/regcar');
 		}
-	
+	}
+	else{
+		$this->load->view('template/header');
+		$this->load->view('template/regcar');
+	}
 	}
 
 	public function viewcars(){
@@ -158,14 +168,13 @@ class MyApp extends CI_Controller {
 			}
 		} 
 
-			public function users(){
-				$this->load->model('Users');
-				$data['users']= $this->Users->getAll_users(); 
+		public function users(){
+			$this->load->model('Users');
+			$data['users']= $this->Users->getAll_users(); 
 
-				$this->load->view('template/header');
-				$this->load->view('template/view_users',$data);
-				$this->load->view('template/footer');
-			}
+			$this->load->view('template/header');
+			$this->load->view('template/view_users',$data);
+		}
 			public function delete_user(){
 			$id =$this->uri->segment(3);
 			$this->load->model('Users');
@@ -177,7 +186,7 @@ class MyApp extends CI_Controller {
 				'".base_url()."';</script>";
 			}
 			}
-	}  
+	 
 public function login(){
 	$this->load->view('template/header');
 	$this->load->view('template/login');
@@ -214,28 +223,27 @@ $this->load->view('template/header');
 $this->load->view('template/login');
 }
 }
-
-public function edit_user(){
-	$id =$this->uri->segment(3);
-   $this->load->model('Users');
-   $data['users']=$this->Users->get_user($id);
-	 //return the form
-   $this->load->view('template/header');
-   $this->load->view('template/edit_data',$data); 
-   }
-   public function edit_record(){
-	$id =$this->uri->segment(3);
-	$name = $this->input->post('name');
-		$email = $this->input->post('email');
-		$phone =$this->input->post('phone');
-		$username = $this->input->post('username');
-		$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
-		//send the data to the model and
-		 $this->load->model('Users');
-		if( $this->Users->update_data($id,$data)){
-			echo "<script>alert('User Updated');window.location.href=
-	'".base_url('MyApp/users')."';</script>";
-		}
-}
+			public function edit_user(){
+			$id =$this->uri->segment(3);
+			   $this->load->model('Users');
+			   $data['users']=$this->Users->get_user($id);
+				 //return the form
+			   $this->load->view('template/header');
+			   $this->load->view('template/edit_data',$data); 
+			   }
+			   public function edit_record(){
+				$id =$this->uri->segment(3);
+				$name = $this->input->post('name');
+					$email = $this->input->post('email');
+					$phone =$this->input->post('phone');
+					$username = $this->input->post('username');
+					$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
+					//send the data to the model and
+					 $this->load->model('Users');
+					if( $this->Users->update_data($id,$data)){
+						echo "<script>alert('User Updated');window.location.href=
+				'".base_url('MyApp/users')."';</script>";
+					}
+			}
 
 }
