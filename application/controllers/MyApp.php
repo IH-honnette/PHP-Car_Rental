@@ -159,9 +159,10 @@ class MyApp extends CI_Controller
 			// $this->load->view('template/footer');
 		}
 			public function delete_user(){
-			$id =$this->uri->segment(3);
+				$id =$_GET['id'];
+				$id_decrypt = $this->encryption->decrypt($id);
 			$this->load->model('Users');
-			if($this->Users->delete_user($id)){
+			if($this->Users->delete_user($id_decrypt)){
 				echo "<script>alert('User Deleted');window.location.href=
 				'".base_url()."';</script>";
 			}else{
@@ -208,15 +209,20 @@ public function getLoginInfo(){
 			}
 
 			public function edit_user(){
-				$id =$this->uri->segment(3);
+				 $id =$_GET['id'];
+				$id_decrypt = $this->encryption->decrypt($id);
+				
 			   $this->load->model('Users');
-			   $data['users']=$this->Users->get_user($id);
+			   $data['users']=$this->Users->get_user($id_decrypt);
 				 //return the form
 			   $this->load->view('template/header');
 			   $this->load->view('template/edit_data',$data); 
 			   }
 			   public function edit_record(){
-				$id =$this->uri->segment(3);
+				//$id =$this->uri->segment(3);
+				$id =$_GET['id'];
+				$id_decrypt = $this->encryption->decrypt($id);
+
 				$name = $this->input->post('name');
 					$email = $this->input->post('email');
 					$phone =$this->input->post('phone');
@@ -224,13 +230,10 @@ public function getLoginInfo(){
 					$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
 					//send the data to the model and
 					 $this->load->model('Users');
-					if( $this->Users->update_data($id,$data)){
+					if( $this->Users->update_data($id_decrypt,$data)){
 						echo "<script>alert('User Updated');window.location.href=
 				'".base_url('MyApp/users')."';</script>";
 					}
 			}
-
-
-
 
 }
