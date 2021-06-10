@@ -11,7 +11,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body>
+<body class="bg-light">
   <h1>Car Rental</h1>
   <div class="container">
     <p class="fs-5">We are car rental online,car renting online is Simplified</p>

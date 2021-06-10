@@ -91,13 +91,24 @@ class MyApp extends CI_Controller
 		}
 	}
 
+	public function check_emailexist($email)
+	{
+		$this->load->model('Users');
+		$query = $this->Users->gettingUser($email);
+		if ($query->num_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
 	public function validateEmail()
 	{
 		$this->load->library('encryption');
 		$this->load->library('form_validation');
 		$this->load->library('email');
 		$this->load->helper(array('cookie', 'url'));
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|check_emailexist|max_length[50]');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|callback_check_emailexist');
 		$this->form_validation->set_message('check_emailexist', 'No User found with that %s.');
 		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
 		if ($this->form_validation->run()) {
@@ -113,7 +124,7 @@ class MyApp extends CI_Controller
 				'smtp_host' => 'ssl://smtp.gmail.com',
 				'smtp_port' => 465,
 				'smtp_user' => 'uwenayoallain@gmail.com',
-				'smtp_pass' => 'password',
+				'smtp_pass' => 'Yarrisongmail.com',
 				'mailtype' => 'html',
 				'charset' => 'iso-8859-1'
 			);
@@ -132,9 +143,9 @@ class MyApp extends CI_Controller
 			if ($this->email->send()) {
 				setcookie('expires', $expires, time() + 60 * 5);
 				setcookie('token', $token, time() + 60 * 5);
-				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-5 m-auto col-lg-6'>Email sent,check your email</div><div>";
+				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-3 m-auto col-lg-6'>Email sent,check your email</div><div>";
 			} else {
-				$this->load->view('template/passwordreset');
+				echo "Error";
 			}
 		} else {
 			$this->load->view('template/passwordreset');
@@ -202,8 +213,8 @@ class MyApp extends CI_Controller
 	{
 		$this->load->library('encryption');
 		$this->load->helper(array('cookie', 'url'));
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[15]');
-		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[15]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[25]');
+		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[25]');
 		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
 		if ($this->form_validation->run()) {
 			$newpassword = $this->input->post('password');
@@ -211,15 +222,24 @@ class MyApp extends CI_Controller
 			$token = $this->input->get('token');
 			$auth = $this->input->get('auth');
 			$email = $this->encryption->decrypt($auth);
-			if (($newpassword  == $newpassword_confirm) && ($token == get_cookie('token'))) {
-				if ((Date('U') >= get_cookie('expires'))) {
-					$this->load->model('Users');
-					$passwordhash = hash("SHA512", $newpassword);
-					$data = array('password' => $passwordhash);
-					$this->Users->updatebyEmail($email, $data);
-					echo "<div class='m-2 p-2 alert-success' >Success</a>";
+			if (($newpassword  == $newpassword_confirm)) {
+				$tokencookie = get_cookie('token');
+				echo $tokencookie;
+				if ($token == $tokencookie) {
+					$currentTime = Date('U');
+					echo $currentTime;
+					$expirescookie = get_cookie('expires');
+					if (($currentTime < $expirescookie)) {
+						$this->load->model('Users');
+						$passwordhash = hash("SHA512", $newpassword);
+						$data = array('password' => $passwordhash);
+						$this->Users->updatebyEmail($email, $data);
+						echo "<div class='m-2 p-2 alert-success' >Success</a>";
+					} else {
+						echo "Time Not Working";
+					}
 				} else {
-					$this->load->view('template/newpassword');
+					echo "Tokens Are Not Equal";
 				}
 			} else {
 				$this->load->view('template/newpassword');
