@@ -17,6 +17,8 @@ class MyApp extends CI_Controller
 
 	public function signup()
 	{
+		$this->load->model('Users');
+		$data['roles']= $this->Users->get_roles(); 
 		$this->load->view('template/header');
 		$this->load->view('template/signup',$data);
 	}
