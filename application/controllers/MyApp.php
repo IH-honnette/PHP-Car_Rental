@@ -46,7 +46,7 @@ class MyApp extends CI_Controller
 			//send the data to the model and
 			 $this->load->model('Cars');
 			 $this->Cars->insert_data($data);
-			 $this->load->view('template/index');
+			redirect(base_url('MyApp/index'));
 
 		}else{
 			$this->load->view('template/header');
@@ -59,7 +59,7 @@ class MyApp extends CI_Controller
 		 $data['cars']= $this->Cars->getAll_cars(); 
 
 		$this->load->view('template/header');
-		$this->load->view('template/viewcars');
+		$this->load->view('template/viewcars',$data);
 	}
 
 		public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool {
