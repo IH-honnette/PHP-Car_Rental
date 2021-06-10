@@ -123,14 +123,14 @@ form {
     padding: 1rem 1.8rem;
     background-color: #fff;
     border: 2px solid #fafafa;
-    font-size: 1rem;
+    font-size: 1.4rem;
     color: #1abc9c;
     line-height: 1;
     border-radius: 4px;
     outline: none;
     cursor: pointer;
     transition: 0.7s;
-    margin: 0
+    margin-top: 3%;
 }
 
 .btn:hover {

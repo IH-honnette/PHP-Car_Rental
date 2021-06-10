@@ -200,11 +200,45 @@ public function getLoginInfo(){
 	}
 			}
 
-}
-else{
-$this->load->view('template/header');
-$this->load->view('template/login');
-}
-}
+			}
+			else{
+			$this->load->view('template/header');
+			$this->load->view('template/login');
+			}
+			}
+
+			public function edit_user(){
+				$id =$this->uri->segment(3);
+			   $this->load->model('Users');
+			   $data['users']=$this->Users->get_user($id);
+				 //return the form
+			   $this->load->view('template/header');
+			   $this->load->view('template/edit_data',$data); 
+			   }
+			   public function edit_record(){
+				$id =$this->uri->segment(3);
+				$name = $this->input->post('name');
+					$email = $this->input->post('email');
+					$phone =$this->input->post('phone');
+					$username = $this->input->post('username');
+					$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
+					//send the data to the model and
+					 $this->load->model('Users');
+					if( $this->Users->update_data($id,$data)){
+						echo "<script>alert('User Updated');window.location.href=
+				'".base_url('MyApp/users')."';</script>";
+					}
+			}
+
+
+
+			
+
+
+
+
+
+
+
 
 }
