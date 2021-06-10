@@ -232,13 +232,5 @@ public function getLoginInfo(){
 
 
 
-			
-
-
-
-
-
-
-
 
 }
