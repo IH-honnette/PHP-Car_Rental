@@ -104,12 +104,12 @@ class MyApp extends CI_Controller
 	{
 		$this->load->library('encryption');
 		$this->load->library('email');
+		$this->load->helper(array('cookie', 'url'));
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]');
-		// $this->form_validation->set_rules('username','Username','required|matches[password]');
 		$this->form_validation->set_error_delimiters('<div class="m-2 alert-danger p-3">', '</div>');
 		if ($this->form_validation->run()) {
 			$email = $this->input->post('email');
-			$expires = Date('U') + 600;
+			$expires = Date('U') + 3000;
 			$emailhash = $this->encryption->encrypt($email);
 			$token = bin2hex(random_bytes(20));
 			$url = base_url('MyApp/newpassword?auth=' . $emailhash . '&token=' . $token);
@@ -137,6 +137,8 @@ class MyApp extends CI_Controller
 			$this->email->message($htmlContent);
 			//Send email
 			if ($this->email->send()) {
+				setcookie('expires', $expires, time() + 60 * 5);
+				setcookie('token', $token, time() + 60 * 5);
 				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-5 m-auto col-lg-6'>Email sent,check your email</div><div>";
 			}
 		} else {
@@ -201,6 +203,39 @@ class MyApp extends CI_Controller
 			$this->load->view('template/signup', $data);
 		}
 	}
+
+	public function newpassword()
+	{
+		$this->load->library('encryption');
+		$this->load->helper(array('cookie', 'url'));
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[15]');
+		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[15]');
+		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
+		if ($this->form_validation->run()) {
+			$newpassword = $this->input->post('password');
+			$newpassword_confirm = $this->input->post('password-confirm');
+			$token = $this->input->get('token');
+			$auth = $this->input->get('auth');
+			$email = $this->encryption->decrypt($auth);
+			if (($newpassword  == $newpassword_confirm) && ($token == get_cookie('token'))) {
+				if ((Date('U') >= get_cookie('expires'))) {
+					$this->load->model('Users');
+					$passwordhash = hash("SHA512", $newpassword);
+					$data = array('password' => $passwordhash);
+					$this->Users->updatebyEmail($email, $data);
+					echo "<div class='m-2 p-2 alert-success' >Success</div>";
+				} else {
+					$this->load->view('template/newpassword');
+				}
+			} else {
+				$this->load->view('template/newpassword');
+			}
+		} else {
+			$this->load->view('template/newpassword');
+		}
+	}
+
+
 
 	public function users()
 	{
