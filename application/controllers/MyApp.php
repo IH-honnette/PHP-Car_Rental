@@ -17,8 +17,10 @@ class MyApp extends CI_Controller
 
 	public function signup()
 	{
+		$this->load->model('Users');
+		$data['roles']= $this->Users->get_roles(); 
 		$this->load->view('template/header');
-		$this->load->view('template/signup');
+		$this->load->view('template/signup',$data);
 	}
 
 	public function regcar()
@@ -138,20 +140,24 @@ class MyApp extends CI_Controller
 					if($this->Users->insert_data($data)){
 						$this->load->view('template/welcome');
 					}
-
-		$this->load->view('template/header');
-		$this->load->view('template/view_users',$data);
-	}
-}
-
-			public function users(){
-				$this->load->model('Users');
-				$data['users']= $this->Users->getAll_users(); 
-
-				$this->load->view('template/header');
-				$this->load->view('template/view_users',$data);
-				$this->load->view('template/footer');
+				// $this->load->view('template/header');
+				// $this->load->view('template/view_users',$data);
+			}else{
+			$this->load->model('Users');
+			$data['roles']= $this->Users->get_roles(); 
+			$this->load->view('template/header');
+			$this->load->view('template/signup',$data);
 			}
+		} 
+
+		public function users(){
+			$this->load->model('Users');
+			$data['users']= $this->Users->getAll_users(); 
+
+			$this->load->view('template/header');
+			$this->load->view('template/view_users',$data);
+			$this->load->view('template/footer');
+		}
 			public function delete_user(){
 			$id =$this->uri->segment(3);
 			$this->load->model('Users');
@@ -162,7 +168,8 @@ class MyApp extends CI_Controller
 				echo "<script>alert(' Unable to delete');window.location.href=
 				'".base_url()."';</script>";
 			}
-			} 
+			}
+	 
 public function login(){
 	$this->load->view('template/header');
 	$this->load->view('template/login');

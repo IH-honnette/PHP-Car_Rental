@@ -78,8 +78,8 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 
-	'password' => 'password@2001',
-	'database' => 'carrental',
+	'password' => 'h1t5mineza',
+	'database' => 'codeIgniter',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
