@@ -97,9 +97,9 @@ class MyApp extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('email');
 		$this->load->helper(array('cookie', 'url'));
-		$this->form_validation->set_rules('email', 'Email', 'check_emailexist|required|valid_email|max_length[50]');
-		$this->form_validation->set_error_delimiters('<div class="m-2 alert-danger p-3">', '</div>');
-		$this->form_validation->set_message('check_emailexist', 'No Such User Found.');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|check_emailexist|max_length[50]');
+		$this->form_validation->set_message('check_emailexist', 'No User found with that %s.');
+		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
 		if ($this->form_validation->run()) {
 			$email = $this->input->post('email');
 			$this->load->model('Users');
@@ -113,7 +113,7 @@ class MyApp extends CI_Controller
 				'smtp_host' => 'ssl://smtp.gmail.com',
 				'smtp_port' => 465,
 				'smtp_user' => 'uwenayoallain@gmail.com',
-				'smtp_pass' => 'Yarrisongmail.com',
+				'smtp_pass' => 'password',
 				'mailtype' => 'html',
 				'charset' => 'iso-8859-1'
 			);
@@ -137,9 +137,7 @@ class MyApp extends CI_Controller
 				$this->load->view('template/passwordreset');
 			}
 		} else {
-			$error = "<div class='alert alert-danger'>Error:No Such User Found";
-			$error .= "</div><div><a href='javascript:history.go(-1)'>Back</a></div>";
-			echo $error;
+			$this->load->view('template/passwordreset');
 		}
 	}
 
