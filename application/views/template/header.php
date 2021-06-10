@@ -8,8 +8,8 @@
       <li><a href="<?= base_url('MyApp/users'); ?>">Users</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars<span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="<?= base_url('MyApp/viewcars');?>">view Cars</a></li>
-          <li><a href="<?= base_url('MyApp/regcar');?>">Register new Cars</a></li>
+          <li><a href="<?= base_url('MyApp/viewcars'); ?>">view Cars</a></li>
+          <li><a href="<?= base_url('MyApp/regcar'); ?>">Register new Cars</a></li>
         </ul>
       </li>
       <li>
@@ -17,8 +17,8 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="<?= base_url('MyApp/signup');?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
-      <li><a href="<?= base_url('MyApp/login');?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a href="<?= base_url('MyApp/signup'); ?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+      <li><a href="<?= base_url('MyApp/login'); ?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
   </div>
 </nav>
