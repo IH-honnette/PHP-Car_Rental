@@ -184,9 +184,9 @@ public function getLoginInfo(){
 			$pswd = $this->input->post('pswd');
 			$hashedPassword=hash("SHA512",$pswd);
 			$this->load->model("Users");
-		    $user=$data['users']=$this->Users->gettingUser($email);
+		    $user=$this->Users->gettingUser($email);
 			if(!$user){
-				echo "invalid email or password";
+				echo "no user found";
 			}
 			else{
 				foreach ($user->result() as $row) {
@@ -195,7 +195,7 @@ public function getLoginInfo(){
 					echo "invalid email or password";
 				}
 				else{
-					echo "logged in successfully";
+						$this->load->view('template/viewcars');
 				}
 	}
 			}
