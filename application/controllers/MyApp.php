@@ -118,7 +118,7 @@ class MyApp extends CI_Controller
 			public function checkValildation(){
 				//validation goes here
 				$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
-				$this->form_validation->set_rules('email','Email','required|valid_email|max_length[20]|is_unique[users.email]|callback_checkEmail');
+				$this->form_validation->set_rules('email','Email','required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
 				$this->form_validation->set_rules('pswd','Password','required|min_length[6]|max_length[15]|callback_checkPassword');
 				$this->form_validation->set_rules('phone','Phone','required|min_length[10]|max_length[14]|callback_checkPhone');
 				$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
@@ -156,7 +156,7 @@ class MyApp extends CI_Controller
 
 			$this->load->view('template/header');
 			$this->load->view('template/view_users',$data);
-			$this->load->view('template/footer');
+			// $this->load->view('template/footer');
 		}
 			public function delete_user(){
 			$id =$this->uri->segment(3);
