@@ -17,14 +17,14 @@
 }
 
 body,
-input{
+input,
+textarea {
     font-family: "Poppins", sans-serif;
 }
 ::placeholder {
     color: #B7B7B4;
     opacity: 1;
 }
-option{color: #000;}
 .container {
     position: relative;
     min-height: 80vh;
@@ -34,10 +34,10 @@ option{color: #000;}
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
 }
 .form {
-    width: 90%;
+    width: 80%;
     /* max-width: 820px; */
     background-color: #fff;
     border-radius: 4px;
@@ -118,6 +118,32 @@ form {
     border-radius: 4px;
     transition: 0.6s
 }
+
+textarea.input {
+    padding: 0.8rem 1.2rem;
+    min-height: 110px;
+    border-radius: 4px;
+    resize: none;
+    overflow-y: auto
+}
+/* .social-input-containers label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    padding: 0 0.4rem;
+    color: #fafafa;
+    font-size: 0.9rem;
+    font-weight: 400;
+    pointer-events: none;
+    z-index: 1000;
+    transition: 0.5s
+} */
+
+/* .social-input-containers.textarea label {
+    top: 1rem;
+    transform: translateY(0)
+} */
 
 .btn {
     padding: 1rem 1.8rem;
@@ -330,11 +356,6 @@ form {
         display: none
     }
 
-    .square,
-    .big-circle {
-        display: none
-    }
-
     form,
     .contact-info {
         padding: 1.7rem 1.6rem
@@ -349,17 +370,6 @@ form {
     .title {
         font-size: 1.15rem
     }
-
-    .social-icons a {
-        width: 30px;
-        height: 30px;
-        line-height: 30px
-    }
-
-    .icon {
-        width: 23px
-    }
-
     .input {
         padding: 0.45rem 1.2rem
     }
@@ -368,73 +378,28 @@ form {
         padding: 0.45rem 1.2rem
     }
 }
-  .social-icons a i{
-      margin-top: 0.7em;
-  }
+
  
   </style>
 </head>
 <body>
 <div class="container col-8">
-<div class="container col-8">
     <div class="form">
-        <div class="contact-info">
-            <h3 class="title">Let's get in touch</h3>
-            <p class="text"> Contact us with the following details. and fillup the form with the details. </p>
-            <div class="info">
-                <div class="social-information"> <i class="fa fa-map-marker"></i>
-                    <p>RCA,Nyabihu District</p>
-                </div>
-                <div class="social-information"> <i class="fa fa-envelope-o"></i>
-                    <p>carrental@gmail.com</p>
-                </div>
-                <div class="social-information"> <i class="fa fa-mobile-phone"></i>
-                    <p>+250 7745990 </p>
-                </div>
-            </div>
-            <div class="social-media">
-                <p>Connect with us :</p>
-                <div class="social-icons"> <a href="#"> <i class="fa fa-facebook-f"></i> </a> <a href="#"> <i class="fa fa-twitter"></i> </a> <a href="#"> <i class="fa fa-instagram"></i> </a> <a href="#"> <i class="fa fa-linkedin"></i> </a> </div>
-            </div>
-        </div>
         <div class="contact-info-form">
-        <span class="circle one"></span> <span class="circle two"></span>
-            <form action="<?=base_url('MyApp/checkValildation');?>" autocomplete="off" method="post">
-                <h3 class="title">Join Us</h3>
-                <div class="social-input-containers"> 
-                <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>" /> 
-                <?= form_error('name')?>
-                </div>
+            <form action="<?=base_url('MyApp/getLoginInfo');?>"  autocomplete="off" method="post">
+                <h3 class="title">Login</h3>
                 <div class="social-input-containers"> 
                 <input type="email" name="email" class="input" placeholder="Email" value="<?= set_value('email')?>"  />
                 <?= form_error('email')?>
-                 </div>
-                <div class="social-input-containers"> 
-                <input type="text" name="phone" class="input" placeholder="Phone" value="<?= set_value('phone')?>"  />
-                <?= form_error('phone')?>
-                </div>
-                <div class="social-input-containers"> 
-                <input type="text" name="username" class="input select" placeholder="username" value="<?= set_value('username')?>" />
-                <?= form_error('username')?>
-                </div>
-                <div class="social-input-containers"> 
-                 <select name="roles" class="input">
-                 <option value="">--Select Role--</option>
-                   <?php foreach ($roles as $role):?>
-                    <option value="<?=$role->roleId?>"><?=$role->roleName?></option>
-                    <?php endforeach;?>
-                 </select>
-                <?= form_error('roles')?>
-                </div>
+               </div>
                 <div class="social-input-containers"> 
                 <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd')?>" />
                 <?= form_error('pswd')?>
                 </div>
-                <input type="submit" value="Send" class="btn" />
+                <input type="submit" value="Login" class="btn" />
             </form>
         </div>
     </div>
 </div>
-
 </body>
 </html>
