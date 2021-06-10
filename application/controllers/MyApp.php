@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="<?= base_url() ?>css/bootstrap.min.css">
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
@@ -136,6 +135,7 @@ class MyApp extends CI_Controller
 			$this->email->subject('Password Reset');
 			$this->email->message($htmlContent);
 			//Send email
+			// $this->
 			if ($this->email->send()) {
 				echo "<div class='m-2 alert-success p-2'>Email sent,check your email</div>";
 			}
