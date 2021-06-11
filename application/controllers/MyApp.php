@@ -68,16 +68,17 @@ class MyApp extends CI_Controller
 		$this->load->view('template/viewcars', $data);
 	}
 
-	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool
-	{
-		return preg_match('/^[0-9]{' . $minDigits . ',' . $maxDigits . '}\z/', $s);
+
+	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool {
+		return preg_match('/^[0-9]{'.$minDigits.','.$maxDigits.'}\z/', $s);
 	}
-	public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool
-	{
+public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool {
 		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
 			$count = 1;
 			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
 		}
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
+		return $this->isDigits($telephone, $minDigits, $maxDigits); 
 	}
 
 
@@ -188,12 +189,12 @@ class MyApp extends CI_Controller
 		if ($this->form_validation->run()) {
 			$name = $this->input->post('name');
 			$email = $this->input->post('email');
-			$phone = $this->input->post('phone');
+			$phone =$this->input->post('phone');
 			$pswd = $this->input->post('pswd');
 			$username = $this->input->post('username');
 			$role = $this->input->post('roles');
-			$final_pswd = hash('SHA512', $pswd);
-			$data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'password' => $final_pswd, 'username' => $username, 'roleId' => $role);
+			$final_pswd =hash('SHA512',$pswd);
+			$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'password'=>$final_pswd,'username' =>$username,'roleId' =>$role);
 			//send the data to the model and
 			$this->load->model('Users');
 			if ($this->Users->insert_data($data)) {
