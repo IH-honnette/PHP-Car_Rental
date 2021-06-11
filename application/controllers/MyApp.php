@@ -224,17 +224,14 @@ class MyApp extends CI_Controller
 			$email = $this->encryption->decrypt($auth);
 			if (($newpassword  == $newpassword_confirm)) {
 				$tokencookie = get_cookie('token');
-				echo $tokencookie;
 				if ($token == $tokencookie) {
 					$currentTime = Date('U');
-					echo $currentTime;
 					$expirescookie = get_cookie('expires');
 					if (($currentTime < $expirescookie)) {
 						$this->load->model('Users');
 						$passwordhash = hash("SHA512", $newpassword);
 						$data = array('password' => $passwordhash);
 						$this->Users->updatebyEmail($email, $data);
-						echo "<div class='m-2 p-2 alert-success absolute container' >Success</div>";
 						$this->load->view('template/header');
 						$this->load->view('template/index');
 					} else {
