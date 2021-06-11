@@ -37,30 +37,28 @@ class MyApp extends CI_Controller
 
 		$this->load->library('upload', $config);
 
-		if($this->form_validation->run()){
-			if($this->upload->do_upload('carimage')){
-			$image_name = $this->upload->data();
-			$name = $this->input->post('name');
-			$model = $this->input->post('model');
-			$seats = $this->input->post('seats');
-			$price = $this->input->post('price');
-			$carimage = $image_name['file_name'];
+		if ($this->form_validation->run()) {
+			if ($this->upload->do_upload('carimage')) {
+				$image_name = $this->upload->data();
+				$name = $this->input->post('name');
+				$model = $this->input->post('model');
+				$seats = $this->input->post('seats');
+				$price = $this->input->post('price');
+				$carimage = $image_name['file_name'];
 
-			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
-			//send the data to the model and
-			 $this->load->model('Cars');
-			 $this->Cars->insert_data($data);
-			//  $this->set_flashdata('success_msg', 'New car successfully registered');
-			redirect(base_url('MyApp/index'));
-
+				$data = array('name' => $name, 'model' => $model, 'seats' => $seats, 'price' => $price, 'carimage' => $carimage);
+				//send the data to the model and
+				$this->load->model('Cars');
+				$this->Cars->insert_data($data);
+				//  $this->set_flashdata('success_msg', 'New car successfully registered');
+				redirect(base_url('MyApp/index'));
+			} else {
+				// $this->set_flashdata('error_msg', 'Failed to upload image');
+				$this->load->view('template/header');
+				$this->load->view('template/regcar');
+			}
 		}
-			else{
-			// $this->set_flashdata('error_msg', 'Failed to upload image');
-			$this->load->view('template/header');
-			$this->load->view('template/regcar');
-		}
-	}}
-
+	}
 	public function viewcars()
 	{
 		$this->load->model('Cars');
@@ -82,37 +80,38 @@ public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, in
 		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
 		return $this->isDigits($telephone, $minDigits, $maxDigits); 
 	}
-public	function normalizeTelephoneNumber(string $telephone): string {
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
-		return $telephone;
-}
-public function checkName($name){
-	if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
-		$this->form_validation->set_message('checkName','Only letters and white space are allowed for names*.');
-		return false;
-	}else{
-		return true;
+
+
+	public function checkName($name)
+	{
+		if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+			$this->form_validation->set_message('checkName', 'Only letters and white space are allowed for names*.');
+			return false;
+		} else {
+			return true;
+		}
 	}
-}
-public function checkPhone($phone){
-	if(!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))){
-		$this->form_validation->set_message('checkPhone','Invalid Phone Number*.');
-		return false;
-	}else{
-		return true;
+
+	public function check_emailexist($email)
+	{
+		$this->load->model('Users');
+		$query = $this->Users->gettingUser($email);
+		if ($query->num_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
-}
-	
+
 	public function validateEmail()
 	{
 		$this->load->library('encryption');
 		$this->load->library('form_validation');
-		$this->form_validation->CI = &$this;
 		$this->load->library('email');
 		$this->load->helper(array('cookie', 'url'));
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|callback_check_emailexist');
-		$this->form_validation->set_error_delimiters('<div class="m-2 alert-danger p-3">', '</div>');
-		$this->form_validation->set_message('check_emailexist', 'No Such User Found.');
+		$this->form_validation->set_message('check_emailexist', 'No User found with that %s.');
+		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
 		if ($this->form_validation->run()) {
 			$email = $this->input->post('email');
 			$this->load->model('Users');
@@ -145,14 +144,12 @@ public function checkPhone($phone){
 			if ($this->email->send()) {
 				setcookie('expires', $expires, time() + 60 * 5);
 				setcookie('token', $token, time() + 60 * 5);
-				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-5 m-auto col-lg-6'>Email sent,check your email</div><div>";
+				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-3 m-auto col-lg-6'>Email sent,check your email</div><div>";
 			} else {
-				$this->load->view('template/passwordreset');
+				echo "Error";
 			}
 		} else {
-			$error = "<div class='alert alert-danger'>Error:No Such User Found";
-			$error .= "</div><div><a href='javascript:history.go(-1)'>Back</a></div>";
-			echo $error;
+			$this->load->view('template/passwordreset');
 		}
 	}
 
@@ -178,30 +175,18 @@ public function checkPhone($phone){
 			return true;
 		}
 	}
-	function check_emailexist($email)
+	public function checkValildation()
 	{
-		$this->load->model('Users');
-		$query = $this->Users->gettingUser($email);
-		if ($query->num_rows() > 0) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
-
-
-			public function checkValildation(){
-			//validation goes here
-			$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
-			$this->form_validation->set_rules('email','Email','required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
-			$this->form_validation->set_rules('pswd','Password','required|min_length[6]|max_length[15]|callback_checkPassword');
-			$this->form_validation->set_rules('phone','Phone','required|min_length[10]|max_length[14]|callback_checkPhone');
-			$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
-			$this->form_validation->set_rules('roles','Role','required');
-			// $this->form_validation->set_rules('username','Username','required|matches[password]');
-			$this->form_validation->set_error_delimiters('<div class="error">','</div>');
-			if($this->form_validation->run())
-			{
+		//validation goes here
+		$this->form_validation->set_rules('name', 'Name', 'required|min_length[5]|max_length[200]|callback_checkName');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
+		$this->form_validation->set_rules('pswd', 'Password', 'required|min_length[6]|max_length[15]|callback_checkPassword');
+		$this->form_validation->set_rules('phone', 'Phone', 'required|min_length[10]|max_length[14]|callback_checkPhone');
+		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
+		$this->form_validation->set_rules('roles', 'Role', 'required');
+		// $this->form_validation->set_rules('username','Username','required|matches[password]');
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		if ($this->form_validation->run()) {
 			$name = $this->input->post('name');
 			$email = $this->input->post('email');
 			$phone =$this->input->post('phone');
@@ -212,24 +197,25 @@ public function checkPhone($phone){
 			$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'password'=>$final_pswd,'username' =>$username,'roleId' =>$role);
 			//send the data to the model and
 			$this->load->model('Users');
-			if($this->Users->insert_data($data)){
-			$this->load->view('template/welcome');
+			if ($this->Users->insert_data($data)) {
+				$this->load->view('template/welcome');
+
+				// $this->load->view('template/header');
+				// $this->load->view('template/view_users',$data);
+			} else {
+				$this->load->model('Users');
+				$data['roles'] = $this->Users->get_roles();
+				$this->load->view('template/header');
+				$this->load->view('template/view_users', $data);
 			}
-			// $this->load->view('template/header');
-			// $this->load->view('template/view_users',$data);
-			}else{
-			$this->load->model('Users');
-			$data['roles']= $this->Users->get_roles(); 
-			$this->load->view('template/header');
-			$this->load->view('template/signup',$data);
-			}
-			} 
+		}
+	}
 	public function newpassword()
 	{
 		$this->load->library('encryption');
 		$this->load->helper(array('cookie', 'url'));
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[15]');
-		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[15]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[25]');
+		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[25]');
 		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
 		if ($this->form_validation->run()) {
 			$newpassword = $this->input->post('password');
@@ -237,17 +223,28 @@ public function checkPhone($phone){
 			$token = $this->input->get('token');
 			$auth = $this->input->get('auth');
 			$email = $this->encryption->decrypt($auth);
-			if (($newpassword  == $newpassword_confirm) && ($token == get_cookie('token'))) {
-				if ((Date('U') >= get_cookie('expires'))) {
-					$this->load->model('Users');
-					$passwordhash = hash("SHA512", $newpassword);
-					$data = array('password' => $passwordhash);
-					$this->Users->updatebyEmail($email, $data);
-					echo "<div class='m-2 p-2 alert-success' >Success</a>";
+			if (($newpassword  == $newpassword_confirm)) {
+				$tokencookie = get_cookie('token');
+				if ($token == $tokencookie) {
+					$currentTime = Date('U');
+					$expirescookie = get_cookie('expires');
+					if (($currentTime < $expirescookie)) {
+						$this->load->model('Users');
+						$passwordhash = hash("SHA512", $newpassword);
+						$data = array('password' => $passwordhash);
+						$this->Users->updatebyEmail($email, $data);
+						$this->load->view('template/header');
+						$this->load->view('template/index');
+					} else {
+						echo "<div class='m-2 p-2 alert-danger'>Token Expired!</div>";
+						$this->load->view('template/newpassword');
+					}
 				} else {
+					echo "<div class='m-2 p-2 alert-danger' >Failed:Token Not Found!</div>";
 					$this->load->view('template/newpassword');
 				}
 			} else {
+				echo "<div class='m-2 p-2 alert-danger' >Password Not Match</div>";
 				$this->load->view('template/newpassword');
 			}
 		} else {
@@ -300,44 +297,41 @@ public function checkPhone($phone){
 			} else {
 				foreach ($user->result() as $row) {
 
-				$userPass = $row->password;
-				if($hashedPassword!==$userPass){
-					echo "invalid email or password";
-				}
-				else{
+					$userPass = $row->password;
+					if ($hashedPassword !== $userPass) {
+						echo "invalid email or password";
+					} else {
 						redirect(base_url('MyApp/'));
-				}
-			}
-			}
-
-}
-else{
-$this->load->view('template/header');
-$this->load->view('template/login');
-}
-}
-			public function edit_user(){
-			$id =$this->uri->segment(3);
-			   $this->load->model('Users');
-			   $data['users']=$this->Users->get_user($id);
-				 //return the form
-			   $this->load->view('template/header');
-			   $this->load->view('template/edit_data',$data); 
-			   }
-			   public function edit_record(){
-				$id =$this->uri->segment(3);
-				$name = $this->input->post('name');
-					$email = $this->input->post('email');
-					$phone =$this->input->post('phone');
-					$username = $this->input->post('username');
-					$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'username' =>$username);
-					//send the data to the model and
-					 $this->load->model('Users');
-					if( $this->Users->update_data($id,$data)){
-						echo "<script>alert('User Updated');window.location.href=
-				'".base_url('MyApp/users')."';</script>";
-
 					}
 				}
 			}
-
+		} else {
+			$this->load->view('template/header');
+			$this->load->view('template/login');
+		}
+	}
+	public function edit_user()
+	{
+		$id = $this->uri->segment(3);
+		$this->load->model('Users');
+		$data['users'] = $this->Users->get_user($id);
+		//return the form
+		$this->load->view('template/header');
+		$this->load->view('template/edit_data', $data);
+	}
+	public function edit_record()
+	{
+		$id = $this->uri->segment(3);
+		$name = $this->input->post('name');
+		$email = $this->input->post('email');
+		$phone = $this->input->post('phone');
+		$username = $this->input->post('username');
+		$data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'username' => $username);
+		//send the data to the model and
+		$this->load->model('Users');
+		if ($this->Users->update_data($id, $data)) {
+			echo "<script>alert('User Updated');window.location.href=
+				'" . base_url('MyApp/users') . "';</script>";
+		}
+	}
+}

@@ -55,7 +55,7 @@ class CI_Form_validation
 	 *
 	 * @var object
 	 */
-	public $CI;
+	protected $CI;
 
 
 	/**
