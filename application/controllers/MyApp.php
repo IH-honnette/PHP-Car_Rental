@@ -234,12 +234,16 @@ class MyApp extends CI_Controller
 						$passwordhash = hash("SHA512", $newpassword);
 						$data = array('password' => $passwordhash);
 						$this->Users->updatebyEmail($email, $data);
-						echo "<div class='m-2 p-2 alert-success' >Success</a>";
+						$link = base_url();
+						echo "<div class='m-2 p-2 alert-success' >Success</div>";
+						echo "<a href=\" $link\" class='btn btn-danger' >Home</a>";
 					} else {
-						echo "Time Not Working";
+						echo "<div class='m-2 p-2 alert-danger'>Token Expired!</div>";
+						echo "<a href='javascript:history.go(-1)' class='btn btn-danger' >Back</a>";
 					}
 				} else {
-					echo "Tokens Are Not Equal";
+					echo "<div class='m-2 p-2 alert-danger' >Failed</div>";
+					echo "<a href='javascript:history.go(-1)' class='btn btn-danger' >Back</a>";
 				}
 			} else {
 				$this->load->view('template/newpassword');
