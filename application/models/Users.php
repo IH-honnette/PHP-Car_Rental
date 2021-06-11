@@ -32,7 +32,7 @@ class Users extends CI_Model
   }
   public function updatebyEmail($email, $data)
   {
-    $this->db->where('users', array('email' => $email));
+    $this->db->where('email', $email);
     return $this->db->update('users', $data);
   }
 
