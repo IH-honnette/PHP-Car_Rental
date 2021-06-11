@@ -56,7 +56,8 @@
 
         .contact-info-form {
             background-color: #0C113E;
-            position: relative
+            position: relative;
+            padding-left: 4%;
         }
 
         .circle {
@@ -110,14 +111,13 @@
             line-height: 1;
             margin-bottom: 0.7rem
         }
-
         .social-input-containers {
             position: relative;
             margin: 1rem 0
         }
 
         .input {
-            width: 98%;
+            width: 93%;
             outline: none;
             border: 2px solid #fafafa;
             background: none;
@@ -130,7 +130,7 @@
             transition: 0.6s
         }
 
-        .btn {
+        .submit {
             padding: 1rem 1.8rem;
             background-color: #fff;
             border: 2px solid #fafafa;
@@ -196,7 +196,7 @@
         }
 
         .contact-info {
-            padding: 2.3rem 2.2rem;
+            padding: 2.3rem 2.7rem;
             position: relative
         }
 
@@ -300,7 +300,13 @@
             transform: translate(181%, 11%);
             opacity: 0.2
         }
-
+        .input:focus {
+            border: none;
+            border-radius: 0%;
+            border-bottom: 2px solid #5D5F65;
+            /* transition: all ease-in-out .15s; */
+            transition: border-bottom .40s ease-in-out;
+        }
         @media (max-width: 850px) {
             .form {
                 grid-template-columns: 1fr
@@ -382,7 +388,7 @@
                 padding: 0.45rem 1.2rem
             }
 
-            .btn {
+            .submit {
                 padding: 0.45rem 1.2rem
             }
         }
@@ -449,7 +455,7 @@
                             <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd') ?>" />
                             <?= form_error('pswd') ?>
                         </div>
-                        <input type="submit" value="Send" class="btn" />
+                        <input type="submit" value="Send" class="btn submit" />
                     </form>
                 </div>
             </div>

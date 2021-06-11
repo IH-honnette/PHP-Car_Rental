@@ -68,30 +68,6 @@ class MyApp extends CI_Controller
 		$this->load->view('template/viewcars', $data);
 	}
 
-
-	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool {
-		return preg_match('/^[0-9]{'.$minDigits.','.$maxDigits.'}\z/', $s);
-	}
-public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool {
-		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
-			$count = 1;
-			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
-		}
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
-		return $this->isDigits($telephone, $minDigits, $maxDigits); 
-	}
-
-
-	public function checkName($name)
-	{
-		if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-			$this->form_validation->set_message('checkName', 'Only letters and white space are allowed for names*.');
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	public function check_emailexist($email)
 	{
 		$this->load->model('Users');
@@ -175,41 +151,74 @@ public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, in
 			return true;
 		}
 	}
-	public function checkValildation()
-	{
-		//validation goes here
-		$this->form_validation->set_rules('name', 'Name', 'required|min_length[5]|max_length[200]|callback_checkName');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
-		$this->form_validation->set_rules('pswd', 'Password', 'required|min_length[6]|max_length[15]|callback_checkPassword');
-		$this->form_validation->set_rules('phone', 'Phone', 'required|min_length[10]|max_length[14]|callback_checkPhone');
-		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
-		$this->form_validation->set_rules('roles', 'Role', 'required');
-		// $this->form_validation->set_rules('username','Username','required|matches[password]');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		if ($this->form_validation->run()) {
-			$name = $this->input->post('name');
-			$email = $this->input->post('email');
-			$phone =$this->input->post('phone');
-			$pswd = $this->input->post('pswd');
-			$username = $this->input->post('username');
-			$role = $this->input->post('roles');
-			$final_pswd =hash('SHA512',$pswd);
-			$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'password'=>$final_pswd,'username' =>$username,'roleId' =>$role);
-			//send the data to the model and
-			$this->load->model('Users');
-			if ($this->Users->insert_data($data)) {
-				$this->load->view('template/welcome');
-
-				// $this->load->view('template/header');
-				// $this->load->view('template/view_users',$data);
-			} else {
-				$this->load->model('Users');
-				$data['roles'] = $this->Users->get_roles();
-				$this->load->view('template/header');
-				$this->load->view('template/view_users', $data);
-			}
-		}
+	
+	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool {
+		return preg_match('/^[0-9]{'.$minDigits.','.$maxDigits.'}\z/', $s);
 	}
+public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool {
+		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
+			$count = 1;
+			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
+		}
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
+		return $this->isDigits($telephone, $minDigits, $maxDigits); 
+	}
+public	function normalizeTelephoneNumber(string $telephone): string {
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
+		return $telephone;
+}
+public function checkName($name){
+	if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
+		$this->form_validation->set_message('checkName','Only letters and white space are allowed for names*.');
+		return false;
+	}else{
+		return true;
+	}
+}
+public function checkPhone($phone){
+	if(!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))){
+		$this->form_validation->set_message('checkPhone','Invalid Phone Number*.');
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
+
+
+		public function checkValildation(){
+		//validation goes here
+		$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
+		$this->form_validation->set_rules('email','Email','required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
+		$this->form_validation->set_rules('pswd','Password','required|min_length[6]|max_length[15]|callback_checkPassword');
+		$this->form_validation->set_rules('phone','Phone','required|min_length[10]|max_length[14]|callback_checkPhone');
+		$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
+		$this->form_validation->set_rules('roles','Role','required');
+		// $this->form_validation->set_rules('username','Username','required|matches[password]');
+		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+		if($this->form_validation->run())
+		{
+		$name = $this->input->post('name');
+		$email = $this->input->post('email');
+		$phone =$this->input->post('phone');
+		$pswd = $this->input->post('pswd');
+		$username = $this->input->post('username');
+		$role = $this->input->post('roles');
+		$final_pswd =hash('SHA512',$pswd);
+		$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'password'=>$final_pswd,'username' =>$username,'roleId' =>$role);
+		//send the data to the model and
+		$this->load->model('Users');
+		if($this->Users->insert_data($data)){
+		$this->load->view('template/welcome');
+		}
+		}else{
+		$this->load->model('Users');
+		$data['roles']= $this->Users->get_roles(); 
+		$this->load->view('template/header');
+		$this->load->view('template/signup',$data);
+		}
+		}
 	public function newpassword()
 	{
 		$this->load->library('encryption');

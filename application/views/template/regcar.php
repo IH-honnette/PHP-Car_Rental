@@ -1,14 +1,4 @@
-<?php
 
-// if(empty($_SESSION['userId'])){
-//     header('location: ./login.php');   
-//   }
-
-// if($_SESSION['role'] !== "Administrator"){
-// 	header('location: ./home.php');
-// }
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -138,7 +128,7 @@
             transition: 0.6s
         }
 
-        .btn {
+        .btn{
             padding: 1rem 1.8rem;
             background-color: #fff;
             border: 2px solid #fafafa;

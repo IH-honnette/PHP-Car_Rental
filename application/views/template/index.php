@@ -42,14 +42,14 @@
         Our pricing options are well documented, online support is available for 24/7 service.
         create account and get started for just a few.
         <br>
-        <a href="<?= base_url('MyApp/login'); ?>" class="btn btn-primary my-5 mx-2 p-4 col-5">Get Started</a>
+        <a href="<?= base_url('MyApp/login'); ?>" class="btn btn-primary my-5 mx-2 p-3 col-5 fs-4">Get Started</a>
       </div>
     </div>
     <div class="image">
       <img src="<?= base_url() ?>../images/index.png" alt="image" class="" draggable='false'>
     </div>
     <div class="footer footnote text-center">
-      <p class="text-center">car-rental-online &copy; 2021</p>
+      <p class="text-center fs-5">car-rental-online &copy; 2021</p>
     </div>
   </div>
 </body>
