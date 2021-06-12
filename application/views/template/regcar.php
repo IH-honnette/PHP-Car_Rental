@@ -266,7 +266,8 @@
                     <?= form_error('price') ?>
                 </div>
                 <div class="social-input-containers">
-                    <input type="file" name="carimage" class="input" />
+                    <input type="file" name="carimage" class="input" required/>
+                    <?= form_error('carImage') ?>
                 </div>
                 <input type="submit" value="Register" class="btn" />
             </form>

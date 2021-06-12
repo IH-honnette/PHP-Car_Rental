@@ -444,6 +444,24 @@
                         </div>
                         <div class="social-input-containers">
                             <select name="roles" class="input">
+                                <option value="">--Select District--</option>
+                                <?php foreach ($roles as $role) : ?>
+                                    <option value="<?= $role->roleId ?>"><?= $role->roleName ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= form_error('roles') ?>
+                        </div>
+                        <div class="social-input-containers">
+                            <select name="roles" class="input">
+                                <option value="">--Select --</option>
+                                <?php foreach ($roles as $role) : ?>
+                                    <option value="<?= $role->roleId ?>"><?= $role->roleName ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= form_error('roles') ?>
+                        </div>
+                        <div class="social-input-containers">
+                            <select name="roles" class="input">
                                 <option value="">--Select Role--</option>
                                 <?php foreach ($roles as $role) : ?>
                                     <option value="<?= $role->roleId ?>"><?= $role->roleName ?></option>

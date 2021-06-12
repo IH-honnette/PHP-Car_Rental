@@ -13,7 +13,6 @@ class Users extends CI_Model
   }
   public function get_roles()
   {
-    //$this->db->order_by('userId','ASC');
     return $this->db->get('roles')->result();
   }
   public function delete_user($id)

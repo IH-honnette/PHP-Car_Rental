@@ -45,7 +45,8 @@
                         <input type="password" name="pswd" class="form-control" placeholder="Password" value="<?= set_value('pswd') ?>" />
                         <?= form_error('pswd') ?>
                     </div>
-                    <input type="submit" value="Login" class="btn btn-primary" />
+                    <input type="submit" value="Login" class="btn btn-primary" /> 
+                 <span>Forgot Password?<a href="#">Reset Password</a></span>
                 </form>
             </div>
         </div>
