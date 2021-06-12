@@ -197,27 +197,15 @@ public function getLoginInfo(){
 	$this->form_validation->set_error_delimiters('<div class="error">','</div>');
 	if($this->form_validation->run())
 		{
-			$email = $this->input->post('email');
-			$pswd = $this->input->post('pswd');
-			$hashedPassword=hash("SHA512",$pswd);
-			$this->load->model("Users");
-		    $user=$this->Users->gettingUser($email);
-			if(!$user){
-				echo "no user found";
-			}
-			else{
-				foreach ($user->result() as $row) {
-				$userPass = $row->password;
-				if($hashedPassword!==$userPass){
-					echo "invalid email or password";
-				}
-				else{
-						redirect(base_url('MyApp/'));
-				}
-			}
-			}
-
-}
+			$this->load->model('Users');
+            $check = $this->Users->gettingUser();
+            if($check){
+                redirect(base_url('MyApp'));
+            }else{
+                $error = "Invalid email or password";
+                $this->load->view('template/login', compact('error'));
+            }
+        }
 else{
 $this->load->view('template/header');
 $this->load->view('template/login');
