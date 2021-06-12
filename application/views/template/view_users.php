@@ -16,6 +16,12 @@
     </style>
 </head>
 <body>
+    <?php
+    if ($this->session->userdata('email')==null) {
+   # code...
+   redirect(base_url("MyApp/login"));
+ }
+    ?>
     <div class="container">
     <table class="table-responsive table-bordered table-hover table-striped table-inverse table">
     <thead>

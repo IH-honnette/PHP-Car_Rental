@@ -223,11 +223,19 @@ public function enter(){
 	if ($this->session->userdata('email')!=null) {
 		# code..
 		echo "<h2>Welcome user with email: ". $this->session->userdata('email')." </h2>";
+		echo "<label><a href=".base_url('MyApp/logout').">Logout</a></label>";
 	}
 	else{
 		redirect(base_url('MyApp/login'));
 	}
 }
+
+public function logout(){
+$this->session->unset_userdata('email');
+redirect(base_url('MyApp/login'));
+}
+
+
 			public function edit_user(){
 			$id =$this->uri->segment(3);
 			   $this->load->model('Users');
