@@ -28,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($cars as $car):?>
+        <?php foreach ($cars_info as $car):?>
         <tr>
             <td><?= $car->name ?></td>
             <td><?= $car->model ?></td>

@@ -252,12 +252,19 @@
 
 </head>
 
+<<<<<<< HEAD
+<div class="container">
+ <div class="contact-info-form">
+        <span class="circle one"></span> <span class="circle two"></span>
+            <form action="<?=base_url('MyApp/carValidation');?>" autocomplete="off" method="post" enctype='multipart/form-data'>
+=======
 <body class="bg-light">
 
     <div class="container">
         <div class="contact-info-form">
             <span class="circle one"></span> <span class="circle two"></span>
             <form action="<?= base_url('MyApp/carValidation'); ?>" autocomplete="off" method="post">
+>>>>>>> e7cbd0a62d1cc74017c7be2050430e291fa8671c
                 <h3 class="title">Register a new car</h3>
                 <div class="social-input-containers">
                     <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name') ?>" />
