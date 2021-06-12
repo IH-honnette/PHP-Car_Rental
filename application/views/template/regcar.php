@@ -247,7 +247,7 @@ form {
 <div class="container">
  <div class="contact-info-form">
         <span class="circle one"></span> <span class="circle two"></span>
-            <form action="<?=base_url('MyApp/carValidation');?>" autocomplete="off" method="post">
+            <form action="<?=base_url('MyApp/carValidation');?>" autocomplete="off" method="post" enctype='multipart/form-data'>
                 <h3 class="title">Register a new car</h3>
                 <div class="social-input-containers"> 
                 <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>" /> 

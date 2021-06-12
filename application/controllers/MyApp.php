@@ -44,25 +44,22 @@ class MyApp extends CI_Controller
 
 		if($this->form_validation->run()){
 			if($this->upload->do_upload('carimage')){
-			$image_name = $this->upload->data()
-			$name = $this->input->post('name');
-			$model = $this->input->post('model');
-			$seats =$this->input->post('seats');
-			$price = $this->input->post('price');
-			$carimage = $image_name['file_name'];
+				$image_name = $this->upload->data();
+				$name = $this->input->post('name');
+				$model = $this->input->post('model');
+				$seats =$this->input->post('seats');
+				$price = $this->input->post('price');
+				$carimage = $image_name['file_name'];
 
-			$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
-			//send the data to the model and
-			 $this->load->model('Cars');
-			 $this->Cars->insert_data($data);
-			 $this->set_flashdata('success_msg', 'New car successfully registered');
-			redirect(base_url('MyApp/index'));
-
-		}
+				$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
+				//send the data to the model and
+			 	$this->load->model('Cars');
+			 	$this->Cars->insert_data($data);
+			//  $this->set_flashdata('success_msg', 'New car successfully registered');
+				redirect(base_url('MyApp/index'));
+			}
 			else{
-			$this->set_flashdata('error_msg', 'Failed to upload image');
-			$this->load->view('template/header');
-			$this->load->view('template/regcar');
+				print_r($this->upload->display_errors());
 		}
 	}
 	else{
@@ -73,7 +70,7 @@ class MyApp extends CI_Controller
 
 	public function viewcars(){
 		$this->load->model('Cars');
-		 $data['cars']= $this->Cars->getAll_cars(); 
+		 $data['cars_info']= $this->Cars->getAll_cars(); 
 
 		$this->load->view('template/header');
 		$this->load->view('template/viewcars',$data);
