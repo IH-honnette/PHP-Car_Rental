@@ -191,25 +191,42 @@ public function login(){
 	$this->load->view('template/header');
 	$this->load->view('template/login');
 }
+
+//login
 public function getLoginInfo(){
 	$this->form_validation->set_rules('email','Email','required');
 	$this->form_validation->set_rules('pswd','Password','required');
 	$this->form_validation->set_error_delimiters('<div class="error">','</div>');
 	if($this->form_validation->run())
 		{
-			$this->load->model('Users');
-            $check = $this->Users->gettingUser();
-            if($check){
-                redirect(base_url('MyApp'));
-            }else{
-                $error = "Invalid email or password";
-                $this->load->view('template/login', compact('error'));
-            }
-        }
+			//validation true
+		$email = $this->input->post('email');
+        $password = hash('sha512', $this->input->post('pswd'));
+		$this->load->model('Users');
+		if ($this->Users->gettingUser($email, $password)) {
+			$session_data=array(
+				'email'=> $email
+			);
+		$this->session->set_userdata($session_data);
+		redirect(base_url('/MyApp/enter'));
+		}
+		$this->session->set_flashdata('error','invalid email or password');
+		redirect(base_url('MyApp/login'));
+		}
 else{
 $this->load->view('template/header');
 $this->load->view('template/login');
 }
+}
+//after login
+public function enter(){
+	if ($this->session->userdata('email')!=null) {
+		# code..
+		echo "<h2>Welcome user with email: ". $this->session->userdata('email')." </h2>";
+	}
+	else{
+		redirect(base_url('MyApp/login'));
+	}
 }
 			public function edit_user(){
 			$id =$this->uri->segment(3);

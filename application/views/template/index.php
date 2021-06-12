@@ -13,6 +13,9 @@
 <body>
 <div class="container">
  <h1>Home page</h1>
+ <?php 
+ echo $this->session->userdata('email');
+ ?>
 </div>
 </body>
 

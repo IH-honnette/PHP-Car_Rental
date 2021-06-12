@@ -23,13 +23,17 @@ class Users extends CI_Model{
         $this->db->where('userId',$id);
         return $this->db->update('users',$data);
     }
-     function gettingUser(){
-            $email = $this->input->post('email');
-            $password = hash('sha512', $this->input->post('pswd'));
+     function gettingUser($email,$password){
             $this->db->where('email',$email);
             $this->db->where('password',$password);
-            $result = $this->db->get('Users')->num_rows();
-            return $result;
+            $result = $this->db->get('users');
+            if ($result->num_rows()>0) {
+              return true;
+              # code...
+            }
+            else{
+              return false;
+            }
         }
 }
 ?>
