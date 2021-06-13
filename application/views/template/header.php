@@ -4,7 +4,7 @@
     left: 0;
   }
 </style>
-<nav class="navbar table-light nav-pills nav bg-white py-4 fs-4">
+<nav class="navbar table-light nav-pills nav bg-white py-4">
   <div class="headering p-3 mt-4">
     <a class="text-dark navbar-brand fs-3" href="<?= base_url('MyApp/index'); ?>">Car Rental</a>
   </div>
@@ -16,6 +16,7 @@
         <a class="dropdown-toggle btn btn-white" data-toggle="dropdown" href="#">Cars</a>
         <ul class="dropdown-menu">
           <li><a href="<?= base_url('MyApp/viewcars'); ?>" class="btn btn-white">view Cars</a></li>
+          <li><a href="<?= base_url('MyApp/hirecar'); ?>" class="btn btn-white">Hire a Car</a></li>
           <li><a href="<?= base_url('MyApp/regcar'); ?>" class="btn btn-white">Register new Cars</a></li>
         </ul>
       </li>
