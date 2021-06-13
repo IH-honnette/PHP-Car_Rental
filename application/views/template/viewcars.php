@@ -35,7 +35,7 @@
             <td><?= $car->seats ?></td>
             <td><?= $car->price ?></td>
             <td><a href="<?= base_url('MyApp/edit_car/'.$car->carId);?>">Edit</a></td>
-            <td><a onclick="return confirm('Are you sure you want to delete this car?')" href="<?= base_url('MyApp/delete_car/'.$car->carId);?>">Remove</a></td>
+            <td><a onclick="return confirm('Confirm the deletion of this car?')" href="<?= base_url('MyApp/delete_car/'.$car->carId);?>">Remove</a></td>
         </tr>
         <?php endforeach;?>
     </tbody>
