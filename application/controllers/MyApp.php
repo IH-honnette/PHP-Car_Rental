@@ -31,9 +31,11 @@ class MyApp extends CI_Controller
 
 	public function carValidation()
 	{
-		$config['upload_path'] = './uploads/';
+		$config['upload_path'] =  FCPATH . 'uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['encrypt_name'] = true;
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
 
 		//validation goes here
 		$this->form_validation->set_rules('name', 'Name', 'required');
@@ -41,9 +43,9 @@ class MyApp extends CI_Controller
 		$this->form_validation->set_rules('seats', 'Seats', 'required');
 		$this->form_validation->set_rules('price', 'Hireprice', 'required');
 		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-
+		$carimage = 'carimage';
 		if ($this->form_validation->run()) {
-			if ($this->upload->do_upload('carimage')) {
+			if ($this->upload->do_upload($carimage)) {
 				$image_name = $this->upload->data();
 				$name = $this->input->post('name');
 				$model = $this->input->post('model');
@@ -283,6 +285,14 @@ class MyApp extends CI_Controller
 	{
 		$this->load->view('template/header');
 		$this->load->view('template/login');
+	}
+
+	public function dashboard()
+	{
+		$this->load->model('Cars');
+		$data['cars'] = $this->Cars->getAll_cars();
+		$this->load->view('template/header');
+		$this->load->view('template/dashboard', $data);
 	}
 
 	public function getLoginInfo()
