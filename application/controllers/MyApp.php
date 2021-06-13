@@ -214,6 +214,7 @@ class MyApp extends CI_Controller
 				$this->load->view('template/view_users', $data);
 			}
 		}
+		$this->load->view('template/signup');
 	}
 	public function newpassword()
 	{
@@ -321,7 +322,7 @@ $this->load->view('template/login');
 public function enter(){
 	if ($this->session->userdata('email')!=null) {
 		# code..
-		echo "<h2>Welcome user with username: ". $this->session->userdata('email')." </h2>";
+		echo "<h2>Welcome user with email: ". $this->session->userdata('email')." </h2>";
 		echo "<label><a href=".base_url('MyApp/logout').">Logout</a></label>";
 	}
 	else{
