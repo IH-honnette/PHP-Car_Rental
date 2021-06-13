@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 // if ($this->session->userdata('email') == null){
@@ -9,10 +8,6 @@
 
 <!DOCTYPE html>
 <html lang="en">
-=======
-  <!DOCTYPE html>
-  <html lang="en">
->>>>>>> 5c0d400ed187e08ff5f7d1eb4048e5da78bdff98
 
   <head>
     <style>
