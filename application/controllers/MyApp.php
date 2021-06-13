@@ -10,38 +10,6 @@ class MyApp extends CI_Controller
 		$this->load->view('template/header');
 		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
-
-	public function retrieve_data(){
-			
-						$districtId =$_GET["id"];
-						$this->load->model('Users');
-						$data =$this->Users->retrieve_sector($districtId);
-		 				//result
-						 $sector ="";
-					if($data->num_rows() > 0){
-					foreach($data->result() as $row){
-					$sector .="<option value='$row->sectorId' selected>$row->sectorName</option>";
-					}
-					}else{
-					$sector .= "<option value='$row->sectorId'>$row->sectorName</option>";
-					}
-					echo $sector;
-				}
-			public function retrieve_district(){
-		$sectorId =$_GET['id'];
-		$district ="";
-		$this->load->model('Users');
-		$data =$this->Users->get_district($sectorId);
-		if($data->num_rows() > 0){
-			foreach($data->result() as $row){
-				$district .="<option value='$row->districtId' selected>$row->districtName</option>";
-			}
-			}else{
-			$district .= "<option value='$row->districtId'>$row->districtName</option>";
-			}
-			echo $district;
-	}
-
 	public function passwordreset()
 	{
 		$this->load->view('template/passwordreset');
@@ -51,8 +19,6 @@ class MyApp extends CI_Controller
 	{
 		$this->load->model('Users');
 		$data['roles'] = $this->Users->get_roles();
-		$data['districts'] = $this->Users->get_districts();
-		$data['sectors'] = $this->Users->get_sectors();
 		$this->load->view('template/header');
 		$this->load->view('template/signup', $data);
 	}
@@ -63,16 +29,66 @@ class MyApp extends CI_Controller
 		$this->load->view('template/regcar');
 	}
 
+	public function hirecar()
+	{
+		$this->load->view('template/header');
+		$this->load->view('template/hirecar');
+	}
+	
+
+	public function hireValidation()
+	{
+		//validation goes here
+		$this->form_validation->set_rules('name', 'Name', 'required|min_length[5]|max_length[200]|callback_checkName');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
+		$this->form_validation->set_rules('pswd', 'Password', 'required|min_length[6]|max_length[15]|callback_checkPassword');
+		$this->form_validation->set_rules('phone', 'Phone', 'required|min_length[10]|max_length[14]|callback_checkPhone');
+		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
+		$this->form_validation->set_rules('roles', 'Role', 'required');
+		// $this->form_validation->set_rules('username','Username','required|matches[password]');
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		if ($this->form_validation->run()) {
+			$name = $this->input->post('name');
+			$email = $this->input->post('email');
+			$phone = $this->input->post('phone');
+			$pswd = $this->input->post('pswd');
+			$username = $this->input->post('username');
+			$role = $this->input->post('roles');
+			$final_pswd = hash('SHA512', $pswd);
+			$data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'password' => $final_pswd, 'username' => $username, 'roleId' => $role);
+			//send the data to the model and
+			$this->load->model('Users');
+			if ($this->Users->insert_data($data)) {
+				$this->load->view('template/welcome');
+
+				// $this->load->view('template/header');
+				// $this->load->view('template/view_users',$data);
+			} else {
+				$this->load->model('Users');
+				$data['roles'] = $this->Users->get_roles();
+				$this->load->view('template/header');
+				$this->load->view('template/view_users', $data);
+			}
+		}
+	}
+
 	public function carValidation()
 	{
-		$config['upload_path'] = './uploads/';
+		$config['upload_path'] =  FCPATH . 'uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['encrypt_name'] = true;
-
 		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
 
+		//validation goes here
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('model', 'Model', 'required');
+		$this->form_validation->set_rules('seats', 'Seats', 'required');
+		$this->form_validation->set_rules('price', 'Hireprice', 'required');
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		$carimage = 'carimage';
 		if ($this->form_validation->run()) {
-			if ($this->upload->do_upload('carimage')) {
+			if ($this->upload->do_upload($carimage)) {
 				$image_name = $this->upload->data();
 				$name = $this->input->post('name');
 				$model = $this->input->post('model');
@@ -87,19 +103,42 @@ class MyApp extends CI_Controller
 				//  $this->set_flashdata('success_msg', 'New car successfully registered');
 				redirect(base_url('MyApp/index'));
 			} else {
-				// $this->set_flashdata('error_msg', 'Failed to upload image');
-				$this->load->view('template/header');
-				$this->load->view('template/regcar');
+				print_r($this->upload->display_errors());
 			}
 		}
 	}
+
 	public function viewcars()
 	{
 		$this->load->model('Cars');
-		$data['cars'] = $this->Cars->getAll_cars();
-
+		$data['cars_info'] = $this->Cars->getAll_cars();
 		$this->load->view('template/header');
 		$this->load->view('template/viewcars', $data);
+	}
+
+	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool
+	{
+		return preg_match('/^[0-9]{' . $minDigits . ',' . $maxDigits . '}\z/', $s);
+	}
+	public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool
+	{
+		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
+			$count = 1;
+			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
+		}
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
+		return $this->isDigits($telephone, $minDigits, $maxDigits);
+	}
+
+
+	public function checkName($name)
+	{
+		if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+			$this->form_validation->set_message('checkName', 'Only letters and white space are allowed for names*.');
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public function check_emailexist($email)
@@ -146,7 +185,7 @@ class MyApp extends CI_Controller
 			$htmlContent .= '<p>Click on the button below to change your password</p>';
 			$htmlContent .= "<a href=$url>$url</a>";
 			$htmlContent .= "<p>if you don't know us,simply ignore this.</p>";
-			$this->email->to('uwenayoallain@gmail.com');
+			$this->email->to($email);
 			$this->email->from('carrentalapponline@gmail.com', 'Car-Rental');
 			$this->email->subject('Password Reset');
 			$this->email->message($htmlContent);
@@ -185,39 +224,38 @@ class MyApp extends CI_Controller
 			return true;
 		}
 	}
+		public function retrieve_data(){
+			
+						$districtId =$_GET["id"];
+						$this->load->model('Users');
+						$data =$this->Users->retrieve_sector($districtId);
+		 				//result
+						 $sector ="";
+					if($data->num_rows() > 0){
+					foreach($data->result() as $row){
+					$sector .="<option value='$row->sectorId' selected>$row->sectorName</option>";
+					}
+					}else{
+					$sector .= "<option value='$row->sectorId'>$row->sectorName</option>";
+					}
+					echo $sector;
+				}
+			public function retrieve_district(){
+		$sectorId =$_GET['id'];
+		$district ="";
+		$this->load->model('Users');
+		$data =$this->Users->get_district($sectorId);
+		if($data->num_rows() > 0){
+			foreach($data->result() as $row){
+				$district .="<option value='$row->districtId' selected>$row->districtName</option>";
+			}
+			}else{
+			$district .= "<option value='$row->districtId'>$row->districtName</option>";
+			}
+			echo $district;
+	}
 	
-	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool {
-		return preg_match('/^[0-9]{'.$minDigits.','.$maxDigits.'}\z/', $s);
-	}
-public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool {
-		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
-			$count = 1;
-			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
-		}
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
-		return $this->isDigits($telephone, $minDigits, $maxDigits); 
-	}
-public	function normalizeTelephoneNumber(string $telephone): string {
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
-		return $telephone;
-}
-public function checkName($name){
-	if(!preg_match("/^[a-zA-Z-' ]*$/",$name)){
-		$this->form_validation->set_message('checkName','Only letters and white space are allowed for names*.');
-		return false;
-	}else{
-		return true;
-	}
-}
-public function checkPhone($phone){
-	if(!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))){
-		$this->form_validation->set_message('checkPhone','Invalid Phone Number*.');
-		return false;
-	}else{
-		return true;
-	}
-}
-		public function checkValildation(){
+	public function checkValildation(){
 		//validation goes here
 		$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
 		$this->form_validation->set_rules('email','Email','required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
@@ -278,7 +316,7 @@ public function checkPhone($phone){
 						$data = array('password' => $passwordhash);
 						$this->Users->updatebyEmail($email, $data);
 						$this->load->view('template/header');
-						$this->load->view('template/index');
+						$this->load->view('template/login');
 					} else {
 						echo "<div class='m-2 p-2 alert-danger'>Token Expired!</div>";
 						$this->load->view('template/newpassword');
@@ -325,35 +363,46 @@ public function checkPhone($phone){
 		$this->load->view('template/login');
 	}
 
-	public function getLoginInfo()
+	public function dashboard()
 	{
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('pswd', 'Password', 'required');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		if ($this->form_validation->run()) {
-			$email = $this->input->post('email');
-			$pswd = $this->input->post('pswd');
-			$hashedPassword = hash("SHA512", $pswd);
-			$this->load->model("Users");
-			$user = $this->Users->gettingUser($email);
-			if (!$user) {
-				echo "no user found";
-			} else {
-				foreach ($user->result() as $row) {
-
-					$userPass = $row->password;
-					if ($hashedPassword !== $userPass) {
-						echo "invalid email or password";
-					} else {
-						redirect(base_url('MyApp/'));
-					}
-				}
-			}
-		} else {
-			$this->load->view('template/header');
-			$this->load->view('template/login');
-		}
+		$this->load->model('Cars');
+		$data['cars'] = $this->Cars->getAll_cars();
+		$this->load->view('template/header');
+		$this->load->view('template/dashboard', $data);
 	}
+
+	public function getLoginInfo(){
+		$this->form_validation->set_rules('email','Email','required');
+		$this->form_validation->set_rules('pswd','Password','required');
+		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+		if($this->form_validation->run())
+			{
+			$email = $this->input->post('email');
+			$password = hash('sha512', $this->input->post('pswd'));
+			$this->load->model('Users');
+			if ($this->Users->canLogin($email, $password)) {
+				$session_data=array(
+					'email'=> $email
+				);
+			$this->session->set_userdata($session_data);
+			redirect(base_url('/MyApp'));
+			}
+			$error="invalid email or password";
+			$this->load->view('template/login', compact('error'));
+			// $this->session->set_flashdata('error','invalid email or password');
+			redirect(base_url('MyApp/login'));
+			}
+	else{
+	$this->load->view('template/header');
+	$this->load->view('template/login');
+	}
+	}
+
+	public function logout(){
+	$this->session->unset_userdata('email');
+	redirect(base_url('MyApp/login'));
+	}
+
 	public function edit_user()
 	{
 		$id = $this->uri->segment(3);
