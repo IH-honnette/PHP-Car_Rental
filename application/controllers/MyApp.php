@@ -287,6 +287,14 @@ class MyApp extends CI_Controller
 		$this->load->view('template/login');
 	}
 
+	public function dashboard()
+	{
+		$this->load->model('Cars');
+		$data['cars'] = $this->Cars->getAll_cars();
+		$this->load->view('template/header');
+		$this->load->view('template/dashboard', $data);
+	}
+
 	public function getLoginInfo()
 	{
 		$this->form_validation->set_rules('email', 'Email', 'required');
