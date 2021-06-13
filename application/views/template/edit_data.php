@@ -130,14 +130,14 @@ textarea.input {
     padding: 1rem 1.8rem;
     background-color: #fff;
     border: 2px solid #fafafa;
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: #1abc9c;
     line-height: 1;
     border-radius: 4px;
     outline: none;
     cursor: pointer;
     transition: 0.7s;
-    margin-top: 3%;
+    margin: 0
 }
 
 .btn:hover {
@@ -408,9 +408,8 @@ textarea.input {
         <span class="circle one"></span> <span class="circle two"></span>
 
 
-            <?php foreach ($users as $user):
-            //  $id_encrypt = $this->encryption->encrypt($user->userId);?>
-            <form action="<?=base_url("MyApp/edit_record/").$user->userId;?>"  autocomplete="off" method="post">
+            <?php foreach ($users as $user):?>
+            <form action="<?=base_url('MyApp/edit_record/').$user->userId;?>"  autocomplete="off" method="post">
                 <h3 class="title">Update</h3>
                 <div class="social-input-containers"> 
                 <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name',$user->name)?>" /> 
@@ -428,7 +427,7 @@ textarea.input {
                 <input type="text" name="username" class="input" placeholder="username" value="<?= set_value('username',$user->username)?>" />
                 <?= form_error('username')?>
                 </div>
-                <input type="submit" value="Update" class="btn" />
+                <input type="submit" value="Edit" class="btn" />
             </form>
             <?php endforeach;?>
         </div>

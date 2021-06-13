@@ -73,44 +73,46 @@ class MyApp extends CI_Controller
 
 	public function carValidation()
 	{
-		$config['upload_path'] = './uploads/';
+		$config['upload_path'] =  FCPATH . 'uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['encrypt_name'] = true;
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
 
 		//validation goes here
-		$this->form_validation->set_rules('name','Name','required');
-		$this->form_validation->set_rules('model','Model','required');
-		$this->form_validation->set_rules('seats','Seats','required');
-		$this->form_validation->set_rules('price','Hireprice','required');
-		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
-
-		if($this->form_validation->run()){
-			if($this->upload->do_upload('carimage')){
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('model', 'Model', 'required');
+		$this->form_validation->set_rules('seats', 'Seats', 'required');
+		$this->form_validation->set_rules('price', 'Hireprice', 'required');
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		$carimage = 'carimage';
+		if ($this->form_validation->run()) {
+			if ($this->upload->do_upload($carimage)) {
 				$image_name = $this->upload->data();
 				$name = $this->input->post('name');
 				$model = $this->input->post('model');
-				$seats =$this->input->post('seats');
+				$seats = $this->input->post('seats');
 				$price = $this->input->post('price');
 				$carimage = $image_name['file_name'];
 
-				$data =array('name' => $name, 'model' => $model, 'seats' =>$seats ,'price'=>$price ,'carimage'=>$carimage);
+				$data = array('name' => $name, 'model' => $model, 'seats' => $seats, 'price' => $price, 'carimage' => $carimage);
 				//send the data to the model and
-			 	$this->load->model('Cars');
-			 	$this->Cars->insert_data($data);
-			//  $this->set_flashdata('success_msg', 'New car successfully registered');
+				$this->load->model('Cars');
+				$this->Cars->insert_data($data);
+				//  $this->set_flashdata('success_msg', 'New car successfully registered');
 				redirect(base_url('MyApp/index'));
-			}
-			else{
+			} else {
 				print_r($this->upload->display_errors());
+			}
 		}
 	}
-	}
 
-	public function viewcars(){
+	public function viewcars()
+	{
 		$this->load->model('Cars');
-		 $data['cars_info']= $this->Cars->getAll_cars(); 
-		 $this->load->view('template/header');
-		 $this->load->view('template/viewcars', $data);
+		$data['cars_info'] = $this->Cars->getAll_cars();
+		$this->load->view('template/header');
+		$this->load->view('template/viewcars', $data);
 	}
 
 	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool
@@ -182,7 +184,7 @@ class MyApp extends CI_Controller
 			$htmlContent .= '<p>Click on the button below to change your password</p>';
 			$htmlContent .= "<a href=$url>$url</a>";
 			$htmlContent .= "<p>if you don't know us,simply ignore this.</p>";
-			$this->email->to('uwenayoallain@gmail.com');
+			$this->email->to($email);
 			$this->email->from('carrentalapponline@gmail.com', 'Car-Rental');
 			$this->email->subject('Password Reset');
 			$this->email->message($htmlContent);
@@ -325,6 +327,14 @@ class MyApp extends CI_Controller
 	{
 		$this->load->view('template/header');
 		$this->load->view('template/login');
+	}
+
+	public function dashboard()
+	{
+		$this->load->model('Cars');
+		$data['cars'] = $this->Cars->getAll_cars();
+		$this->load->view('template/header');
+		$this->load->view('template/dashboard', $data);
 	}
 
 	public function getLoginInfo(){
