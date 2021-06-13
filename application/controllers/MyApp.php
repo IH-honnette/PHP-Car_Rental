@@ -62,6 +62,7 @@ class MyApp extends CI_Controller
 				print_r($this->upload->display_errors());
 		}
 	}
+	$this->load->view('template/regcar');
 	}
 
 public function viewcars(){
