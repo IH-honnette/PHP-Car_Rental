@@ -417,6 +417,24 @@ form {
                 <input type="text" name="username" class="input select" placeholder="username" value="<?= set_value('username')?>" />
                 <?= form_error('username')?>
                 </div>
+							 <div class="social-input-containers">
+                            <select name="district" class="input" id="district">
+                                <option value="">--Select District--</option>
+                                <?php foreach ($districts as $district): ?>
+                                    <option value="<?= $district->districtId ?>"><?= $district->districtName ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= form_error('district') ?>
+                        </div>
+                        <div class="social-input-containers">
+                            <select name="sector" class="input" id="sector">
+                                <option value="">--Select Sector--</option>
+                                <?php foreach ($sectors as $sector): ?>
+                                    <option value="<?= $sector->sectorId ?>"><?= $sector->sectorName ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= form_error('sector') ?>
+                        </div>
                 <div class="social-input-containers"> 
                  <select name="roles" class="input">
                  <option value="">--Select Role--</option>
@@ -438,3 +456,29 @@ form {
 
 </body>
 </html>
+	
+	<script>
+        let district = document.querySelector('#district'),
+         sector = document.querySelector('#sector');
+        district.onchange = function() {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    sector.innerHTML = this.responseText;
+                    console.log("seen");
+                }
+            }
+            xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_data?id=')?>" + this.value, true)
+            xmlhttp.send();
+        }
+        sector.onchange = function() {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    district.innerHTML = this.responseText;
+                }
+            }
+            xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_district?id=')?>" + this.value, true)
+            xmlhttp.send();
+        }
+    </script>
