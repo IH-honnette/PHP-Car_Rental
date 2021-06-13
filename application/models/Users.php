@@ -23,7 +23,7 @@ class Users extends CI_Model{
         $this->db->where('userId',$id);
         return $this->db->update('users',$data);
     }
-     function gettingUser($email,$password){
+     function canLogin($email,$password){
             $this->db->where('email',$email);
             $this->db->where('password',$password);
             $result = $this->db->get('users');

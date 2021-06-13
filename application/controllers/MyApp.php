@@ -285,36 +285,57 @@ class MyApp extends CI_Controller
 		$this->load->view('template/header');
 		$this->load->view('template/login');
 	}
-
-	public function getLoginInfo()
-	{
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('pswd', 'Password', 'required');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		if ($this->form_validation->run()) {
-			$email = $this->input->post('email');
-			$pswd = $this->input->post('pswd');
-			$hashedPassword = hash("SHA512", $pswd);
-			$this->load->model("Users");
-			$user = $this->Users->gettingUser($email);
-			if (!$user) {
-				echo "no user found";
-			} else {
-				foreach ($user->result() as $row) {
-
-					$userPass = $row->password;
-					if ($hashedPassword !== $userPass) {
-						echo "invalid email or password";
-					} else {
-						redirect(base_url('MyApp/'));
-					}
-				}
-			}
-		} else {
-			$this->load->view('template/header');
-			$this->load->view('template/login');
+//login
+public function getLoginInfo(){
+	$this->form_validation->set_rules('email','Email','required');
+	$this->form_validation->set_rules('pswd','Password','required');
+	$this->form_validation->set_error_delimiters('<div class="error">','</div>');
+	if($this->form_validation->run())
+		{
+			//validation true
+		$email = $this->input->post('email');
+        $password = hash('sha512', $this->input->post('pswd'));
+		$this->load->model('Users');
+		if ($this->Users->canLogin($email, $password)) {
+		
+$data = $this->db->get("users")->row();
+$username=$data->username;
+			$session_data=array(
+				'email'=> $email,
+				'username'=>$username
+			);
+		$this->session->set_userdata($session_data);
+		redirect(base_url('/MyApp/enter'));
 		}
+		$error="invalid email or password";
+		$this->load->view('template/login', compact('error'));
+		// $this->session->set_flashdata('error','invalid email or password');
+		redirect(base_url('MyApp/login'));
+		}
+else{
+$this->load->view('template/header');
+$this->load->view('template/login');
+}
+}
+//after login
+public function enter(){
+	if ($this->session->userdata('email')!=null) {
+		# code..
+		echo "<h2>Welcome user with username: ". $this->session->userdata('email')." </h2>";
+		echo "<label><a href=".base_url('MyApp/logout').">Logout</a></label>";
 	}
+	else{
+		redirect(base_url('MyApp/login'));
+	}
+}
+//logout
+public function logout(){
+$this->session->unset_userdata('email');
+redirect(base_url('MyApp/login'));
+}
+
+
+
 	public function edit_user()
 	{
 		$id = $this->uri->segment(3);
