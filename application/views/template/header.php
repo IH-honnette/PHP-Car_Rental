@@ -9,6 +9,7 @@
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="<?= base_url('MyApp/viewcars'); ?>">view Cars</a></li>
+          <li><a href="<?= base_url('MyApp/hirecar'); ?>" class="btn btn-white">Hire a Car</a></li>
           <li><a href="<?= base_url('MyApp/regcar'); ?>">Register new Cars</a></li>
         </ul>
       </li>

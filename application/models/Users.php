@@ -19,6 +19,24 @@ class Users extends CI_Model{
        return $this->db->get_where('users',array('userId' => $id))->result();
     }
 
+  public function updatebyEmail($email, $data)
+  {
+    $this->db->where('email', $email);
+    return $this->db->update('users', $data);
+  }
+
+  function canLogin($email,$password){
+    $this->db->where('email',$email);
+    $this->db->where('password',$password);
+    $result = $this->db->get('users');
+    if ($result->num_rows()>0) {
+      return true;
+      # code...
+    }
+    else{
+      return false;
+    }
+}
     public function update_data($id,$data){
         $this->db->where('userId',$id);
         return $this->db->update('users',$data);
