@@ -53,4 +53,25 @@ class Users extends CI_Model{
               return false;
             }
         }
+
+public function get_districts(){
+    return $this->db->get('districts')->result();
+  }
+  public function get_sectors(){
+    return $this->db->get('sectors')->result();
+  }
+ public function retrieve_sector($districtId){
+    if($districtId == ""): 
+     return  $this->db->get('sectors')->result();
+    else: 
+      return $this->db->get_where('sectors', array('districtId' =>$districtId));
+  endif;
+ }
+ public function get_district($sectorId){
+        $sect_ql =$this->db->get_where('sectors', array('sectorId' =>$sectorId));
+        foreach($sect_ql->result_array() as $row){
+          $district_Id =$row['districtId'];
+        }
+        return $this->db->get_where('districts', array('districtId' =>$district_Id));
+ }
 }
