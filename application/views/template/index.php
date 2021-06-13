@@ -3,13 +3,8 @@
 
   <head>
     <style>
-      body {
-        font-family: 'Poppins', sans-serif;
-      }
-
       img {
         float: right;
-        top: 0;
       }
 
       div.container div {
@@ -22,6 +17,16 @@
         bottom: 1%;
         /* background: blue; */
       }
+
+      @media only screen and (max-width:780px) {
+        div.image {
+          position: static;
+        }
+      }
+
+      html {
+        background: linear-gradient(120deg, rgba(246, 212, 101, 0.5) 0%, rgba(253, 160, 133, 0.4) 100%);
+      }
     </style>
     <title>Car Rental:-landing page</title>
     <meta charset="utf-8">
@@ -32,8 +37,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
 
-  <body class="bg-light">
-    <div class="container col-9 m-auto bg-white p-4 my-5 relative">
+  <body class="bg-white">
+    <div class="container col-9  m-auto bg-white p-4 my-5 relative">
       <h1 class="fs-1 p-4 m-3">Car Rental App Online</h1>
       <div class="container">
         <div class="col-6 fs-4 py-5 px-4">
@@ -45,7 +50,7 @@
           <a href="<?= base_url('MyApp/login'); ?>" class="btn btn-primary my-5 mx-2 p-4 col-5">Get Started</a>
         </div>
       </div>
-      <div class="image">
+      <div class="image ">
         <img src="<?= base_url() ?>../images/index.png" alt="image" class="" draggable='false'>
       </div>
       <div class="footer footnote text-center">
