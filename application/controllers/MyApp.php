@@ -10,6 +10,38 @@ class MyApp extends CI_Controller
 		$this->load->view('template/header');
 		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
+
+	public function retrieve_data(){
+			
+						$districtId =$_GET["id"];
+						$this->load->model('Users');
+						$data =$this->Users->retrieve_sector($districtId);
+		 				//result
+						 $sector ="";
+					if($data->num_rows() > 0){
+					foreach($data->result() as $row){
+					$sector .="<option value='$row->sectorId' selected>$row->sectorName</option>";
+					}
+					}else{
+					$sector .= "<option value='$row->sectorId'>$row->sectorName</option>";
+					}
+					echo $sector;
+				}
+			public function retrieve_district(){
+		$sectorId =$_GET['id'];
+		$district ="";
+		$this->load->model('Users');
+		$data =$this->Users->get_district($sectorId);
+		if($data->num_rows() > 0){
+			foreach($data->result() as $row){
+				$district .="<option value='$row->districtId' selected>$row->districtName</option>";
+			}
+			}else{
+			$district .= "<option value='$row->districtId'>$row->districtName</option>";
+			}
+			echo $district;
+	}
+
 	public function passwordreset()
 	{
 		$this->load->view('template/passwordreset');
@@ -19,6 +51,8 @@ class MyApp extends CI_Controller
 	{
 		$this->load->model('Users');
 		$data['roles'] = $this->Users->get_roles();
+		$data['districts'] = $this->Users->get_districts();
+		$data['sectors'] = $this->Users->get_sectors();
 		$this->load->view('template/header');
 		$this->load->view('template/signup', $data);
 	}
@@ -183,10 +217,6 @@ public function checkPhone($phone){
 		return true;
 	}
 }
-
-
-
-
 		public function checkValildation(){
 		//validation goes here
 		$this->form_validation->set_rules('name','Name','required|min_length[5]|max_length[200]|callback_checkName');
@@ -195,6 +225,8 @@ public function checkPhone($phone){
 		$this->form_validation->set_rules('phone','Phone','required|min_length[10]|max_length[14]|callback_checkPhone');
 		$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
 		$this->form_validation->set_rules('roles','Role','required');
+		$this->form_validation->set_rules('district','District','required');
+		$this->form_validation->set_rules('sector','Sector','required');
 		// $this->form_validation->set_rules('username','Username','required|matches[password]');
 		$this->form_validation->set_error_delimiters('<div class="error">','</div>');
 		if($this->form_validation->run())
@@ -205,8 +237,11 @@ public function checkPhone($phone){
 		$pswd = $this->input->post('pswd');
 		$username = $this->input->post('username');
 		$role = $this->input->post('roles');
+		$district = $this->input->post('district');
+		$sector = $this->input->post('sector');
 		$final_pswd =hash('SHA512',$pswd);
-		$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,'password'=>$final_pswd,'username' =>$username,'roleId' =>$role);
+		$data =array('name' => $name, 'email' => $email, 'phone' =>$phone ,
+		'password'=>$final_pswd,'username' =>$username,'roleId' =>$role,'districtId' => $district,'sectorId' =>$sector);
 		//send the data to the model and
 		$this->load->model('Users');
 		if($this->Users->insert_data($data)){
