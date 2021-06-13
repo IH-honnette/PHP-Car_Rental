@@ -480,5 +480,6 @@ form {
             }
             xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_district?id=')?>" + this.value, true)
             xmlhttp.send();
+            console.log("seen");
         }
     </script>
