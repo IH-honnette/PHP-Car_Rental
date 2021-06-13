@@ -42,10 +42,14 @@ div.error{
                 <input type="password" name="pswd" class="form-control" placeholder="Password" value="<?= set_value('pswd')?>" />
                 <?= form_error('pswd')?>
                 </div>
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <div class="bg-success">
                 <?php
-                 echo $this->session->flashdata('error')
+                if(isset($error)){
+                    echo $error;
+                }
                 ?>
+                </div>
+                <input type="submit" value="Login" class="btn btn-primary" />
             </form>
         </div>
     </div>

@@ -205,7 +205,9 @@ public function getLoginInfo(){
 		$this->session->set_userdata($session_data);
 		redirect(base_url('/MyApp/enter'));
 		}
-		$this->session->set_flashdata('error','invalid email or password');
+		$error="invalid email or password";
+		$this->load->view('template/login', compact('error'));
+		// $this->session->set_flashdata('error','invalid email or password');
 		redirect(base_url('MyApp/login'));
 		}
 else{
