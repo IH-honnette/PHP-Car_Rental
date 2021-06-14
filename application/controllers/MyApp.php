@@ -251,9 +251,7 @@ class MyApp extends CI_Controller
 			foreach($data->result() as $row){
 				$district .="<option value='$row->districtId' selected>$row->districtName</option>";
 			}
-			}else{
-			$district .= "<option value='$row->districtId'>$row->districtName</option>";
-			}
+		}
 			echo $district;
 	}
 	
@@ -487,5 +485,22 @@ class MyApp extends CI_Controller
 				print_r($this->upload->display_errors());
 			}
 		}
+	}
+
+
+	public function get_pdf(){
+		$this->load->model('Users'); 
+		$this->load->library('fpdf183/fpdf');
+		$data = $this->Users->getAll_users();
+		$this->fpdf = new fpdf('P', 'mm', 'A4');
+		$this->fpdf->AddPage();
+		$this->fpdf->SetFont('Arial','B', 15);
+		foreach($data as $user){
+			$this->fpdf->Cell(45,15,$user->userId,1);
+			$this->fpdf->Cell(45,15,$user->name, 1);
+			$this->fpdf->Cell(75,15,$user->email,1);
+			$this->fpdf->Ln();
+		}
+	   echo $this->fpdf->Output();
 	}
 }
