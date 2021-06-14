@@ -502,7 +502,7 @@ class MyApp extends CI_Controller
 			}
 		}
 	}
-	public function get_pdf(){
+		public function get_pdf(){
 		$this->load->model('Users'); 
 		$data= $this->Users->getAll_users();
 		$this->load->library('fpdf183/fpdf');
