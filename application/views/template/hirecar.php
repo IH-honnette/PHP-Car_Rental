@@ -1,12 +1,8 @@
 <?php
 
-// if(empty($_SESSION['userId'])){
-//     header('location: ./login.php');   
-//   }
-
-// if($_SESSION['role'] !== "Administrator"){
-// 	header('location: ./home.php');
-// }
+if ($this->session->userdata('email') == null){
+    redirect(base_url('MyApp/login'));
+}
 
 ?>
 <!DOCTYPE html>
@@ -137,6 +133,9 @@
             border-radius: 4px;
             transition: 0.6s
         }
+        .input option{
+            background-color: gray;
+        }
 
         .btn {
             padding: 1rem 1.8rem;
@@ -258,9 +257,12 @@
             <form action="<?=base_url('MyApp/hireValidation');?>" autocomplete="off" method="post">
                 <h3 class="title">Hire a car</h3>
                 <div class="social-input-containers">
-                    <select name="car" id="car" class="input">
-                    <option value="">select your favourite car</option>
+                    <select name="car" id="car" class="input" required>
+                    <option value="">Select your favourite car</option>
+                    <?php foreach ($cars_info as $car):?>
+                    <option value="<?= $car->carId ?>"><?= $car->name ?></option>
                     <?= form_error('car') ?>
+                    <?php endforeach;?>
                     </select>
                 </div>
                 <input type="submit" value="Borrow" class="btn" />
