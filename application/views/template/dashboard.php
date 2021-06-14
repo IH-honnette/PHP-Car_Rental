@@ -30,6 +30,7 @@ if ($this->session->userdata('email') == null){
 </style>
 
 <body class="bg-light">
+
     <div class="card-group container-fluid">
         <div class="w-100 d-flex flex-wrap">
             <?php foreach ($cars as $car) : ?>
@@ -48,12 +49,17 @@ if ($this->session->userdata('email') == null){
                                                             } else {
                                                                 echo  "<span class='p-2 m-1 btn btn-warning w-50'>Hire</span>";
                                                             } ?></p>
-
+    
                     </div>
+                   
                 </div>
             <?php endforeach; ?>
         </div>
+     
     </div>
+
+
+    
 </body>
 
 </html>
