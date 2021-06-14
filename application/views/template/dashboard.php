@@ -29,7 +29,7 @@
             <?php foreach ($cars as $car) : ?>
                 <div class="card col-5 m-5 p-5 rounded-3 border-0 shadow-sm">
                     <div class="cardimage">
-                        <img src="<?php echo base_url() . "../uploads/" . $car->carimage ?>" draggable='false' alt="<?= $car->name ?>" class="img-responsive">
+                        <img src="<?php echo base_url() . "uploads/" . $car->carimage ?>" draggable='false' alt="<?= $car->name ?>" class="img-responsive">
                     </div>
                     <h2 class="card-title text-center capitalize"> <?= $car->name ?></h2>
                     <div class="card-body m-3 p-2">
