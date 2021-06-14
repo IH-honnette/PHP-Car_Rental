@@ -33,45 +33,35 @@ class MyApp extends CI_Controller
 
 	public function hirecar()
 	{
+		$this->load->model('Cars');
+		$data['cars_info'] = $this->Cars->get_cars_nothired();
 		$this->load->view('template/header');
-		$this->load->view('template/hirecar');
+		$this->load->view('template/hirecar',$data);
 	}
 	
 
 	public function hireValidation()
 	{
 		//validation goes here
-		$this->form_validation->set_rules('name', 'Name', 'required|min_length[5]|max_length[200]|callback_checkName');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|is_unique[users.email]|callback_checkEmail');
-		$this->form_validation->set_rules('pswd', 'Password', 'required|min_length[6]|max_length[15]|callback_checkPassword');
-		$this->form_validation->set_rules('phone', 'Phone', 'required|min_length[10]|max_length[14]|callback_checkPhone');
-		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
-		$this->form_validation->set_rules('roles', 'Role', 'required');
-		// $this->form_validation->set_rules('username','Username','required|matches[password]');
+		$this->form_validation->set_rules('car', 'Car', 'required');
 		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		
 		if ($this->form_validation->run()) {
-			$name = $this->input->post('name');
-			$email = $this->input->post('email');
-			$phone = $this->input->post('phone');
-			$pswd = $this->input->post('pswd');
-			$username = $this->input->post('username');
-			$role = $this->input->post('roles');
-			$final_pswd = hash('SHA512', $pswd);
-			$data = array('name' => $name, 'email' => $email, 'phone' => $phone, 'password' => $final_pswd, 'username' => $username, 'roleId' => $role);
-			//send the data to the model and
-			$this->load->model('Users');
-			if ($this->Users->insert_data($data)) {
-				$this->load->view('template/welcome');
+			$car = $this->input->post('car');
+			$data = array('hired' => True);
 
-				// $this->load->view('template/header');
-				// $this->load->view('template/view_users',$data);
-			} else {
-				$this->load->model('Users');
-				$data['roles'] = $this->Users->get_roles();
-				$this->load->view('template/header');
-				$this->load->view('template/view_users', $data);
+			$this->load->model('Cars');
+			if ($this->Cars->update_car($car, $data)) {
+				$this->session->set_flashdata('success_msg', 'Successfully hired a car');
+				redirect(base_url('MyApp/hired'));
 			}
 		}
+	}
+
+	public function hired()
+	{
+		$this->load->view('template/header');
+		$this->load->view('template/hired');
 	}
 
 	public function carValidation()
@@ -102,7 +92,7 @@ class MyApp extends CI_Controller
 				//send the data to the model and
 				$this->load->model('Cars');
 				$this->Cars->insert_data($data);
-				//  $this->set_flashdata('success_msg', 'New car successfully registered');
+				 $this->session->set_flashdata('success_msg', 'New car successfully registered');
 				redirect(base_url('MyApp/index'));
 			} else {
 				print_r($this->upload->display_errors());
