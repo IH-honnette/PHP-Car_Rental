@@ -1,12 +1,8 @@
 <?php
 
-// if(empty($_SESSION['userId'])){
-//     header('location: ./login.php');   
-//   }
-
-// if($_SESSION['role'] !== "Administrator"){
-// 	header('location: ./home.php');
-// }
+if ($this->session->userdata('email') == null){
+    redirect(base_url('MyApp/login'));
+}
 
 ?>
 
