@@ -38,11 +38,11 @@
                         </p>
                         <p class="card-text text-center"> <?php
                                                             if ($car->hired) {
-                                                                echo "<span class='p-2 m-1 btn btn-primary w-50'>Hired</span>";
+                                                                echo "<a class='p-2 m-1 btn btn-primary w-50'>Hired</a>";
                                                             } else {
-                                                                echo  "<span class='p-2 m-1 btn btn-warning w-50'>Hire</span>";
+                                                                $url_link = base_url('MyApp/hirecar');
+                                                                echo  "<a class='p-2 m-1 btn btn-warning w-50' href=$url_link>Hire</a>";
                                                             } ?></p>
-
                     </div>
                 </div>
             <?php endforeach; ?>

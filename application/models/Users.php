@@ -31,53 +31,51 @@ class Users extends CI_Model
     return $this->db->update('users', $data);
   }
 
-  function canLogin($email,$password){
-    $this->db->where('email',$email);
-    $this->db->where('password',$password);
+  function canLogin($email, $password)
+  {
+    $this->db->where('email', $email);
+    $this->db->where('password', $password);
     $result = $this->db->get('users');
-    if ($result->num_rows()>0) {
+    if ($result->num_rows() > 0) {
       return true;
       # code...
-    }
-    else{
+    } else {
       return false;
     }
-}
-    public function update_data($id,$data){
-        $this->db->where('userId',$id);
-        return $this->db->update('users',$data);
-    }
-     function gettingUser($email,$password){
-            $this->db->where('email',$email);
-            $this->db->where('password',$password);
-            $result = $this->db->get('users');
-            if ($result->num_rows()>0) {
-              return true;
-              # code...
-            }
-            else{
-              return false;
-            }
-        }
+  }
+  public function update_data($id, $data)
+  {
+    $this->db->where('userId', $id);
+    return $this->db->update('users', $data);
+  }
+  function gettingUser($email)
+  {
+    $this->db->where('email', $email);
+    return $this->db->get('users');
+  }
 
-public function get_districts(){
+  public function get_districts()
+  {
     return $this->db->get('districts')->result();
   }
-  public function get_sectors(){
+  public function get_sectors()
+  {
     return $this->db->get('sectors')->result();
   }
- public function retrieve_sector($districtId){
-    if($districtId == ""): 
-     return  $this->db->get('sectors')->result();
-    else: 
-      return $this->db->get_where('sectors', array('districtId' =>$districtId));
-  endif;
- }
- public function get_district($sectorId){
-        $sect_ql =$this->db->get_where('sectors', array('sectorId' =>$sectorId));
-        foreach($sect_ql->result_array() as $row){
-          $district_Id =$row['districtId'];
-        }
-        return $this->db->get_where('districts', array('districtId' =>$district_Id));
- }
+  public function retrieve_sector($districtId)
+  {
+    if ($districtId == "") :
+      return  $this->db->get('sectors')->result();
+    else :
+      return $this->db->get_where('sectors', array('districtId' => $districtId));
+    endif;
+  }
+  public function get_district($sectorId)
+  {
+    $sect_ql = $this->db->get_where('sectors', array('sectorId' => $sectorId));
+    foreach ($sect_ql->result_array() as $row) {
+      $district_Id = $row['districtId'];
+    }
+    return $this->db->get_where('districts', array('districtId' => $district_Id));
+  }
 }
