@@ -14,7 +14,9 @@ class Cars extends CI_Model{
     public function get_car($id){
        return $this->db->get_where('cars_info',array('carId' => $id))->result();
     }
-
+    public function get_cars_nothired(){
+        return $this->db->get_where('cars_info',array('hired' => False))->result();
+    }
     public function update_car($id,$data){
         $this->db->where('carId',$id);
         return $this->db->update('cars_info',$data);
