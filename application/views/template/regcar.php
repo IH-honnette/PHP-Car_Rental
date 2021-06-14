@@ -1,8 +1,8 @@
 <?php
 
-// if ($this->session->userdata('email') == null){
-//     redirect(base_url('MyApp/login'));
-// }
+if ($this->session->userdata('email') == null){
+    redirect(base_url('MyApp/login'));
+}
 
 // if ($this->session->userdata('role') !== "Administrator"){
 //     redirect(base_url('MyApp/index'));
@@ -247,22 +247,10 @@
 
 </head>
 
-<<<<<<< HEAD
 <div class="container">
  <div class="contact-info-form">
         <span class="circle one"></span> <span class="circle two"></span>
             <form action="<?=base_url('MyApp/carValidation');?>" autocomplete="off" method="post" enctype='multipart/form-data'>
-=======
-<body>
-
-    <body class="bg-light">
-
-        <div class="container">
-            <div class="contact-info-form">
-                <span class="circle one"></span> <span class="circle two"></span>
-                <?= form_open_multipart('../MyApp/carValidation') ?>
-
->>>>>>> 5c0d400ed187e08ff5f7d1eb4048e5da78bdff98
                 <h3 class="title">Register a new car</h3>
                 <div class="social-input-containers">
                     <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name') ?>" />
