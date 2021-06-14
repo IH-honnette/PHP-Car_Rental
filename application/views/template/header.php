@@ -1,26 +1,32 @@
-<nav class="navbar navbar-inverse">
+<style>
+  * {
+    font-family: "Noto Sans TC", sans-serif;
+  }
+
+  nav {
+    height: 50px;
+  }
+</style>
+<nav class="navbar nav bg-white">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand text-white " href="<?= base_url('MyApp/index'); ?>">CAR RENTAL</a>
+      <a class="navbar-brand text-dark fw-bolder" href="<?= base_url('MyApp/index'); ?>">CAR RENTAL</a>
     </div>
-    <ul class="nav navbar-nav ml-auto">
+    <ul class="nav navbar-nav d-inline-block">
       <li><a href="<?= base_url('MyApp/index'); ?>">Home</a></li>
       <li><a href="<?= base_url('MyApp/users'); ?>">Users</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars<span class="caret"></span></a>
-        <ul class="dropdown-menu">
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars</a>
+        <ul class="dropdown-menu position-absolute">
           <li><a href="<?= base_url('MyApp/viewcars'); ?>">view Cars</a></li>
           <li><a href="<?= base_url('MyApp/hirecar'); ?>" class="btn btn-white">Hire a Car</a></li>
           <li><a href="<?= base_url('MyApp/regcar'); ?>">Register new Cars</a></li>
         </ul>
       </li>
       <li>
-        <a href="<?= base_url('MyApp/passwordreset'); ?>">Password Reset</a>
-      </li>
-      <li>
         <a href="<?= base_url('MyApp/dashboard'); ?>">Dashboard</a>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right d-inline-block">
       <li><a href="<?= base_url('MyApp/signup'); ?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
       <li><a href="<?= base_url('MyApp/login'); ?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       <li><a href="<?= base_url('MyApp/logout');?>">Logout</a></li>

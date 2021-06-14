@@ -10,17 +10,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body {
+        * {
             padding: 0;
             margin: 0;
             box-sizing: border-box;
-            background-color: gray;
+            font-family: "Noto Sans TC", sans-serif;
         }
 
         .formCont {
             background-color: #0C113E;
-            margin: 10em 20em;
-            height: 20em;
+            margin: auto;
         }
 
         input {
@@ -30,24 +29,35 @@
         div.error {
             color: red;
         }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        .btn-warning {
+            margin: auto !important;
+        }
     </style>
 </head>
 
-<body>
+<body class="bg-light">
     <div class="container">
         <div class="row">
-            <div class="formCont col-lg-6">
-                <form action="<?= base_url('MyApp/getLoginInfo'); ?>" autocomplete="off" method="post" class="mt-3">
-                    <h3 class="title text-center text-primary">Login page</h3>
-                    <div class="social-input-containers">
+            <div class="formCont col-lg-6 rounded-3 p-5 mt-5">
+                <h3 class="title text-center text-white">Login page</h3>
+                <form action="<?= base_url('MyApp/getLoginInfo'); ?>" autocomplete="off" method="post" class="mt-3 p-3">
+                    <div class="social-input-containers px-5 py-2">
                         <input type="email" name="email" class="form-control" placeholder="Email" value="<?= set_value('email') ?>" />
                         <?= form_error('email') ?>
                     </div>
-                    <div class="social-input-containers">
+                    <div class="social-input-containers px-5 py-2">
                         <input type="password" name="pswd" class="form-control" placeholder="Password" value="<?= set_value('pswd') ?>" />
                         <?= form_error('pswd') ?>
                     </div>
-                    <input type="submit" value="Login" class="btn btn-primary" />
+                    <input type="submit" value="Login" class="btn btn-primary px-5 mx-5" />
+                    <div class="">
+                        <p class="py-3 px-5"><a href="<?= base_url('MyApp/passwordreset'); ?>" class="text-white">Password Reset</a></p>
+                    </div>
                     <?php
                     echo $this->session->flashdata('error')
                     ?>

@@ -27,11 +27,6 @@
             box-sizing: border-box
         }
 
-        body,
-        input {
-            font-family: "Poppins", sans-serif;
-        }
-
         ::placeholder {
             color: #B7B7B4;
             opacity: 1;
