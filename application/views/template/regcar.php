@@ -1,8 +1,8 @@
 <?php
 
-// if ($this->session->userdata('email') == null){
-//     redirect(base_url('MyApp/login'));
-// }
+if ($this->session->userdata('email') == null){
+    redirect(base_url('MyApp/login'));
+}
 
 // if ($this->session->userdata('role') !== "Administrator"){
 //     redirect(base_url('MyApp/index'));
