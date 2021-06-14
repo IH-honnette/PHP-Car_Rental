@@ -6,7 +6,7 @@ class MyApp extends CI_Controller
 {
 	public function index()
 	{
-		$this->load->view('template/header');
+		$this->load->view('template/header2');
 		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
 	public function passwordreset()
@@ -20,7 +20,7 @@ class MyApp extends CI_Controller
 		$data['roles'] = $this->Users->get_roles();
 		$data['districts'] = $this->Users->get_districts();
 		$data['sectors'] = $this->Users->get_sectors();
-		$this->load->view('template/header');
+		$this->load->view('template/header2');
 		$this->load->view('template/signup', $data);
 	}
 
@@ -362,7 +362,7 @@ public function hired()
 
 	public function login()
 	{
-		$this->load->view('template/header');
+		$this->load->view('template/header2');
 		$this->load->view('template/login');
 	}
 
@@ -388,7 +388,7 @@ public function hired()
 					'email' => $email
 				);
 				$this->session->set_userdata($session_data);
-				redirect(base_url('/MyApp'));
+				redirect(base_url('/MyApp/dashboard'));
 			}
 			$error = "invalid email or password";
 			$this->load->view('template/login', compact('error'));
