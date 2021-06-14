@@ -508,7 +508,7 @@ class MyApp extends CI_Controller
 		$data= $this->Users->getAll_users();
 		$this->load->library('fpdf183/fpdf');
 		ob_start();
-		$this->fpdf = new FPDF();
+		$this->fpdf = new fpdf('P', 'mm', 'A4');
 		$this->fpdf->SetTitle('List Of All Users');
 		$this->fpdf->SetMargins(22, 10, 1);
 		$this->fpdf->AddPage();
