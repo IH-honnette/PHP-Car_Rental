@@ -13,6 +13,12 @@
             background-color: #000;
             color: #fff;
         }
+        .float-right{float:right;
+        margin-right: 10%;margin-bottom: 2%;
+        }
+        .users{
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -21,7 +27,10 @@
    redirect(base_url("MyApp/login"));
     }
     ?>
+     <a href="<?=base_url('MyApp/get_pdf');?>" class="btn btn-primary p-4  float-right">Get Users PDF</a>
+     
     <div class="container">
+    <h3 class="users">List Of Users</h3>
     <table class="table-responsive table-bordered table-hover table-striped table-inverse table">
     <thead>
         <tr>
@@ -42,8 +51,8 @@
         </tr>
         <?php endforeach;?>
     </tbody>
-    
     </table>
     </div>
+     
 </body>
 </html>
