@@ -45,7 +45,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body class="bg-white">
+<body class="bg-light">
   <div class="container col-9  m-auto bg-white p-4 my-5 relative">
     <h1 class="fs-1 p-4 m-3">Car Rental App Online</h1>
     <div class="container">
