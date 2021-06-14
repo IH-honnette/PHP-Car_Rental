@@ -18,6 +18,7 @@
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars</a>
         <ul class="dropdown-menu position-absolute">
           <li><a href="<?= base_url('MyApp/viewcars'); ?>">view Cars</a></li>
+          <li><a href="<?= base_url('MyApp/hirecar'); ?>" class="btn btn-white">Hire a Car</a></li>
           <li><a href="<?= base_url('MyApp/regcar'); ?>">Register new Cars</a></li>
         </ul>
       </li>
@@ -28,6 +29,7 @@
     <ul class="nav navbar-nav navbar-right d-inline-block">
       <li><a href="<?= base_url('MyApp/signup'); ?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
       <li><a href="<?= base_url('MyApp/login'); ?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a href="<?= base_url('MyApp/logout');?>">Logout</a></li>
     </ul>
   </div>
 </nav>

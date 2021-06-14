@@ -1,5 +1,13 @@
-  <!DOCTYPE html>
-  <html lang="en">
+<?php
+
+// if ($this->session->userdata('email') == null){
+//     redirect(base_url('MyApp/login'));
+// }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 
   <head>
     <style>

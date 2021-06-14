@@ -449,7 +449,89 @@
                 </div>
             </div>
         </div>
+        <div class="contact-info-form">
+        <span class="circle one"></span> <span class="circle two"></span>
+            <form action="<?=base_url('MyApp/checkValildation');?>" autocomplete="off" method="post">
+                <h3 class="title">Join Us</h3>
+                <div class="social-input-containers"> 
+                <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>" /> 
+                <?= form_error('name')?>
+                </div>
+                <div class="social-input-containers"> 
+                <input type="email" name="email" class="input" placeholder="Email" value="<?= set_value('email')?>"  />
+                <?= form_error('email')?>
+                 </div>
+                <div class="social-input-containers"> 
+                <input type="text" name="phone" class="input" placeholder="Phone" value="<?= set_value('phone')?>"  />
+                <?= form_error('phone')?>
+                </div>
+                <div class="social-input-containers"> 
+                <input type="text" name="username" class="input select" placeholder="username" value="<?= set_value('username')?>" />
+                <?= form_error('username')?>
+                </div>
+							 <div class="social-input-containers">
+                            <select name="district" class="input" id="district">
+                                <option value="">--Select District--</option>
+                                <?php foreach ($districts as $district): ?>
+                                    <option value="<?= $district->districtId ?>"><?= $district->districtName ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= form_error('district') ?>
+                        </div>
+                        <div class="social-input-containers">
+                            <select name="sector" class="input" id="sector">
+                                <option value="">--Select Sector--</option>
+                                <?php foreach ($sectors as $sector): ?>
+                                    <option value="<?= $sector->sectorId ?>"><?= $sector->sectorName ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= form_error('sector') ?>
+                        </div>
+                <div class="social-input-containers"> 
+                 <select name="roles" class="input">
+                 <option value="">--Select Role--</option>
+                   <?php foreach ($roles as $role):?>
+                    <option value="<?=$role->roleId?>"><?=$role->roleName?></option>
+                    <?php endforeach;?>
+                 </select>
+                <?= form_error('roles')?>
+                </div>
+                <div class="social-input-containers"> 
+                <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd')?>" />
+                <?= form_error('pswd')?>
+                </div>
+                <input type="submit" value="Send" class="btn" />
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
-
 </html>
+	
+	<script>
+        let district = document.querySelector('#district'),
+         sector = document.querySelector('#sector');
+        district.onchange = function() {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    sector.innerHTML = this.responseText;
+                    console.log("seen");
+                }
+            }
+            xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_data?id=')?>" + this.value, true)
+            xmlhttp.send();
+        }
+        sector.onchange = function() {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    district.innerHTML = this.responseText;
+                }
+            }
+            xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_district?id=')?>" + this.value, true)
+            xmlhttp.send();
+            console.log("seen");
+        }
+    </script>
