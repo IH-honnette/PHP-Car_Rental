@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="image ">
-        <img src="<?= base_url() ?>../images/index.png" alt="image" class="" draggable='false'>
+        <img src="<?= base_url() ?>images/index.png" alt="image" class="" draggable='false'>
       </div>
       <div class="footer footnote text-center">
         <p class="text-center">car-rental-online &copy; 2021</p>

@@ -1,3 +1,8 @@
+ <?php
+if($this->session->userdata('email')!=null){
+header('Location:javascript:history.go(-1)');
+}
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
