@@ -19,6 +19,8 @@ class MyApp extends CI_Controller
 	{
 		$this->load->model('Users');
 		$data['roles'] = $this->Users->get_roles();
+		$data['districts'] = $this->Users->get_districts();
+		$data['sectors'] = $this->Users->get_sectors();
 		$this->load->view('template/header');
 		$this->load->view('template/signup', $data);
 	}
