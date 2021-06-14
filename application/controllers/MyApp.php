@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class MyApp extends CI_Controller
 {
-
 	public function index()
 	{
 		$this->load->view('template/header');
@@ -36,7 +35,26 @@ class MyApp extends CI_Controller
 		$this->load->view('template/header');
 		$this->load->view('template/hirecar');
 	}
-
+	public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool {
+				if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
+					$count = 1;
+					$telephone = str_replace(['+'], '', $telephone, $count); //remove +
+				}
+				$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
+				return $this->isDigits($telephone, $minDigits, $maxDigits); 
+			}
+	public	function normalizeTelephoneNumber(string $telephone): string {
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
+		return $telephone;
+}
+	public function checkPhone($phone){
+		if(!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))){
+			$this->form_validation->set_message('checkPhone','Invalid Phone Number*.');
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	public function hireValidation()
 	{
@@ -122,15 +140,7 @@ class MyApp extends CI_Controller
 	{
 		return preg_match('/^[0-9]{' . $minDigits . ',' . $maxDigits . '}\z/', $s);
 	}
-	public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool
-	{
-		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
-			$count = 1;
-			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
-		}
-		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
-		return $this->isDigits($telephone, $minDigits, $maxDigits);
-	}
+	
 
 
 	public function checkName($name)
@@ -238,9 +248,7 @@ class MyApp extends CI_Controller
 			foreach ($data->result() as $row) {
 				$sector .= "<option value='$row->sectorId' selected>$row->sectorName</option>";
 			}
-		} else {
-			$sector .= "<option value='$row->sectorId'>$row->sectorName</option>";
-		}
+		} 
 		echo $sector;
 	}
 	public function retrieve_district()
@@ -294,6 +302,8 @@ class MyApp extends CI_Controller
 		} else {
 			$this->load->model('Users');
 			$data['roles'] = $this->Users->get_roles();
+			$data['districts'] = $this->Users->get_districts();
+			$data['sectors'] = $this->Users->get_sectors();
 			$this->load->view('template/header');
 			$this->load->view('template/signup', $data);
 		}
@@ -491,5 +501,30 @@ class MyApp extends CI_Controller
 				print_r($this->upload->display_errors());
 			}
 		}
+	}
+		public function get_pdf(){
+		$this->load->model('Users'); 
+		$data= $this->Users->getAll_users();
+		$this->load->library('fpdf183/fpdf');
+		ob_start();
+		$this->fpdf = new fpdf('P', 'mm', 'A4');
+		$this->fpdf->SetTitle('List Of All Users');
+		$this->fpdf->SetMargins(22, 10, 1);
+		$this->fpdf->AddPage();
+		$this->fpdf->SetFont('Arial','B', 15);
+		$this->fpdf->Cell(70, 10,"Names",1);
+		$this->fpdf->Cell(60, 10,"Email", 1);
+		$this->fpdf->Cell(40, 10,"Phone",1);
+		$this->fpdf->Ln();
+		foreach($data as $user){
+			$this->fpdf->SetFont('Arial','',12);
+			
+			$this->fpdf->Cell(70, 10,$user->name,1);
+			$this->fpdf->Cell(60, 10,$user->email, 1);
+			$this->fpdf->Cell(40, 10,$user->phone,1);
+			$this->fpdf->Ln();
+			ob_clean();
+		}
+		$this->fpdf->Output();
 	}
 }

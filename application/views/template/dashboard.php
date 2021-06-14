@@ -1,3 +1,9 @@
+<?php
+if ($this->session->userdata('email') == null){
+    redirect(base_url('MyApp/login'));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <title>Car Rental:-dashboard</title>
@@ -24,6 +30,7 @@
 </style>
 
 <body class="bg-light">
+
     <div class="card-group container-fluid">
         <div class="w-100 d-flex flex-wrap">
             <?php foreach ($cars as $car) : ?>
@@ -43,11 +50,17 @@
                                                                 $url_link = base_url('MyApp/hirecar');
                                                                 echo  "<a class='p-2 m-1 btn btn-warning w-50' href=$url_link>Hire</a>";
                                                             } ?></p>
+
                     </div>
+                   
                 </div>
             <?php endforeach; ?>
         </div>
+     
     </div>
+
+
+    
 </body>
 
 </html>

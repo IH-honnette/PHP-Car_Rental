@@ -58,7 +58,7 @@ h1 {
 <h1>Your Application is well received!</h1>
 <div id="body">
 
-    <p><a href="#">login here</a> to continue</p>
+    <p><a href="<?= base_url('MyApp/login')?>">login here</a> to continue</p>
 </div>
 </div> 
 </body>  

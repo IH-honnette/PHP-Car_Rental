@@ -19,6 +19,12 @@
             background-color: #000;
             color: #fff;
         }
+        .float-right{float:right;
+        margin-right: 10%;margin-bottom: 2%;
+        }
+        .users{
+            text-align:center;
+        }
     </style>
 </head>
 
@@ -28,37 +34,33 @@
         redirect(base_url("MyApp/login"));
     }
     ?>
-    <div class="container-fluid">
-        <table id='tablepag' class="table-responsive table-bordered table-hover table-striped table-inverse table w-100">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th colspan="2">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $user) : ?>
-                    <tr>
-                        <td><?= $user->name ?></td>
-                        <td><?= $user->email ?></td>
-                        <td><?= $user->phone ?></td>
-                        <td><a href="<?= base_url('MyApp/edit_user/' . $user->userId); ?>">Edit</a></td>
-                        <td><a onclick="return confirm('Are you sure you want to delete this user?')" href="<?= base_url('MyApp/delete_user/' . $user->userId); ?>">Remove</a></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-
-        </table>
+     <a href="<?=base_url('MyApp/get_pdf');?>" class="btn btn-primary p-4  float-right">Get Users PDF</a>
+     
+    <div class="container">
+    <h3 class="users">List Of Users</h3>
+    <table class="table-responsive table-bordered table-hover table-striped table-inverse table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th colspan="2">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $user):?>
+        <tr>
+            <td><?= $user->name ?></td>
+            <td><?= $user->email ?></td>
+            <td><?= $user->phone ?></td>
+            <td><a href="<?= base_url('MyApp/edit_user/'.$user->userId);?>">Edit</a></td>
+            <td><a onclick="return confirm('Are you sure you want to delete this user?')" href="<?= base_url('MyApp/delete_user/'.$user->userId);?>">Remove</a></td>
+        </tr>
+        <?php endforeach;?>
+    </tbody>
+    </table>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#tablepag').DataTable();
-            $('.dataTables_length').addClass('bs-select');
-        });
-    </script>
-
+     
 </body>
 
 </html>
