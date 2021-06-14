@@ -24,7 +24,9 @@
 </style>
 
 <body class="bg-light">
+
     <div class="card-group container-fluid">
+    <button class="btn btn-primary"><a href="<?=base_url('MyApp/get_pdf');?>">Get Users PDF</a></button>
         <div class="w-100 d-flex flex-wrap">
             <?php foreach ($cars as $car) : ?>
                 <div class="card col-5 m-5 p-5 rounded-3 border-0 shadow-sm">
@@ -42,12 +44,17 @@
                                                             } else {
                                                                 echo  "<span class='p-2 m-1 btn btn-warning w-50'>Hire</span>";
                                                             } ?></p>
-
+    
                     </div>
+                   
                 </div>
             <?php endforeach; ?>
         </div>
+     
     </div>
+
+
+    
 </body>
 
 </html>

@@ -5,6 +5,8 @@
 
   nav {
     height: 80px;
+    /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
   }
 </style>
 <nav class="navbar nav bg-white">

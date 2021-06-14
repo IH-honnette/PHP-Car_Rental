@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class MyApp extends CI_Controller
 {
-
 	public function index()
 	{
 		$this->load->view('template/header');
@@ -503,21 +502,29 @@ class MyApp extends CI_Controller
 			}
 		}
 	}
-
-
 	public function get_pdf(){
 		$this->load->model('Users'); 
+		$data= $this->Users->getAll_users();
 		$this->load->library('fpdf183/fpdf');
-		$data = $this->Users->getAll_users();
-		$this->fpdf = new fpdf('P', 'mm', 'A4');
+		ob_start();
+		$this->fpdf = new FPDF();
+		$this->fpdf->SetTitle('List Of All Users');
+		$this->fpdf->SetMargins(22, 10, 1);
 		$this->fpdf->AddPage();
 		$this->fpdf->SetFont('Arial','B', 15);
+		$this->fpdf->Cell(70, 10,"Names",1);
+		$this->fpdf->Cell(60, 10,"Email", 1);
+		$this->fpdf->Cell(40, 10,"Phone",1);
+		$this->fpdf->Ln();
 		foreach($data as $user){
-			$this->fpdf->Cell(45,15,$user->userId,1);
-			$this->fpdf->Cell(45,15,$user->name, 1);
-			$this->fpdf->Cell(75,15,$user->email,1);
+			$this->fpdf->SetFont('Arial','',12);
+			
+			$this->fpdf->Cell(70, 10,$user->name,1);
+			$this->fpdf->Cell(60, 10,$user->email, 1);
+			$this->fpdf->Cell(40, 10,$user->phone,1);
 			$this->fpdf->Ln();
+			ob_clean();
 		}
-	   echo $this->fpdf->Output();
+		$this->fpdf->Output();
 	}
 }
