@@ -6,6 +6,10 @@ class Users extends CI_Model
     //sql query to insert_data
     return  $this->db->insert('users', $data); //table name
   }
+  public function insert_passwordreset($data)
+  {
+    return $this->db->insert('passwordreset', $data);
+  }
   public function getAll_users()
   {
     //$this->db->order_by('userId','ASC');
@@ -79,12 +83,12 @@ class Users extends CI_Model
     return $this->db->get_where('districts', array('districtId' => $district_Id));
   }
   //getting logged in user
-   public function getLoggedInUser($email)
+  public function getLoggedInUser($email)
   {
-  // return $this->db->where('users', array('email' => $email, 'password' => $password))->result_array();
-   $this->db->select('roleId');
+    // return $this->db->where('users', array('email' => $email, 'password' => $password))->result_array();
+    $this->db->select('roleId');
     $this->db->from('users');
-    $this->db->where('email',$email);
+    $this->db->where('email', $email);
     return $this->db->get()->row('roleId');
   }
 }
