@@ -6,7 +6,7 @@ class MyApp extends CI_Controller
 {
 	public function index()
 	{
-		$this->load->view('template/header');
+		$this->load->view('template/header2');
 		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
 	public function passwordreset()
@@ -20,23 +20,10 @@ class MyApp extends CI_Controller
 		$data['roles'] = $this->Users->get_roles();
 		$data['districts'] = $this->Users->get_districts();
 		$data['sectors'] = $this->Users->get_sectors();
-		$this->load->view('template/header');
+		$this->load->view('template/header2');
 		$this->load->view('template/signup', $data);
 	}
 
-	public function regcar()
-	{
-		$this->load->view('template/header');
-		$this->load->view('template/regcar');
-	}
-
-	public function hirecar()
-	{	
-		$this->load->model('Cars');
-		$data['cars_info'] = $this->Cars->get_cars_nothired();
-		$this->load->view('template/header');
-		$this->load->view('template/hirecar',$data);
-	}
 	public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool {
 				if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
 					$count = 1;
@@ -58,70 +45,6 @@ class MyApp extends CI_Controller
 		}
 	}
 
-public function hireValidation()
-	{
-		//validation goes here
-		$this->form_validation->set_rules('car', 'Car', 'required');
-$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-
-		if ($this->form_validation->run()) {
-			$car = $this->input->post('car');
-			$data = array('hired' => True);
-$this->load->model('Cars');
-			if ($this->Cars->update_car($car, $data)) {
-				$this->session->set_flashdata('success_msg', 'Successfully hired a car');
-				redirect(base_url('MyApp/hired'));
-}}}
-
-public function hired()
-	{
-		$this->load->view('template/header');
-		$this->load->view('template/hired');
-	}
-
-	public function carValidation()
-	{
-		$config['upload_path'] =  FCPATH . 'uploads/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['encrypt_name'] = true;
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-
-		//validation goes here
-		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('model', 'Model', 'required');
-		$this->form_validation->set_rules('seats', 'Seats', 'required');
-		$this->form_validation->set_rules('price', 'Hireprice', 'required');
-		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-		$carimage = 'carimage';
-		if ($this->form_validation->run()) {
-			if ($this->upload->do_upload($carimage)) {
-				$image_name = $this->upload->data();
-				$name = $this->input->post('name');
-				$model = $this->input->post('model');
-				$seats = $this->input->post('seats');
-				$price = $this->input->post('price');
-				$carimage = $image_name['file_name'];
-
-				$data = array('name' => $name, 'model' => $model, 'seats' => $seats, 'price' => $price, 'carimage' => $carimage);
-				//send the data to the model and
-				$this->load->model('Cars');
-				$this->Cars->insert_data($data);
-				//  $this->set_flashdata('success_msg', 'New car successfully registered');
-				redirect(base_url('MyApp/index'));
-			} else {
-				print_r($this->upload->display_errors());
-			}
-		}
-	}
-
-	public function viewcars()
-	{
-		$this->load->model('Cars');
-		$data['cars_info'] = $this->Cars->getAll_cars();
-		$this->load->view('template/header');
-		$this->load->view('template/viewcars', $data);
-	}
 
 	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool
 	{
@@ -362,7 +285,7 @@ public function hired()
 
 	public function login()
 	{
-		$this->load->view('template/header');
+		$this->load->view('template/header2');
 		$this->load->view('template/login');
 	}
 
@@ -392,7 +315,7 @@ public function hired()
 					'email' =>$email
 				);
 				$this->session->set_userdata($session_data);
-				redirect(base_url('MyApp/'));
+				redirect(base_url('/MyApp/dashboard'));
 			}
 			$this->load->view('template/header');
 			$error = "invalid email or password";
@@ -433,64 +356,6 @@ public function hired()
 		}
 	}
 
-	public function edit_car()
-	{
-		$id = $this->uri->segment(3);
-		$this->load->model('Cars');
-		$data['cars'] = $this->Cars->get_car($id);
-		//return the form
-		$this->load->view('template/header');
-		$this->load->view('template/edit_car', $data);
-	}
-
-	public function delete_car()
-	{
-		$id = $this->uri->segment(3);
-		$this->load->model('Cars');
-		if ($this->Cars->delete_cars($id)) {
-			echo "<script>alert('Car Deleted');window.location.href=
-				'" . base_url('MyApp/dashboard') . "';</script>";
-		} else {
-			echo "<script>alert(' Unable to delete');window.location.href=
-				'" . base_url('MyApp/dashboard') . "';</script>";
-		}
-	}
-	public function edit_car_()
-	{
-		$config['upload_path'] =  FCPATH . 'uploads/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['encrypt_name'] = true;
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-
-		//validation goes here
-		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('model', 'Model', 'required');
-		$this->form_validation->set_rules('seats', 'Seats', 'required');
-		$this->form_validation->set_rules('price', 'Hireprice', 'required');
-		$this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
-		$carimage = 'carimage';
-		if ($this->form_validation->run()) {
-			if ($this->upload->do_upload($carimage)) {
-				$id = $this->uri->segment(3);
-				$image_name = $this->upload->data();
-				$name = $this->input->post('name');
-				$model = $this->input->post('model');
-				$seats = $this->input->post('seats');
-				$price = $this->input->post('price');
-				$carimage = $image_name['file_name'];
-
-				$data = array('name' => $name, 'model' => $model, 'seats' => $seats, 'price' => $price, 'carimage' => $carimage);
-				//send the data to the model and
-				$this->load->model('Cars');
-				$this->Cars->update_car($id, $data);
-				echo "<script>alert('Car Update');window.location.href=
-				'" . base_url('MyApp/dashboard') . "';</script>";
-			} else {
-				print_r($this->upload->display_errors());
-			}
-		}
-	}
 		public function get_pdf(){
 		$this->load->model('Users'); 
 		$data= $this->Users->getAll_users();

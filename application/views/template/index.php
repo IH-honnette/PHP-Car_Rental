@@ -55,7 +55,7 @@
         Our pricing options are well documented, online support is available for 24/7 service.
         create account and get started for just a few.
         <br>
-        <a href="<?= base_url('MyApp/login'); ?>" class="btn btn-primary my-5 mx-2 p-4 col-5">Get Started</a>
+        <a href="<?= base_url('MyApp/signup'); ?>" class="btn btn-primary my-5 mx-2 p-4 col-5">Get Started</a>
       </div>
     </div>
     <div class="image ">
