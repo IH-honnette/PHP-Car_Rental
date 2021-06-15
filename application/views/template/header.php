@@ -23,7 +23,10 @@
         <ul class="dropdown-menu position-absolute">
           <li><a href="<?= base_url('MyCars/viewcars'); ?>">view Cars</a></li>
           <li><a href="<?= base_url('MyCars/hirecar'); ?>" >Hire a Car</a></li>
-          <li><a href="<?= base_url('MyCars/regcar'); ?>">Register new Cars</a></li>
+          <?php
+          if ($this->session->userdata('roleId') != 2){?>
+            <li><a href="<?= base_url('MyCars/regcar'); ?>">Register new Cars</a></li>
+          <?php } ?>
         </ul>
       </li>
     </ul>

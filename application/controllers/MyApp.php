@@ -6,7 +6,11 @@ class MyApp extends CI_Controller
 {
 	public function index()
 	{
-		$this->load->view('template/header2');
+		if ($this->session->userdata('email') == null){
+			$this->load->view('template/header2');
+		}else{
+			$this->load->view('template/header');
+		}
 		$this->load->view('template/index'); //your web page goes here going to use index.php as homepage
 	}
 	public function passwordreset()

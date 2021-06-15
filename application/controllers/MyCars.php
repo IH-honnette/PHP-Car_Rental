@@ -26,11 +26,16 @@ class MyCars extends CI_Controller{
 
 		if ($this->form_validation->run()) {
 			$car = $this->input->post('car');
-			$data = array('hired' => True);
+			$email = $this->session->userdata('email');
+			$data1 = array('hired' => True);
+			$data2 = array('carId' => $car,'useremail' => $email);
 			$this->load->model('Cars');
-			if ($this->Cars->update_car($car, $data)) {
-				$this->session->set_flashdata('success_msg', 'Successfully hired a car');
-				redirect(base_url('MyCars/hired'));
+			$this->load->model('Hiredcars');
+			if ($this->Cars->update_car($car, $data1)) {
+				if($this->Hiredcars->insert_data($data2)){
+					$this->session->set_flashdata('success_msg', 'Successfully hired a car');
+					redirect(base_url('MyCars/hired'));
+				}
 }}}
 
 public function hired()
