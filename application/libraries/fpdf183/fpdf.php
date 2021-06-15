@@ -360,6 +360,14 @@ function AddPage($orientation='', $size='', $rotation=0)
 function Header()
 {
 	// To be implemented in your own inherited class
+	  // Arial bold 15
+    $this->SetFont('Arial','B',20);
+    // Move to the right
+    $this->Cell(60);
+    // Title
+    $this->Cell(60,10,'LIST OF ALL USERS',0,0,'C');
+    // Line break
+    $this->Ln(20);
 }
 
 function Footer()
