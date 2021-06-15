@@ -254,7 +254,7 @@ if ($this->session->userdata('email') == null){
 <div class="container">
  <div class="contact-info-form">
         <span class="circle one"></span> <span class="circle two"></span>
-            <form action="<?=base_url('MyApp/hireValidation');?>" autocomplete="off" method="post">
+            <form action="<?=base_url('MyCars/hireValidation');?>" autocomplete="off" method="post">
                 <h3 class="title">Hire a car</h3>
                 <div class="social-input-containers">
                     <select name="car" id="car" class="input" required>

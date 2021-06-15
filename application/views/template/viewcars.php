@@ -44,8 +44,8 @@ if ($this->session->userdata('email') == null){
                         <td><?= $car->model ?></td>
                         <td><?= $car->seats ?></td>
                         <td><?= $car->price ?></td>
-                        <td><a href="<?= base_url('MyApp/edit_car/' . $car->carId); ?>">Edit</a></td>
-                        <td><a onclick="return confirm('Confirm the deletion of this car?')" href="<?= base_url('MyApp/delete_car/' . $car->carId); ?>">Remove</a></td>
+                        <td><a href="<?= base_url('MyCars/edit_car/' . $car->carId); ?>">Edit</a></td>
+                        <td><a onclick="return confirm('Confirm the deletion of this car?')" href="<?= base_url('MyCars/delete_car/' . $car->carId); ?>">Remove</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

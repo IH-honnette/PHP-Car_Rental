@@ -22,15 +22,20 @@ class MyCars extends CI_Controller{
 	{
 		//validation goes here
 		$this->form_validation->set_rules('car', 'Car', 'required');
-$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
 		if ($this->form_validation->run()) {
 			$car = $this->input->post('car');
-			$data = array('hired' => True);
-$this->load->model('Cars');
-			if ($this->Cars->update_car($car, $data)) {
-				$this->session->set_flashdata('success_msg', 'Successfully hired a car');
-				redirect(base_url('MyApp/hired'));
+			$email = $this->session->userdata('email');
+			$data1 = array('hired' => True);
+			$data2 = array('carId' => $car,'useremail' => $email);
+			$this->load->model('Cars');
+			$this->load->model('Hiredcars');
+			if ($this->Cars->update_car($car, $data1)) {
+				if($this->Hiredcars->insert_data($data2)){
+					$this->session->set_flashdata('success_msg', 'Successfully hired a car');
+					redirect(base_url('MyCars/hired'));
+				}
 }}}
 
 public function hired()
