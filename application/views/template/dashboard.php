@@ -47,7 +47,7 @@ if ($this->session->userdata('email') == null){
                                                             if ($car->hired) {
                                                                 echo "<a class='p-2 m-1 btn btn-primary w-50'>Hired</a>";
                                                             } else {
-                                                                $url_link = base_url('MyApp/hirecar');
+                                                                $url_link = base_url('MyCars/hirecar');
                                                                 echo  "<a class='p-2 m-1 btn btn-warning w-50' href=$url_link>Hire</a>";
                                                             } ?></p>
 

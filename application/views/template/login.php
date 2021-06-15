@@ -1,5 +1,5 @@
- <?php
-if($this->session->userdata('email')!=null){
+<?php
+if($this->session->userdata('email') != null){
 header('Location:javascript:history.go(-1)');
 }
 ?> 

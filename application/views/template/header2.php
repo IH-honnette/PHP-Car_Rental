@@ -15,7 +15,7 @@
       <a class="navbar-brand text-dark fw-bolder" href="<?= base_url('MyApp/index'); ?>">CAR RENTAL</a>
     </div>
     <ul class="nav navbar-nav navbar-right d-inline-block">
-      <li><a href="<?= base_url('MyApp/signup'); ?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+      <li><a href="<?= base_url('usersController/signup'); ?>"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
       <li><a href="<?= base_url('MyApp/login'); ?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
   </div>

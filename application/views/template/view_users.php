@@ -1,3 +1,8 @@
+<?php
+    if ($this->session->userdata('email')==null) {
+   redirect(base_url("MyApp/login"));
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,13 +34,6 @@
     </style>
 </head>
 <body>
-    
-    <?php
-    if ($this->session->userdata('email')==null) {
-   redirect(base_url("MyApp/login"));
-    }
-    ?>
-     
      <div class="container table-responsive">
     
     <table data-toggle="table" class="table table-striped table-hover table-bordered table-sm text-nowrap" id="myTable">
@@ -55,8 +53,8 @@
             <td><?= $user->name ?></td>
             <td><?= $user->email ?></td>
             <td><?= $user->phone ?></td>
-            <td><a href="<?= base_url('MyApp/edit_user/'.$user->userId);?>">Edit</a></td>
-            <td><a onclick="return confirm('Are you sure you want to delete this user?')" href="<?= base_url('MyApp/delete_user/'.$user->userId);?>">Remove</a></td>
+            <td><a href="<?= base_url('usersController/edit_user/'.$user->userId);?>">Edit</a></td>
+            <td><a onclick="return confirm('Are you sure you want to delete this user?')" href="<?= base_url('usersController/delete_user/'.$user->userId);?>">Remove</a></td>
         </tr>
         <?php endforeach;?>
     </tbody>

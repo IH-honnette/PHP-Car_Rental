@@ -420,7 +420,7 @@
 
 
                     <?php foreach ($users as $user) : ?>
-                        <form action="<?= base_url('MyApp/edit_record/') . $user->userId; ?>" autocomplete="off" method="post">
+                        <form action="<?= base_url('usersController/edit_record/') . $user->userId; ?>" autocomplete="off" method="post">
                             <h3 class="title">Update</h3>
                             <div class="social-input-containers">
                                 <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name', $user->name) ?>" />
