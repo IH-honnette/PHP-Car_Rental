@@ -244,7 +244,7 @@
             <div class="contact-info-form">
                 <span class="circle one"></span> <span class="circle two"></span>
                 <?php foreach ($cars as $car) : ?>
-                    <?= form_open_multipart("../MyApp/edit_car_/" . $car->carId . "") ?>
+                    <?= form_open_multipart("../MyCars/edit_car_/" . $car->carId . "") ?>
 
                     <h3 class="title">Edit car</h3>
                     <div class="social-input-containers">
