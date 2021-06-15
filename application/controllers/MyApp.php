@@ -384,22 +384,24 @@ public function hired()
 			$password = hash('sha512', $this->input->post('pswd'));
 			$this->load->model('Users');
 			if ($this->Users->canLogin($email, $password)) {
+				//getting logged in user;
+				$this->load->model('Users');
+				$roleId=$this->Users->getLoggedInUser($email);
 				$session_data = array(
-					'email' => $email
+					'roleId' =>$roleId,
+					'email' =>$email
 				);
 				$this->session->set_userdata($session_data);
-				redirect(base_url('/MyApp'));
+				redirect(base_url('MyApp/'));
 			}
+			$this->load->view('template/header');
 			$error = "invalid email or password";
 			$this->load->view('template/login', compact('error'));
-			// $this->session->set_flashdata('error','invalid email or password');
-			// redirect(base_url('MyApp/login'));
 		} else {
 			$this->load->view('template/header');
 			$this->load->view('template/login');
 		}
 	}
-
 	public function logout()
 	{
 		$this->session->unset_userdata('email');

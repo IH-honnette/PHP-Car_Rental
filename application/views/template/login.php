@@ -59,12 +59,14 @@ header('Location:javascript:history.go(-1)');
                         <input type="password" name="pswd" class="form-control" placeholder="Password" value="<?= set_value('pswd') ?>" />
                         <?= form_error('pswd') ?>
                     </div>
-                    <input type="submit" value="Login" class="btn btn-primary px-5 mx-5" />
+                    <div class="text-danger">
                     <?php
-                    if(isset($error)){
-                        echo $error;
-                    }
-                    ?>
+                     if(isset($error)){
+                         echo $error;
+                     }
+                     ?>
+                    </div>
+                    <input type="submit" value="Login" class="btn btn-primary px-5 mx-5" />
                     <div class="">
                         <p class="py-3 px-5"><a href="<?= base_url('MyApp/passwordreset'); ?>" class="text-white">Password Reset</a></p>
                     </div>
