@@ -255,7 +255,7 @@
             <div class="contact-info-form">
                 <span class="circle one"></span> <span class="circle two"></span>
                 <?php foreach ($cars as $car) : ?>
-                    <?= form_open_multipart("../MyApp/edit_car_/" . $car->carId . "") ?>
+                    <?= form_open_multipart("../MyCars/edit_car_/" . $car->carId . "") ?>
 
                     <h3 class="title">Edit car</h3>
                     <div class="social-input-containers">
@@ -277,7 +277,7 @@
                     <div class="social-input-containers">
                         <input type="file" name="carimage" class="input" value="<?= set_value('', $car->carimage) ?>" />
                     </div>
-                    <input type="submit" value="Register" class="btn" />
+                    <input type="submit" value="Edit" class="btn" />
                     </form>
                 <?php endforeach; ?>
             </div>
