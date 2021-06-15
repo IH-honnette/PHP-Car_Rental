@@ -3,13 +3,82 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class usersController extends CI_Controller{
- public function __construct(){
-     parent::__construct();
-     $this->load->model('Users');
- }
+class usersController extends CI_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Users');
+	}
 
-public function signup()
+	public function passwordreset()
+	{
+		$this->load->view('template/passwordreset');
+	}
+
+	public function check_emailexist($email)
+	{
+		$this->load->model('Users');
+		$query = $this->Users->gettingUser($email);
+		if ($query->num_rows()) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function validateEmail()
+	{
+		$this->load->library('encryption');
+		$this->load->library('form_validation');
+		$this->load->library('email');
+		$this->load->helper(array('cookie', 'url'));
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|max_length[50]|callback_check_emailexist');
+		$this->form_validation->set_message('check_emailexist', 'No User found with that %s.');
+		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
+		if ($this->form_validation->run()) {
+			$email = $this->input->post('email');
+			$this->load->model('Users');
+			$expires = Date('U') + 3000;
+			$emailhash = $this->encryption->encrypt($email);
+			$token = bin2hex(random_bytes(20));
+			$url = base_url('MyApp/newpassword?auth=' . $emailhash . '&token=' . $token);
+			//SMTP & mail configuration
+			$config = array(
+				'protocol' => 'smtp',
+				'smtp_host' => 'ssl://smtp.gmail.com',
+				'smtp_port' => 465,
+				'smtp_user' => 'uwenayoallain@gmail.com',
+				'smtp_pass' => 'Yarrisongmail.com',
+				'mailtype' => 'html',
+				'charset' => 'iso-8859-1'
+			);
+			$this->email->initialize($config);
+			$this->email->set_newline("\r\n");
+			//Email content
+			$htmlContent = '<h1>Password Reset</h1>';
+			$htmlContent .= '<p>Click on the button below to change your password</p>';
+			$htmlContent .= "<a href=$url>$url</a>";
+			$htmlContent .= "<p>if you don't know us,simply ignore this.</p>";
+			$this->email->to($email);
+			$this->email->from('carrentalapponline@gmail.com', 'Car-Rental');
+			$this->email->subject('Password Reset');
+			$this->email->message($htmlContent);
+			//Send email
+			if ($this->email->send()) {
+				$this->load->model('Users');
+				$data = array('email' => $email, 'token' => $token, 'expires' => $expires);
+				$this->Users->insert_passwordreset($data);
+				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-3 m-auto col-lg-6'>Email sent,check your email</div><div>";
+			} else {
+				echo "Error";
+			}
+		} else {
+			$this->load->view('template/passwordreset');
+		}
+	}
+
+	public function signup()
 	{
 		$this->load->model('Users');
 		$data['roles'] = $this->Users->get_roles();
@@ -20,32 +89,33 @@ public function signup()
 	}
 
 	public function isValidTelephoneNumber(string $telephone, int $minDigits = 9, int $maxDigits = 14): bool
-     {
-            if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
-                $count = 1;
-                $telephone = str_replace(['+'], '', $telephone, $count); //remove +
-            }
-            $telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone); 
-            return $this->isDigits($telephone, $minDigits, $maxDigits); 
-            }
-	public	function normalizeTelephoneNumber(string $telephone): string {
-            $telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
-            return $telephone;
-    }
+	{
+		if (preg_match('/^[+][0-9]/', $telephone)) { //is the first character + followed by a digit
+			$count = 1;
+			$telephone = str_replace(['+'], '', $telephone, $count); //remove +
+		}
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
+		return $this->isDigits($telephone, $minDigits, $maxDigits);
+	}
+	public	function normalizeTelephoneNumber(string $telephone): string
+	{
+		$telephone = str_replace([' ', '.', '-', '(', ')'], '', $telephone);
+		return $telephone;
+	}
 	public function checkPhone($phone)
-    {
-            if(!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))){
-                $this->form_validation->set_message('checkPhone','Invalid Phone Number*.');
-                return false;
-            }else{
-                return true;
-            }
+	{
+		if (!$this->isValidTelephoneNumber($this->normalizeTelephoneNumber($phone))) {
+			$this->form_validation->set_message('checkPhone', 'Invalid Phone Number*.');
+			return false;
+		} else {
+			return true;
+		}
 	}
 	public function isDigits(string $s, int $minDigits = 9, int $maxDigits = 14): bool
 	{
 		return preg_match('/^[0-9]{' . $minDigits . ',' . $maxDigits . '}\z/', $s);
 	}
-	
+
 	public function checkName($name)
 	{
 		if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
@@ -55,7 +125,7 @@ public function signup()
 			return true;
 		}
 	}
-    public function checkPassword($password)
+	public function checkPassword($password)
 	{
 		$uppercase = preg_match('@[A-Z]@', $password);
 		$lowercase = preg_match('@[a-z]@', $password);
@@ -78,7 +148,7 @@ public function signup()
 		}
 	}
 
-    public function retrieve_data()
+	public function retrieve_data()
 	{
 
 		$districtId = $_GET["id"];
@@ -90,7 +160,7 @@ public function signup()
 			foreach ($data->result() as $row) {
 				$sector .= "<option value='$row->sectorId' selected>$row->sectorName</option>";
 			}
-		} 
+		}
 		echo $sector;
 	}
 	public function retrieve_district()
@@ -151,7 +221,7 @@ public function signup()
 		}
 	}
 
-    
+
 	public function users()
 	{
 		$this->load->model('Users');
@@ -173,7 +243,7 @@ public function signup()
 		}
 	}
 
-    public function edit_user()
+	public function edit_user()
 	{
 		$id = $this->uri->segment(3);
 		$this->load->model('Users');
@@ -197,7 +267,6 @@ public function signup()
 				'" . base_url('usersController/users') . "';</script>";
 		}
 	}
-
 }
 
 ?>
