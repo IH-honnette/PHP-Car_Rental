@@ -78,4 +78,13 @@ class Users extends CI_Model
     }
     return $this->db->get_where('districts', array('districtId' => $district_Id));
   }
+  //getting logged in user
+   public function getLoggedInUser($email)
+  {
+  // return $this->db->where('users', array('email' => $email, 'password' => $password))->result_array();
+   $this->db->select('roleId');
+    $this->db->from('users');
+    $this->db->where('email',$email);
+    return $this->db->get()->row('roleId');
+  }
 }
