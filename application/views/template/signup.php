@@ -413,7 +413,7 @@
                 </div>
         <div class="contact-info-form">
         <span class="circle one"></span> <span class="circle two"></span>
-            <form action="<?=base_url('MyApp/checkValildation');?>" autocomplete="off" method="post">
+            <form action="<?=base_url('usersController/checkValildation');?>" autocomplete="off" method="post">
                 <h3 class="title">Join Us</h3>
                 <div class="social-input-containers"> 
                 <input type="text" name="name" class="input" placeholder="Name" value="<?= set_value('name')?>" /> 
@@ -482,7 +482,7 @@
                     console.log("seen");
                 }
             }
-            xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_data?id=')?>" + this.value, true)
+            xmlhttp.open('GET', "<?=base_url('usersController/retrieve_data?id=')?>" + this.value, true)
             xmlhttp.send();
         }
         sector.onchange = function() {
@@ -492,7 +492,7 @@
                     district.innerHTML = this.responseText;
                 }
             }
-            xmlhttp.open('GET', "<?=base_url('MyApp/retrieve_district?id=')?>" + this.value, true)
+            xmlhttp.open('GET', "<?=base_url('usersController/retrieve_district?id=')?>" + this.value, true)
             xmlhttp.send();
             console.log("seen");
         }

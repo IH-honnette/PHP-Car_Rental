@@ -23,7 +23,7 @@
         <!-- Email input -->
         <div class="form-outline mb-4">
             <label class="form-label fs-5" for="form1Example1">Email address</label>
-            <input type="text" name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="your email." />
+            <input type="email" name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="your email."  required />
             <?= form_error('email') ?>
         </div>
         <!-- Submit button -->

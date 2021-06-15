@@ -1,5 +1,5 @@
- <?php
-if($this->session->userdata('email')!=null){
+<?php
+if($this->session->userdata('email') != null){
 header('Location:javascript:history.go(-1)');
 }
 ?> 
@@ -61,10 +61,10 @@ header('Location:javascript:history.go(-1)');
                     </div>
                     <div class="text-danger">
                     <?php
-                    if(isset($error)){
-                        echo $error;
-                    }
-                    ?>
+                     if(isset($error)){
+                         echo $error;
+                     }
+                     ?>
                     </div>
                     <input type="submit" value="Login" class="btn btn-primary px-5 mx-5" />
                     <div class="">
