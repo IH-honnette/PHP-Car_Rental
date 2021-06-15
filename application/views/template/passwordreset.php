@@ -17,13 +17,13 @@
 
 <body>
 
-    <form class="col-lg-5 mx-auto my-5 p-5 shadow-sm bg-white" action="<?= base_url('MyApp/ValidateEmail'); ?>" method="post">
+    <form class="col-lg-5 mx-auto my-5 p-5 shadow-sm bg-white" action="<?= base_url('usersController/ValidateEmail'); ?>" method="post">
         <h2 class="my-4">Password Reset</h2>
         <p class='fs-6 pt-1 pb-4'>inorder to continue to password reset,we would need to verify some credentials.Please enter your email to verify your email address</p>
         <!-- Email input -->
         <div class="form-outline mb-4">
             <label class="form-label fs-5" for="form1Example1">Email address</label>
-            <input type="email" name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="your email."  required />
+            <input type="email" name="email" value="<?= set_value('email') ?>" class="form-control" placeholder="your email." required />
             <?= form_error('email') ?>
         </div>
         <!-- Submit button -->

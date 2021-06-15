@@ -1,8 +1,8 @@
 <?php
-if($this->session->userdata('email') != null){
-header('Location:javascript:history.go(-1)');
+if ($this->session->userdata('email') != null) {
+    header('Location:javascript:history.go(-1)');
 }
-?> 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,15 +60,15 @@ header('Location:javascript:history.go(-1)');
                         <?= form_error('pswd') ?>
                     </div>
                     <div class="text-danger">
-                    <?php
-                     if(isset($error)){
-                         echo $error;
-                     }
-                     ?>
+                        <?php
+                        if (isset($error)) {
+                            echo $error;
+                        }
+                        ?>
                     </div>
                     <input type="submit" value="Login" class="btn btn-primary px-5 mx-5" />
                     <div class="">
-                        <p class="py-3 px-5"><a href="<?= base_url('MyApp/passwordreset'); ?>" class="text-white">Password Reset</a></p>
+                        <p class="py-3 px-5"><a href="<?= base_url('usersController/passwordreset'); ?>" class="text-white">Password Reset</a></p>
                     </div>
                     <?php
                     echo $this->session->flashdata('error')

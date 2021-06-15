@@ -68,7 +68,7 @@ class usersController extends CI_Controller
 			if ($this->email->send()) {
 				$this->load->model('Users');
 				$data = array('email' => $email, 'token' => $token, 'expires' => $expires);
-				$this->Users->insert_data($data);
+				$this->Users->insert_passwordreset($data);
 				echo "<div class='mt-5 fs-4'><div class='m-5 alert-success p-3 m-auto col-lg-6'>Email sent,check your email</div><div>";
 			} else {
 				echo "Error";

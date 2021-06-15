@@ -8,7 +8,7 @@ class Users extends CI_Model
   }
   public function insert_passwordreset($data)
   {
-    return $this->db->insert('passwordreset', $data);
+    return $this->db->insert('passwordresets', $data);
   }
   public function getAll_users()
   {
