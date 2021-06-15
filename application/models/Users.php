@@ -83,10 +83,10 @@ class Users extends CI_Model
   //getting logged in user
    public function getLoggedInUser($email)
   {
-  // return $this->db->where('users', array('email' => $email, 'password' => $password))->result_array();
-   $this->db->select('roleId');
+   $this->db->select('roleId,username,userId');
     $this->db->from('users');
     $this->db->where('email',$email);
-    return $this->db->get()->row('roleId');
+    $data=$this->db->get()->result();
+    return $data;
   }
 }

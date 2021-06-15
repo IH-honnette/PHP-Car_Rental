@@ -35,5 +35,11 @@
       <li><a href="<?= base_url('MyApp/login'); ?>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       <li><a href="<?= base_url('MyApp/logout'); ?>">Logout</a></li>
     </ul>
+    <h5>
+    <?php
+    if($this->session->userdata('username')!=null){
+      echo $this->session->userdata('username');
+    } ?>
+    </h5>
   </div>
 </nav>

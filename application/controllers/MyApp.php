@@ -147,10 +147,15 @@ class MyApp extends CI_Controller
 			if ($this->Users->canLogin($email, $password)) {
 				//getting logged in user;
 				$this->load->model('Users');
-				$roleId=$this->Users->getLoggedInUser($email);
+				$userData=$this->Users->getLoggedInUser($email);
+				$roleId=$userData[0]->roleId;
+				$username=$userData[0]->username;
+				$userId=$userData[0]->userId;
 				$session_data = array(
 					'roleId' =>$roleId,
-					'email' =>$email
+					'email' =>$email,
+					'username' =>$username,
+					'userId' =>$userId,
 				);
 				$this->session->set_userdata($session_data);
 				redirect(base_url('/MyApp/dashboard'));
