@@ -11,11 +11,11 @@ class Users extends CI_Model
     //$this->db->order_by('userId','ASC');
     return  $this->db->get('users')->result();
   }
-  public function get_roles()
-  {
-    //$this->db->order_by('userId','ASC');
-    return $this->db->get('roles')->result();
-  }
+  // public function get_roles()
+  // {
+  //   //$this->db->order_by('userId','ASC');
+  //   return $this->db->get('roles')->result();
+  // }
   public function delete_user($id)
   {
     return $this->db->delete('users', array('userId' => $id));

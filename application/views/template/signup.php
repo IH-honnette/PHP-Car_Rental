@@ -450,15 +450,6 @@
                             <?= form_error('sector') ?>
                         </div>
                 <div class="social-input-containers"> 
-                 <select name="roles" class="input">
-                 <option value="">--Select Role--</option>
-                   <?php foreach ($roles as $role):?>
-                    <option value="<?=$role->roleId?>"><?=$role->roleName?></option>
-                    <?php endforeach;?>
-                 </select>
-                <?= form_error('roles')?>
-                </div>
-                <div class="social-input-containers"> 
                 <input type="password" name="pswd" class="input" placeholder="Password" value="<?= set_value('pswd')?>" />
                 <?= form_error('pswd')?>
                 </div>

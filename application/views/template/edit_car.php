@@ -1,14 +1,3 @@
-<?php
-
-// if(empty($_SESSION['userId'])){
-//     header('location: ./login.php');   
-//   }
-
-// if($_SESSION['role'] !== "Administrator"){
-// 	header('location: ./home.php');
-// }
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -277,7 +266,7 @@
                     <div class="social-input-containers">
                         <input type="file" name="carimage" class="input" value="<?= set_value('', $car->carimage) ?>" />
                     </div>
-                    <input type="submit" value="Register" class="btn" />
+                    <input type="submit" value="Edit" class="btn" />
                     </form>
                 <?php endforeach; ?>
             </div>
