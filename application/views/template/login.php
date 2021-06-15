@@ -1,3 +1,8 @@
+<?php
+if($this->session->userdata('email') != null){
+header('Location:javascript:history.go(-1)');
+}
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,6 +58,13 @@
                     <div class="social-input-containers px-5 py-2">
                         <input type="password" name="pswd" class="form-control" placeholder="Password" value="<?= set_value('pswd') ?>" />
                         <?= form_error('pswd') ?>
+                    </div>
+                    <div class="text-danger">
+                    <?php
+                     if(isset($error)){
+                         echo $error;
+                     }
+                     ?>
                     </div>
                     <input type="submit" value="Login" class="btn btn-primary px-5 mx-5" />
                     <div class="">
