@@ -77,6 +77,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
+	'username' => 'root',
 	'password' => '',
 	'database' => 'carrental',
 	'dbdriver' => 'mysqli',
