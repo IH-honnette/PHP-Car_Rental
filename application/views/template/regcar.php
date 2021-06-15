@@ -4,9 +4,9 @@ if ($this->session->userdata('email') == null){
     redirect(base_url('MyApp/login'));
 }
 
-// if ($this->session->userdata('role') !== "Administrator"){
-//     redirect(base_url('MyApp/index'));
-// }
+if ($this->session->userdata('roleId') != 1){
+    redirect(base_url('MyApp/dashboard'));
+}
 
 ?>
 <!DOCTYPE html>
