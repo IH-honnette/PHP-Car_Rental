@@ -1,14 +1,3 @@
-<?php
-
-// if(empty($_SESSION['userId'])){
-//     header('location: ./login.php');   
-//   }
-
-// if($_SESSION['role'] !== "Administrator"){
-// 	header('location: ./home.php');
-// }
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
