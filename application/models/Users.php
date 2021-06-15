@@ -3,7 +3,7 @@ class Users extends CI_Model
 {
   public function insert_data($data)
   {
-    //sql query to insert_data
+    //sql query to insert_dataxa
     return  $this->db->insert('users', $data); //table name
   }
   public function insert_passwordreset($data)
