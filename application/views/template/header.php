@@ -22,7 +22,7 @@
         <li><a href="<?= base_url('usersController/users'); ?>">Users</a></li>
       <?php endif; ?>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars</a>
-        <ul class="dropdown-menu position-absolute zindex-popover">
+        <ul class="dropdown-menu position-absolute">
           <li><a href="<?= base_url('MyCars/viewcars'); ?>">view Cars</a></li>
           <li><a href="<?= base_url('MyCars/hirecar'); ?>">Hire a Car</a></li>
           <?php
