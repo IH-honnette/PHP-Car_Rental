@@ -24,6 +24,10 @@ class Users extends CI_Model
   {
     return $this->db->delete('users', array('userId' => $id));
   }
+  public function get_passwordresests($email)
+  {
+    return $this->db->get_where('passwordresets', array('email' => $email))->result();
+  }
   public function get_user($id)
   {
     return $this->db->get_where('users', array('userId' => $id))->result();

@@ -58,11 +58,15 @@ class MyApp extends CI_Controller
 	public function logout()
 	{
 		$this->session->unset_userdata('email');
+		$this->session->unset_userdata('roleId');
 		redirect(base_url('MyApp/login'));
 	}
 
 	public function get_pdf()
 	{
+		if ($this->session->userdata('roleId') != 1) {
+			redirect(base_url('MyApp/'));
+		}
 		$this->load->model('Users');
 		$data = $this->Users->getAll_users();
 		$this->load->library('fpdf183/fpdf');
@@ -72,12 +76,15 @@ class MyApp extends CI_Controller
 		$this->fpdf->SetMargins(22, 10, 1);
 		$this->fpdf->AddPage();
 		$this->fpdf->SetFont('Arial', 'B', 15);
+		$this->fpdf->Cell(200, 20, "LIST OF ALL USERS");
+		$this->fpdf->Ln();
+		$this->fpdf->SetFont('Arial', 'B', 12);
 		$this->fpdf->Cell(70, 10, "Names", 1);
 		$this->fpdf->Cell(60, 10, "Email", 1);
 		$this->fpdf->Cell(40, 10, "Phone", 1);
 		$this->fpdf->Ln();
 		foreach ($data as $user) {
-			$this->fpdf->SetFont('Arial', '', 12);
+			$this->fpdf->SetFont('Arial', '', 10);
 
 			$this->fpdf->Cell(70, 10, $user->name, 1);
 			$this->fpdf->Cell(60, 10, $user->email, 1);

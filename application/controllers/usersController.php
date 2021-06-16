@@ -42,7 +42,7 @@ class usersController extends CI_Controller
 			$expires = Date('U') + 3000;
 			$emailhash = $this->encryption->encrypt($email);
 			$token = bin2hex(random_bytes(20));
-			$url = base_url('MyApp/newpassword?auth=' . $emailhash . '&token=' . $token);
+			$url = base_url('usersController/newpassword?auth=' . $emailhash . '&token=' . $token);
 			//SMTP & mail configuration
 			$config = array(
 				'protocol' => 'smtp',
@@ -81,7 +81,6 @@ class usersController extends CI_Controller
 	public function newpassword()
 	{
 		$this->load->library('encryption');
-		$this->load->helper(array('cookie', 'url'));
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[25]');
 		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[25]');
 		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
@@ -92,11 +91,16 @@ class usersController extends CI_Controller
 			$auth = $this->input->get('auth');
 			$email = $this->encryption->decrypt($auth);
 			if (($newpassword  == $newpassword_confirm)) {
-				$tokencookie = get_cookie('token');
-				if ($token == $tokencookie) {
+				$this->load->model('Users');
+				$data = $this->Users->get_passwordresests($email);
+				foreach ($data as $row) {
+					$userToken = $row->token;
+					$expires = $row->expires;
+					echo $expires;
+				}
+				if ($token == $userToken) {
 					$currentTime = Date('U');
-					$expirescookie = get_cookie('expires');
-					if (($currentTime < $expirescookie)) {
+					if (($currentTime < $expires)) {
 						$this->load->model('Users');
 						$passwordhash = hash("SHA512", $newpassword);
 						$data = array('password' => $passwordhash);
