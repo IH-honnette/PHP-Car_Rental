@@ -19,7 +19,7 @@
         <a href="<?= base_url('MyApp/dashboard'); ?>">Dashboard</a>
       </li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cars</a>
-        <ul class="dropdown-menu position-absolute">
+        <ul class="dropdown-menu position-absolute zindex-popover">
           <li><a href="<?= base_url('MyCars/viewcars'); ?>">view Cars</a></li>
           <li><a href="<?= base_url('MyCars/hirecar'); ?>">Hire a Car</a></li>
           <?php
