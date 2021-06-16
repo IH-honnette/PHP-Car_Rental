@@ -42,7 +42,7 @@ class usersController extends CI_Controller
 			$expires = Date('U') + 3000;
 			$emailhash = $this->encryption->encrypt($email);
 			$token = bin2hex(random_bytes(20));
-			$url = base_url('MyApp/newpassword?auth=' . $emailhash . '&token=' . $token);
+			$url = base_url('usersController/newpassword?auth=' . $emailhash . '&token=' . $token);
 			//SMTP & mail configuration
 			$config = array(
 				'protocol' => 'smtp',
@@ -75,6 +75,52 @@ class usersController extends CI_Controller
 			}
 		} else {
 			$this->load->view('template/passwordreset');
+		}
+	}
+
+	public function newpassword()
+	{
+		$this->load->library('encryption');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[25]');
+		$this->form_validation->set_rules('password-confirm', 'Password', 'required|min_length[6]|max_length[25]');
+		$this->form_validation->set_error_delimiters('<div class="my-2 rounded p-2 alert-danger">', '</div>');
+		if ($this->form_validation->run()) {
+			$newpassword = $this->input->post('password');
+			$newpassword_confirm = $this->input->post('password-confirm');
+			$token = $this->input->get('token');
+			$auth = $this->input->get('auth');
+			$email = $this->encryption->decrypt($auth);
+			if (($newpassword  == $newpassword_confirm)) {
+				$this->load->model('Users');
+				$data = $this->Users->get_passwordresests($email);
+				foreach ($data as $row) {
+					$userToken = $row->token;
+					$expires = $row->expires;
+					echo $expires;
+				}
+				if ($token == $userToken) {
+					$currentTime = Date('U');
+					if (($currentTime < $expires)) {
+						$this->load->model('Users');
+						$passwordhash = hash("SHA512", $newpassword);
+						$data = array('password' => $passwordhash);
+						$this->Users->updatebyEmail($email, $data);
+						$this->load->view('template/header');
+						$this->load->view('template/login');
+					} else {
+						echo "<div class='m-2 p-2 alert-danger'>Token Expired!</div>";
+						$this->load->view('template/newpassword');
+					}
+				} else {
+					echo "<div class='m-2 p-2 alert-danger' >Failed:Token Not Found!</div>";
+					$this->load->view('template/newpassword');
+				}
+			} else {
+				echo "<div class='m-2 p-2 alert-danger' >Password Not Match</div>";
+				$this->load->view('template/newpassword');
+			}
+		} else {
+			$this->load->view('template/newpassword');
 		}
 	}
 

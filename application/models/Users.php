@@ -3,8 +3,12 @@ class Users extends CI_Model
 {
   public function insert_data($data)
   {
-    //sql query to insert_data
+    //sql query to insert_dataxa
     return  $this->db->insert('users', $data); //table name
+  }
+  public function insert_passwordreset($data)
+  {
+    return $this->db->insert('passwordresets', $data);
   }
   public function getAll_users()
   {
@@ -19,6 +23,10 @@ class Users extends CI_Model
   public function delete_user($id)
   {
     return $this->db->delete('users', array('userId' => $id));
+  }
+  public function get_passwordresests($email)
+  {
+    return $this->db->get_where('passwordresets', array('email' => $email))->result();
   }
   public function get_user($id)
   {
@@ -81,8 +89,9 @@ class Users extends CI_Model
     return $this->db->get_where('districts', array('districtId' => $district_Id));
   }
   //getting logged in user
-   public function getLoggedInUser($email)
+  public function getLoggedInUser($email)
   {
+
    $this->db->select('roleId,username,userId');
     $this->db->from('users');
     $this->db->where('email',$email);

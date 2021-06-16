@@ -2,23 +2,24 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class MyCars extends CI_Controller{
+class MyCars extends CI_Controller
+{
 
-    public function regcar()
+	public function regcar()
 	{
 		$this->load->view('template/header');
 		$this->load->view('template/regcar');
 	}
 
 	public function hirecar()
-	{	
+	{
 		$this->load->model('Cars');
 		$data['cars_info'] = $this->Cars->get_cars_nothired();
 		$this->load->view('template/header');
-		$this->load->view('template/hirecar',$data);
+		$this->load->view('template/hirecar', $data);
 	}
 
-    public function hireValidation()
+	public function hireValidation()
 	{
 		//validation goes here
 		$this->form_validation->set_rules('car', 'Car', 'required');
@@ -28,15 +29,17 @@ class MyCars extends CI_Controller{
 			$car = $this->input->post('car');
 			$email = $this->session->userdata('email');
 			$data1 = array('hired' => True);
-			$data2 = array('carId' => $car,'useremail' => $email);
+			$data2 = array('carId' => $car, 'useremail' => $email);
 			$this->load->model('Cars');
 			$this->load->model('Hiredcars');
 			if ($this->Cars->update_car($car, $data1)) {
-				if($this->Hiredcars->insert_data($data2)){
+				if ($this->Hiredcars->insert_data($data2)) {
 					$this->session->set_flashdata('success_msg', 'Successfully hired a car');
 					redirect(base_url('MyCars/hired'));
 				}
-}}}
+			}
+		}
+	}
 
 	public function hire_one_car()
 	{
@@ -89,7 +92,7 @@ class MyCars extends CI_Controller{
 				$this->load->model('Cars');
 				$this->Cars->insert_data($data);
 				//  $this->set_flashdata('success_msg', 'New car successfully registered');
-				redirect(base_url('MyApp/index'));
+				redirect(base_url('MyApp/dashboard'));
 			} else {
 				print_r($this->upload->display_errors());
 			}
@@ -104,7 +107,7 @@ class MyCars extends CI_Controller{
 		$this->load->view('template/viewcars', $data);
 	}
 
-    public function edit_car()
+	public function edit_car()
 	{
 		$id = $this->uri->segment(3);
 		$this->load->model('Cars');
@@ -126,7 +129,7 @@ class MyCars extends CI_Controller{
 				'" . base_url('MyApp/dashboard') . "';</script>";
 		}
 	}
-    
+
 	public function edit_car_()
 	{
 		$config['upload_path'] =  FCPATH . 'uploads/';
@@ -163,5 +166,4 @@ class MyCars extends CI_Controller{
 			}
 		}
 	}
-
 }
