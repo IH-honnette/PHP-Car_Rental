@@ -21,7 +21,7 @@ if (empty($_GET['auth']) || empty($_GET['token'])) {
 
 <body>
 
-    <form class="col-lg-5 mx-auto my-5 p-5 shadow-sm bg-white" action="<?= base_url("usersController/newpassword?auth=" . $_GET['auth'] . "&token=" . $_GET['token'] . "") ?>" method="post">
+    <form class="col-lg-5 mx-auto my-5 p-5 shadow-sm bg-white" action="<?= base_url("resetpassword/newpassword?auth=" . $_GET['auth'] . "&token=" . $_GET['token'] . "") ?>" method="post">
         <h2 class="my-4">Change Password</h2>
         <!-- Email input -->
         <div class="form-outline mb-4">

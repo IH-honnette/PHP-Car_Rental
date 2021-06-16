@@ -17,7 +17,7 @@
 
 <body>
 
-    <form class="col-lg-5 mx-auto my-5 p-5 shadow-sm bg-white" action="<?= base_url('usersController/ValidateEmail'); ?>" method="post">
+    <form class="col-lg-5 mx-auto my-5 p-5 shadow-sm bg-white" action="<?= base_url('resetpassword/ValidateEmail'); ?>" method="post">
         <h2 class="my-4">Password Reset</h2>
         <p class='fs-6 pt-1 pb-4'>inorder to continue to password reset,we would need to verify some credentials.Please enter your email to verify your email address</p>
         <!-- Email input -->
