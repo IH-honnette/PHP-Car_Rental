@@ -12,14 +12,14 @@ class Users extends CI_Model
   }
   public function getAll_users()
   {
-    //$this->db->order_by('userId','ASC');
+    $this->db->order_by('userId','ASC');
     return  $this->db->get('users')->result();
   }
-  public function get_roles()
-  {
-    //$this->db->order_by('userId','ASC');
-    return $this->db->get('roles')->result();
-  }
+  // public function get_roles()
+  // {
+  //   //$this->db->order_by('userId','ASC');
+  //   return $this->db->get('roles')->result();
+  // }
   public function delete_user($id)
   {
     return $this->db->delete('users', array('userId' => $id));
@@ -64,10 +64,12 @@ class Users extends CI_Model
 
   public function get_districts()
   {
+     $this->db->order_by('districtName','ASC');
     return $this->db->get('districts')->result();
   }
   public function get_sectors()
   {
+    $this->db->order_by('sectorName','ASC');
     return $this->db->get('sectors')->result();
   }
   public function retrieve_sector($districtId)
@@ -89,10 +91,11 @@ class Users extends CI_Model
   //getting logged in user
   public function getLoggedInUser($email)
   {
-    // return $this->db->where('users', array('email' => $email, 'password' => $password))->result_array();
-    $this->db->select('roleId');
+
+   $this->db->select('roleId,username,userId');
     $this->db->from('users');
-    $this->db->where('email', $email);
-    return $this->db->get()->row('roleId');
+    $this->db->where('email',$email);
+    $data=$this->db->get()->result();
+    return $data;
   }
 }

@@ -124,11 +124,10 @@ class usersController extends CI_Controller
 		}
 	}
 
-
 	public function signup()
 	{
 		$this->load->model('Users');
-		$data['roles'] = $this->Users->get_roles();
+		// $data['roles'] = $this->Users->get_roles();
 		$data['districts'] = $this->Users->get_districts();
 		$data['sectors'] = $this->Users->get_sectors();
 		$this->load->view('template/header2');
@@ -234,7 +233,7 @@ class usersController extends CI_Controller
 		$this->form_validation->set_rules('pswd', 'Password', 'required|min_length[6]|max_length[15]|callback_checkPassword');
 		$this->form_validation->set_rules('phone', 'Phone', 'required|min_length[10]|max_length[14]|callback_checkPhone');
 		$this->form_validation->set_rules('username', 'Username', 'required|min_length[5]|max_length[15]|is_unique[users.username]|alpha_numeric');
-		$this->form_validation->set_rules('roles', 'Role', 'required');
+		// $this->form_validation->set_rules('roles', 'Role', 'required');
 		$this->form_validation->set_rules('district', 'District', 'required');
 		$this->form_validation->set_rules('sector', 'Sector', 'required');
 		// $this->form_validation->set_rules('username','Username','required|matches[password]');
@@ -245,13 +244,13 @@ class usersController extends CI_Controller
 			$phone = $this->input->post('phone');
 			$pswd = $this->input->post('pswd');
 			$username = $this->input->post('username');
-			$role = $this->input->post('roles');
+			// $role = $this->input->post('roles');
 			$district = $this->input->post('district');
 			$sector = $this->input->post('sector');
 			$final_pswd = hash('SHA512', $pswd);
 			$data = array(
 				'name' => $name, 'email' => $email, 'phone' => $phone,
-				'password' => $final_pswd, 'username' => $username, 'roleId' => $role, 'districtId' => $district, 'sectorId' => $sector
+				'password' => $final_pswd, 'username' => $username, 'districtId' => $district, 'sectorId' => $sector
 			);
 			//send the data to the model and
 			$this->load->model('Users');
@@ -260,7 +259,7 @@ class usersController extends CI_Controller
 			}
 		} else {
 			$this->load->model('Users');
-			$data['roles'] = $this->Users->get_roles();
+			// $data['roles'] = $this->Users->get_roles();
 			$data['districts'] = $this->Users->get_districts();
 			$data['sectors'] = $this->Users->get_sectors();
 			$this->load->view('template/header2');

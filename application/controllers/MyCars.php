@@ -41,6 +41,22 @@ class MyCars extends CI_Controller
 		}
 	}
 
+	public function hire_one_car()
+	{
+	$car = $this->uri->segment(3);
+	$email = $this->session->userdata('email');
+			$data1 = array('hired' => True);
+			$data2 = array('carId' => $car,'useremail' => $email);
+			$this->load->model('Cars');
+			$this->load->model('Hiredcars');
+			if ($this->Cars->update_car($car, $data1)) {
+				if($this->Hiredcars->insert_data($data2)){
+					$this->session->set_flashdata('success_msg', 'Successfully hired a car');
+					redirect(base_url('MyCars/hired'));
+				}
+	}
+	}
+
 	public function hired()
 	{
 		$this->load->view('template/header');
