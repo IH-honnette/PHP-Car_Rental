@@ -56,7 +56,7 @@ class MyApp extends CI_Controller
 			$error = "invalid email or password";
 			$this->load->view('template/login', compact('error'));
 		} else {
-			$this->load->view('template/header');
+			$this->load->view('template/header2');
 			$this->load->view('template/login');
 		}
 	}
