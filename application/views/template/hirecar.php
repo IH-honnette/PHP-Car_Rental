@@ -1,6 +1,6 @@
 <?php
 
-if ($this->session->userdata('email') == null){
+if ($this->session->userdata('email') == null) {
     redirect(base_url('MyApp/login'));
 }
 
@@ -12,9 +12,11 @@ if ($this->session->userdata('email') == null){
     <title>Document</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="<?= base_url() ?>../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
     <style>
         * {
@@ -133,7 +135,8 @@ if ($this->session->userdata('email') == null){
             border-radius: 4px;
             transition: 0.6s
         }
-        .input option{
+
+        .input option {
             background-color: gray;
         }
 
@@ -252,23 +255,23 @@ if ($this->session->userdata('email') == null){
 </head>
 
 <div class="container">
- <div class="contact-info-form">
+    <div class="contact-info-form">
         <span class="circle one"></span> <span class="circle two"></span>
-            <form action="<?=base_url('MyCars/hireValidation');?>" autocomplete="off" method="post">
-                <h3 class="title">Hire a car</h3>
-                <div class="social-input-containers">
-                    <select name="car" id="car" class="input" required>
+        <form action="<?= base_url('MyCars/hireValidation'); ?>" autocomplete="off" method="post">
+            <h3 class="title">Hire a car</h3>
+            <div class="social-input-containers">
+                <select name="car" id="car" class="input" required>
                     <option value="">Select your favourite car</option>
-                    <?php foreach ($cars_info as $car):?>
-                    <option value="<?= $car->carId ?>"><?= $car->name ?></option>
-                    <?= form_error('car') ?>
-                    <?php endforeach;?>
-                    </select>
-                </div>
-                <input type="submit" value="Borrow" class="btn" />
-            </form>
-        </div>
+                    <?php foreach ($cars_info as $car) : ?>
+                        <option value="<?= $car->carId ?>"><?= $car->name ?></option>
+                        <?= form_error('car') ?>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <input type="submit" value="Borrow" class="btn" />
+        </form>
     </div>
+</div>
 
 </body>
 

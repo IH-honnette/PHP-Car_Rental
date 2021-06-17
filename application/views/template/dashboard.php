@@ -1,5 +1,5 @@
 <?php
-if ($this->session->userdata('email') == null){
+if ($this->session->userdata('email') == null) {
     redirect(base_url('MyApp/login'));
 }
 ?>
@@ -50,19 +50,19 @@ if ($this->session->userdata('email') == null){
                                                                 // $url_link = base_url('MyCars/hirecar');
                                                                 $url_link = base_url('MyCars/hire_one_car/' . $car->carId);
                                                                 // echo  "<a class='p-2 m-1 btn btn-warning w-50' href=$url_link>Hire</a>";
-                                                                echo "<a onclick='return confirm('Confirm hiring the selected car?')' class='p-2 m-1 btn btn-warning w-50' href=$url_link>Hire</a>";
+                                                                echo "<a onclick='confirm('Confirm');return false;' class='p-2 m-1 btn btn-warning w-50' href=$url_link >Hire</a>";
                                                             } ?></p>
 
                     </div>
-                   
+
                 </div>
             <?php endforeach; ?>
         </div>
-     
+
     </div>
 
 
-    
+
 </body>
 
 </html>
